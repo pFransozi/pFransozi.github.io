@@ -1,12 +1,23 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - pfransozi
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - qazbnm456/awesome-web-security
+  - OJ/gobuster
+  - swisskyrepo/PayloadsAllTheThings
+  - daffainfo/AllAboutBugBounty
+  - rapid7/metasploit-framework
+  - n1nj4sec/pupy
+  - trickster0/OffensiveRust
+  - danielmiessler/SecLists
+  - Ignitetechnologies/Privilege-Escalation
+  - Ignitetechnologies/BurpSuite-For-Pentester
+  - ctjhoa/rust-learning
+  - TheAlgorithms/Rust
+  - decalage2/awesome-security-hardening
+  - sqlmapproject/sqlmap
+  - rust-lang/rust-by-example
+  - kyclark/command-line-rust
+  - blaCCkHatHacEEkr/PENTESTING-BIBLE
+  - nushell/nushell
+  - graydon/rust
