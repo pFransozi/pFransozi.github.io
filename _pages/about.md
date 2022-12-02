@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-#subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: 
 
 profile:
   align: right
@@ -10,8 +10,6 @@ profile:
   image_circular: true # crops the image to make it circular
   address: >
     <p>Moon</p>
-#<p>123 your address street</p>
-#<p>Your City, State 12345</p>
 
 news: false  # includes a list of news items
 selected_papers: false # includes a list of papers marked as "selected={true}"
