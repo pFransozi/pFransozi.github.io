@@ -3,8 +3,8 @@ layout: post
 title:  ISC² CC Foundational Concepts I
 date:   2022-11-28 11:33:00
 description: analysis of foundational concepts from first chapter of the self-paced “Certified in Cybersecurity” training, focusing on CIA.
-tags: ISC2 CC Concepts CIA
-category: Cybersecurity Certification Content
+tags: ['ISC2', 'CC', 'Concepts', 'CIA']
+category: ['Cybersecurity-Certification-Content']
 ---
 
 ## Introduction

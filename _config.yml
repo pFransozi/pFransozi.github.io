@@ -99,7 +99,7 @@ facebook_id: # your facebook id
 discord_id: # your discord id (18-digit unique numerical identifier)
 
 contact_note: >
-# philipehf@gmail.com
+  philipehf@gmail.com
 
 # -----------------------------------------------------------------------------
 # Analytics and search engine verification
@@ -139,6 +139,10 @@ pagination:
 # Collections
 # -----------------------------------------------------------------------------
 
+relative_links:
+  enabled:     true
+  collections: true
+
 collections:
   news:
     defaults:
@@ -146,8 +150,9 @@ collections:
     output: false
     permalink: /news/:path/
   projects:
-    output: false
-    permalink: /projects/:path/
+    output: true
+  cheatsheets:
+    output: true
 
 news_scrollable: true # adds a vertical scroll bar if there are more than 3 news items
 news_limit: 5 # leave blank to include all the news in the `_news` folder
@@ -171,7 +176,7 @@ kramdown:
       start_line: 1
 
 # Includes & excludes
-include: ['_pages']
+include: ['_pages', '_projects', '_cheatsheets']
 exclude:
   - bin
   - Gemfile
@@ -325,6 +330,7 @@ enable_navbar_social:       true  # enables displaying social links in the
                                    # navbar on the about page
 enable_project_categories:  true   # enables categorization of projects into
                                    # multiple categories
+enable_cheatsheet_categories: true
 enable_medium_zoom:         true   # enables image zoom feature (as on medium.com)
 enable_progressbar:         true   # enables a horizontal progress bar linked to the vertical scroll position
 
