@@ -112,7 +112,7 @@ ISO 27002 contains 12 main sections:
 
 ### MITRE ATT&CK Framework
 
-ATT&CK is behavioral model, which is defined by:
+ATT&CK is a huge behavioral model, which is defined by:
 
 * **tactics**, denoting short-term, tactical adversary goals during an attack;
 * **techniques**, describing the means by which adversaries achieve tactical goals;
@@ -122,19 +122,438 @@ goals at a lower level than techniques; and
 
 Currently, it has 14 tactics:
 
-1. Reconnaissance;
-2. Resource Development;
-3. Initial Access;
-4. Execution;
-5. Persistence;
+1. **reconnaissance**, which means that the attacker is gathering information, in a active or passive way, that can be used to support targeting, such as:
+   * active scanning;
+   * scanning IP blocks;
+   * vulnerability scanning
+   * wordlist scanning;
+   * gather victim host information:
+      hardware;
+      software;
+      firmware;
+      client configuration;
+   * gather victim identity information:
+      * credentials;
+      * email address;
+      * employee names;
+   * gather victim network information:
+      * domain properties;
+      * DNS;
+      * network trust dependencies;
+      * network topology;
+      * IP addresses;
+      * network security appliances;
+   * gather victim org information:
+      * determine physical locations;
+      * business relationships;
+      * identity business tempo;
+      * identity roles;
+   * phishing for information:
+      * Spearphishing Service;
+      * Spearphishing Attachment;
+      * Spearphishing Link;
+   * search closed sources:
+      * Threat Intel Vendors;
+      * Purchase Technical Data)
+   * search open technical databases:
+      * DNS/Passive DNS;
+      * WHOIS;
+      * Digital Certificates;
+      * CDNs;
+      * Scan Databases;
+   * search open websites/domains:
+      * Social Media;
+      * Search Engines;
+      * Code Repositories;
+   * Search Victim-Owned Websites
+2. **resource development**, which means that attacker is trying to establish resources that can be used to support operations, such as:
+   * acquire infrastructure:
+      * domains;
+      * dns server;
+      * virtual private server;
+      * server;
+      * botnet;
+      * web services;
+      * serverless;
+   * compromise accounts:
+      * social media accounts;
+      * email accounts;
+      * cloud accounts;
+   * compromise infrastructure:
+      * domains;
+      * dns server;
+      * virtual private server;
+      * server;
+      * botnet;
+      * web services;
+      * serverless;
+   * develop capabilities:
+      * malware;
+      * code signing certificates;
+      * digital certificates;
+      * exploits;
+   * establish accounts:
+      * social media accounts;
+      * email accounts;
+      * cloud accounts;
+   * obtain capabilities:
+      * malware;
+      * tool;
+      * code signing certificates;
+      * digital certificates;
+      * exploits;
+      * vulnerabilities;
+   * stage capabilities:
+      * upload malware;
+      * Upload tool;
+      * install digital certificate;
+      * drive-by target;
+      * link target;
+      * seo poisoning;
+3. **initial access**, which means various entry vectors to gain the first foothold into the network, such as:
+   * drive-by compromise;
+   * exploit public-facing application;
+   * external remote services;
+   * hardware additions;
+   * phishing:
+      * spearphishing attachment;
+      * spearphishing link;
+      * spearphishing via service;
+   * replication through removable media;
+   * supply chain compromise:
+      * compromise software dependencies and development tools;
+      * compromise software supply chain;
+      * compromise hardware supply chain;
+   * trusted relationship;
+   * valid accounts:
+      * default accounts;
+      * domain accounts;
+      * local accounts;
+      * cloud accounts;
+4. Execution, which means adversary-controlled code running on a local or remote system, aiming broader goals, like exploring a network or stealing data, such as:
+   * command and scripting interpreter:
+      * powershell;
+      * applescript;
+      * windows command shell;
+      * unix shell;
+      * visual basic;
+      * python;
+      * javascript;
+      * network device cli;
+   * container administration command;
+   * deploy container;
+   * exploitation for client execution;
+   * inter-process communication:
+      * component object model;
+      * dynamic data exchange;
+      * xpc services;
+   * native api
+   * scheduled task/job:
+      * at;
+      * cron;
+      * scheduled task;
+      * systemd timers;
+      * container orchestration job;
+   * serverless execution
+   * shared modules
+   * software deployment tools
+   * system services:
+      * launchctl;
+      * service execution;
+   * user execution:
+      * malicious link;
+      * malicious file;
+      * malicious image;
+   * windows management instrumentation
+
+5. Persistence, which consists fo techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access, such as:
+   * Account Manipulation (Additional Cloud Credentials, Additional Email Delegate Permissions, Additional Cloud Roles, SSH Authorized Keys, Device Registration);
+   * BITS Jobs;
+   * Boot or Logon Autostart Execution (Registry Run Keys / Startup Folder, Authentication Package, Time Providers, Winlogon Helper DLL, Security Support Provider, Kernel Modules and Extensions, Re-opened Applications, LSASS Driver, Shortcut Modification, Port Monitors, Print Processors, XDG Autostart Entries, Active Setup, Login Items);
+   * Boot or Logon Initialization Scripts (Logon Script (Windows), Login Hook, Network Logon Script, RC Scripts, Startup Items);
+   * Browser Extensions;
+   * Compromise Client Software Binary;
+   * Create Account (Local Account, Domain Account, Cloud Account);
+   * Create or Modify System Process (Launch Agent, Systemd Service, Windows Service, Launch Daemon);
+   * Event Triggered Execution (Change Default File Association, Screensaver, Windows Management Instrumentation Event Subscription, Unix Shell Configuration Modification, Trap, LC_LOAD_DYLIB Addition, Netsh Helper DLL, Accessibility Features, AppCert DLLs, AppInit DLLs, Application Shimming, Image File Execution Options Injection, PowerShell Profile, Emond, Component Object Model Hijacking, Installer Packages);
+   * External Remote Services;
+   * Hijack Execution Flow (DLL Search Order Hijacking, DLL Side-Loading, Dylib Hijacking, Executable Installer File Permissions Weakness, Dynamic Linker Hijacking, Path Interception by PATH Environment Variable, Path Interception by Search Order Hijacking, Path Interception by Unquoted Path, Services File Permissions Weakness, Services Registry Permissions Weakness, COR_PROFILER, KernelCallbackTable);
+   * Implant Internal Image;
+   * Modify Authentication Process (Domain Controller Authentication, Password Filter DLL, Pluggable Authentication Modules, Network Device Authentication, Reversible Encryption, Multi-Factor Authentication, Hybrid Identity);
+   * Office Application Startup (Office Template Macros, Office Test, Outlook Forms, Outlook Home Page, Outlook Rules, Add-ins);
+   * Pre-OS Boot (System Firmware, Component Firmware, Bootkit, ROMMONkit, TFTP Boot);
+   * Scheduled Task/Job (At, Cron, Scheduled Task, Systemd Timers, Container Orchestration Job);
+   * Server Software Component (SQL Stored Procedures, Transport Agent, Web Shell, IIS Components, Terminal Services DLL);
+   * Traffic Signaling (Port Knocking, Socket Filters);
+   * Valid Accounts (Default Accounts, Domain Accounts, Local Accounts, Cloud Accounts)
 6. Privilege Escalation;
-7. Defense Evasion;
+
+   * Abuse Elevation Control Mechanism (Setuid and Setgid, Bypass User Account Control, Sudo and Sudo Caching, Elevated Execution with Prompt);
+   * Access Token Manipulation (Token Impersonation/Theft, Create Process with Token, Make and Impersonate Token, Parent PID Spoofing, SID-History Injection);
+   * Boot or Logon Autostart Execution (Registry Run Keys / Startup Folder, Authentication Package, Time Providers, Winlogon Helper DLL, Security Support Provider, Kernel Modules and Extensions, Re-opened Applications, LSASS Driver, Shortcut Modification, Port Monitors, Print Processors, XDG Autostart Entries, Active Setup, Login Items)
+   * boot or logon initialization scripts:
+      * logon script (windows);
+      * login hook;
+      * network logon script;
+      * rc scripts;
+      * startup items;
+   * create or modify system process:
+      * Launch Agent;
+      * Systemd Service;
+      * Windows Service;
+      * Launch Daemon;
+   * domain policy modification:
+      * group policy modification;
+      * domain trust modification;
+   * escape to host:
+   * event triggered execution:
+      * Change Default File Association
+      * Screensaver
+      * Windows Management Instrumentation Event Subscription
+      * Unix Shell Configuration Modification
+      * Trap
+      * LC_LOAD_DYLIB Addition
+      * Netsh Helper DLL
+      * Accessibility Features
+      * AppCert DLLs
+      * AppInit DLLs
+      * Application Shimming
+      * Image File Execution Options Injection
+      * PowerShell Profile
+      * Emond
+      * Component Object Model Hijacking
+      * Installer Packages
+   * Exploitation for Privilege Escalation
+   * Hijack Execution Flow
+      * DLL Search Order Hijacking
+      * DLL Side-Loading
+      * Dylib Hijacking
+      * Executable Installer File Permissions Weakness
+      * Dynamic Linker Hijacking
+      * Path Interception by PATH Environment Variable
+      * Path Interception by Search Order Hijacking
+      * Path Interception by Unquoted Path
+      * Services File Permissions Weakness
+      * Services Registry Permissions Weakness
+      * COR_PROFILER
+      * KernelCallbackTable
+   * Process Injection
+      * Dynamic-link Library Injection
+      * Portable Executable Injection
+      * Thread Execution Hijacking
+      * Asynchronous Procedure Call
+      * Thread Local Storage
+      * Ptrace System Calls
+      * Proc Memory
+      * Extra Window Memory Injection
+      * Process Hollowing
+      * Process Doppelgänging
+      * VDSO Hijacking
+      * ListPlanting
+   * Scheduled Task/Job
+      * At
+      * Cron
+      * Scheduled Task
+      * Systemd Timers
+      * Container Orchestration Job
+   * Valid Accounts
+      * Default Accounts
+      * Domain Accounts
+      * Local Accounts
+      * Cloud Accounts
+
+7. Defense Evasion, which means techniques used to avoid detection throughout their compromise, such as
+   * Abuse Elevation Control Mechanism:
+      * Setuid and Setgid;
+      * Bypass User Account Control;
+      * Sudo and Sudo Caching
+      * Elevated Execution with Prompt
+   * Access Token Manipulation:
+      * Token Impersonation/Theft;
+      * Create Process with Token;
+      * Make and Impersonate Token;
+      * Parent PID Spoofing;
+      * SID-History Injection;
+   * BITS Jobs;
+   * Build Image on Host;
+   * Debugger Evasion;
+   * Deobfuscate/Decode Files or Information;
+   * Deploy Container;
+   * Direct Volume Access;
+   * Domain Policy Modification:
+      * Group Policy Modification
+      * Domain Trust Modification
+   * Execution Guardrails:
+      * Environmental Keying
+   * Exploitation for Defense Evasion
+   * File and Directory Permissions Modification
+      * Windows File and Directory Permissions Modification
+      * Linux and Mac File and Directory Permissions Modification
+   * Hide Artifacts
+      * Hidden Files and Directories
+      * Hidden Users
+      * Hidden Window
+      * NTFS File Attributes
+      * Hidden File System
+      * Run Virtual Instance
+      * VBA Stomping
+      * Email Hiding Rules
+      * Resource Forking
+      * Process Argument Spoofing
+   * Hijack Execution Flow
+       * DLL Search Order Hijacking
+       * DLL Side-Loading
+       * Dylib Hijacking
+       * Executable Installer File Permissions Weakness
+       * Dynamic Linker Hijacking
+       * Path Interception by PATH Environment Variable
+       * Path Interception by Search Order Hijacking
+       * Path Interception by Unquoted Path
+       * Services File Permissions Weakness
+       * Services Registry Permissions Weakness
+       * COR_PROFILER
+       * KernelCallbackTable
+   * Impair Defenses
+       * Disable or Modify Tools
+       * Disable Windows Event Logging
+       * Impair Command History Logging
+       * Disable or Modify System Firewall
+       * Indicator Blocking
+       * Disable or Modify Cloud Firewall
+       * Disable Cloud Logs
+       * Safe Mode Boot
+       * Downgrade Attack
+   * Indicator Removal
+      * Clear Windows Event Logs
+      * Clear Linux or Mac System Logs
+      * Clear Command History
+      * File Deletion
+      * Network Share Connection Removal
+      * Timestomp
+      * Clear Network Connection History and Configurations
+      * Clear Mailbox Data
+      * Clear Persistence
+   * Indirect Command Execution
+   * Masquerading
+       * Invalid Code Signature
+       * Right-to-Left Override
+       * Rename System Utilities
+       * Masquerade Task or Service
+       * Match Legitimate Name or Location
+       * Space after Filename
+       * Double File Extension
+   * Modify Authentication Process
+       * Domain Controller Authentication
+       * Password Filter DLL
+       * Pluggable Authentication Modules
+       * Network Device Authentication
+       * Reversible Encryption
+       * Multi-Factor Authentication
+       * Hybrid Identity
+   * Modify Cloud Compute Infrastructure
+       * Create Snapshot
+       * Create Cloud Instance
+       * Delete Cloud Instance
+       * Revert Cloud Instance
+   * Modify Registry
+   * Modify System Image
+       * Patch System Image
+       * Downgrade System Image
+   * Network Boundary Bridging
+      * Network Address Translation Traversal
+   * Obfuscated Files or Information
+       * Binary Padding
+       * Software Packing
+       * Steganography
+       * Compile After Delivery
+       * Indicator Removal from Tools
+       * HTML Smuggling
+       * Dynamic API Resolution
+       * Stripped Payloads
+       * Embedded Payloads
+   * Plist File Modification
+   * Pre-OS Boot
+       * System Firmware
+       * Component Firmware
+       * Bootkit
+       * ROMMONkit
+       * TFTP Boot
+   * Process Injection
+       * Dynamic-link Library Injection
+       * Portable Executable Injection
+       * Thread Execution Hijacking
+       * Asynchronous Procedure Call
+       * Thread Local Storage
+       * Ptrace System Calls
+       * Proc Memory
+       * Extra Window Memory Injection
+       * Process Hollowing
+       * Process Doppelgänging
+       * VDSO Hijacking
+       * ListPlanting
+   * Reflective Code Loading
+   * Rogue Domain Controller
+   * Rootkit
+   * Subvert Trust Controls
+       * Gatekeeper Bypass
+       * Code Signing
+       * SIP and Trust Provider Hijacking
+       * Install Root Certificate
+       * Mark-of-the-Web Bypass
+       * Code Signing Policy Modification
+   * System Binary Proxy Execution
+       * Compiled HTML File
+       * Control Panel
+       * CMSTP
+       * InstallUtil
+       * Mshta
+       * Msiexec
+       * Odbcconf
+       * Regsvcs/Regasm
+       * Regsvr32
+       * Rundll32
+       * Verclsid
+       * Mavinject
+       * MMC
+   * System Script Proxy Execution
+      * PubPrn
+   * Template Injection
+   * Traffic Signaling
+      * Port Knocking
+      * Socket Filters
+   * Trusted Developer Utilities Proxy Execution
+      * MSBuild
+   * Unused/Unsupported Cloud Regions
+   * Use Alternate Authentication Material
+      * Application Access Token
+      * Pass the Hash
+      * Pass the Ticket
+      * Web Session Cookie
+   * Valid Accounts
+      * Default Accounts
+      * Domain Accounts
+      * Local Accounts
+      * Cloud Accounts
+   * Virtualization/Sandbox Evasion
+      * System Checks
+      * User Activity Based Checks
+      * Time Based Evasion
+   * Weaken Encryption
+      * Reduce Key Space
+      * Disable Crypto Hardware
+   * XSL Script Processing
 8. Credential Access;
+
 9. Discovery;
+
 10. Lateral Movement;
+
 11. Collection;
+
 12. Command and Control;
+
 13. Exfiltration;
+
 14. Impact.
 
 Each of that tactic is divided into techniques and procedures (TTP).
