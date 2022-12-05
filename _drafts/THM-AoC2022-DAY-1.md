@@ -230,7 +230,7 @@ Currently, it has 14 tactics:
       * domain accounts;
       * local accounts;
       * cloud accounts;
-4. Execution, which means adversary-controlled code running on a local or remote system, aiming broader goals, like exploring a network or stealing data, such as:
+4. **execution**, which means adversary-controlled code running on a local or remote system, aiming broader goals, like exploring a network or stealing data, such as:
    * command and scripting interpreter:
       * powershell;
       * applescript;
@@ -265,32 +265,146 @@ Currently, it has 14 tactics:
       * malicious file;
       * malicious image;
    * windows management instrumentation
-
-5. Persistence, which consists fo techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access, such as:
-   * Account Manipulation (Additional Cloud Credentials, Additional Email Delegate Permissions, Additional Cloud Roles, SSH Authorized Keys, Device Registration);
-   * BITS Jobs;
-   * Boot or Logon Autostart Execution (Registry Run Keys / Startup Folder, Authentication Package, Time Providers, Winlogon Helper DLL, Security Support Provider, Kernel Modules and Extensions, Re-opened Applications, LSASS Driver, Shortcut Modification, Port Monitors, Print Processors, XDG Autostart Entries, Active Setup, Login Items);
-   * Boot or Logon Initialization Scripts (Logon Script (Windows), Login Hook, Network Logon Script, RC Scripts, Startup Items);
-   * Browser Extensions;
-   * Compromise Client Software Binary;
-   * Create Account (Local Account, Domain Account, Cloud Account);
-   * Create or Modify System Process (Launch Agent, Systemd Service, Windows Service, Launch Daemon);
-   * Event Triggered Execution (Change Default File Association, Screensaver, Windows Management Instrumentation Event Subscription, Unix Shell Configuration Modification, Trap, LC_LOAD_DYLIB Addition, Netsh Helper DLL, Accessibility Features, AppCert DLLs, AppInit DLLs, Application Shimming, Image File Execution Options Injection, PowerShell Profile, Emond, Component Object Model Hijacking, Installer Packages);
-   * External Remote Services;
-   * Hijack Execution Flow (DLL Search Order Hijacking, DLL Side-Loading, Dylib Hijacking, Executable Installer File Permissions Weakness, Dynamic Linker Hijacking, Path Interception by PATH Environment Variable, Path Interception by Search Order Hijacking, Path Interception by Unquoted Path, Services File Permissions Weakness, Services Registry Permissions Weakness, COR_PROFILER, KernelCallbackTable);
-   * Implant Internal Image;
-   * Modify Authentication Process (Domain Controller Authentication, Password Filter DLL, Pluggable Authentication Modules, Network Device Authentication, Reversible Encryption, Multi-Factor Authentication, Hybrid Identity);
-   * Office Application Startup (Office Template Macros, Office Test, Outlook Forms, Outlook Home Page, Outlook Rules, Add-ins);
-   * Pre-OS Boot (System Firmware, Component Firmware, Bootkit, ROMMONkit, TFTP Boot);
-   * Scheduled Task/Job (At, Cron, Scheduled Task, Systemd Timers, Container Orchestration Job);
-   * Server Software Component (SQL Stored Procedures, Transport Agent, Web Shell, IIS Components, Terminal Services DLL);
-   * Traffic Signaling (Port Knocking, Socket Filters);
-   * Valid Accounts (Default Accounts, Domain Accounts, Local Accounts, Cloud Accounts)
-6. Privilege Escalation;
-
-   * Abuse Elevation Control Mechanism (Setuid and Setgid, Bypass User Account Control, Sudo and Sudo Caching, Elevated Execution with Prompt);
-   * Access Token Manipulation (Token Impersonation/Theft, Create Process with Token, Make and Impersonate Token, Parent PID Spoofing, SID-History Injection);
-   * Boot or Logon Autostart Execution (Registry Run Keys / Startup Folder, Authentication Package, Time Providers, Winlogon Helper DLL, Security Support Provider, Kernel Modules and Extensions, Re-opened Applications, LSASS Driver, Shortcut Modification, Port Monitors, Print Processors, XDG Autostart Entries, Active Setup, Login Items)
+5. **persistence**, which consists fo techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access, such as:
+   * account manipulation:
+      * additional cloud credentials;
+      * additional email delegate permissions;
+      * additional cloud roles;
+      * ssh authorized keys;
+      * device registration;
+   * bits jobs;
+   * boot or logon autostart execution:
+      * registry run keys / startup folder;
+      * authentication package;
+      * time providers;
+      * winlogon helper dll;
+      * security support provider;
+      * kernel modules and extensions;
+      * re-opened applications;
+      * lsass driver;
+      * shortcut modification;
+      * port monitors;
+      * print processors;
+      * xdg autostart entries;
+      * active setup;
+      * login items;
+   * boot or logon initialization scripts:
+      * logon script (windows);
+      * login hook;
+      * network logon script;
+      * rc scripts;
+      * startup items;
+   * browser extensions;
+   * compromise client software binary;
+   * create account:
+      * local account;
+      * domain account;
+      * cloud account;
+   * create or modify system process:
+      * launch agent;
+      * systemd service;
+      * windows service;
+      * launch daemon;
+   * event triggered execution:
+      * change default file association;
+      * screensaver;
+      * windows management instrumentation event subscription;
+      * unix shell configuration modification;
+      * trap;
+      * lc_load_dylib addition;
+      * netsh helper dll;
+      * accessibility features;
+      * appCert dlls;
+      * appInit dlls;
+      * application shimming;
+      * image file execution options injection;
+      * powerShell profile;
+      * emond;
+      * component object model hijacking;
+      * installer packages;
+   * external remote services;
+   * hijack execution flow:
+      * dll search order hijacking;
+      * dll side-loading;
+      * dylib hijacking;
+      * executable installer file permissions weakness;
+      * dynamic linker hijacking;
+      * path interception by path environment variable;
+      * path interception by search order hijacking;
+      * path interception by unquoted path;
+      * services file permissions weakness;
+      * services registry permissions weakness;
+      * cor_profiles;
+      * kernelcallbacktable;
+   * implant internal image;
+   * modify authentication process:
+      * domain controller authentication;
+      * password filter dll;
+      * pluggable authentication modules;
+      * network device authentication;
+      * reversible encryption;
+      * multi-dactor authentication;
+      * hybrid identity;
+   * office application startup:
+      * office template macros;
+      * office test;
+      * outlook forms;
+      * outlook home page;
+      * outlook rules;
+      * add-ins;
+   * pre-os boot:
+      * system firmware;
+      * component Firmware;
+      * bootkit;
+      * rommonkit;
+      * tftp boot;
+   * scheduled task/job:
+      * at;
+      * cron;
+      * scheduled task;
+      * systemd timers;
+      * container orchestration job;
+   * server software component:
+      * sql stored procedures;
+      * transport agent;
+      * web shell;
+      * iis components;
+      * terminal services dll;
+   * traffic signaling:
+      * port knocking;
+      * socket filters;
+   * valid accounts:
+      * default accounts;
+      * domain accounts;
+      * local accounts;
+      * cloud accounts;
+6. **privilege escalation**, which means techniques that are used to gain higher-level permissions on a system or network, such as:
+   * abuse elevation control mechanism:
+      * setuid and setgid;
+      * bypass user account control;
+      * sudo and sudo caching;
+      * elevated execution with prompt;
+   * access token manipulation:
+      * token impersonation/theft;
+      * create process with token;
+      * make and impersonate token;
+      * parent pid spoofing;
+      * sid-history injection;
+   * boot or logon autostart execution:
+      * registry run keys / startup folder;
+      * authentication package;
+      * time providers;
+      * winlogon helper dll;
+      * security support provider;
+      * kernel modules and extensions;
+      * re-opened applications;
+      * lsass driver;
+      * shortcut modification;
+      * port monitors;
+      * print processors;
+      * xdg autostart entries;
+      * active setup;
+      * login items;
    * boot or logon initialization scripts:
       * logon script (windows);
       * login hook;
@@ -307,99 +421,98 @@ Currently, it has 14 tactics:
       * domain trust modification;
    * escape to host:
    * event triggered execution:
-      * Change Default File Association
-      * Screensaver
-      * Windows Management Instrumentation Event Subscription
-      * Unix Shell Configuration Modification
-      * Trap
-      * LC_LOAD_DYLIB Addition
-      * Netsh Helper DLL
-      * Accessibility Features
-      * AppCert DLLs
-      * AppInit DLLs
-      * Application Shimming
-      * Image File Execution Options Injection
-      * PowerShell Profile
-      * Emond
-      * Component Object Model Hijacking
-      * Installer Packages
-   * Exploitation for Privilege Escalation
-   * Hijack Execution Flow
-      * DLL Search Order Hijacking
-      * DLL Side-Loading
-      * Dylib Hijacking
-      * Executable Installer File Permissions Weakness
-      * Dynamic Linker Hijacking
-      * Path Interception by PATH Environment Variable
-      * Path Interception by Search Order Hijacking
-      * Path Interception by Unquoted Path
-      * Services File Permissions Weakness
-      * Services Registry Permissions Weakness
-      * COR_PROFILER
-      * KernelCallbackTable
-   * Process Injection
-      * Dynamic-link Library Injection
-      * Portable Executable Injection
-      * Thread Execution Hijacking
-      * Asynchronous Procedure Call
-      * Thread Local Storage
-      * Ptrace System Calls
-      * Proc Memory
-      * Extra Window Memory Injection
-      * Process Hollowing
-      * Process Doppelgänging
-      * VDSO Hijacking
-      * ListPlanting
-   * Scheduled Task/Job
-      * At
-      * Cron
-      * Scheduled Task
-      * Systemd Timers
-      * Container Orchestration Job
-   * Valid Accounts
-      * Default Accounts
-      * Domain Accounts
-      * Local Accounts
-      * Cloud Accounts
-
-7. Defense Evasion, which means techniques used to avoid detection throughout their compromise, such as
-   * Abuse Elevation Control Mechanism:
-      * Setuid and Setgid;
-      * Bypass User Account Control;
-      * Sudo and Sudo Caching
-      * Elevated Execution with Prompt
-   * Access Token Manipulation:
-      * Token Impersonation/Theft;
-      * Create Process with Token;
-      * Make and Impersonate Token;
-      * Parent PID Spoofing;
-      * SID-History Injection;
-   * BITS Jobs;
-   * Build Image on Host;
-   * Debugger Evasion;
-   * Deobfuscate/Decode Files or Information;
-   * Deploy Container;
-   * Direct Volume Access;
-   * Domain Policy Modification:
-      * Group Policy Modification
-      * Domain Trust Modification
-   * Execution Guardrails:
-      * Environmental Keying
-   * Exploitation for Defense Evasion
-   * File and Directory Permissions Modification
-      * Windows File and Directory Permissions Modification
-      * Linux and Mac File and Directory Permissions Modification
-   * Hide Artifacts
-      * Hidden Files and Directories
-      * Hidden Users
-      * Hidden Window
-      * NTFS File Attributes
-      * Hidden File System
-      * Run Virtual Instance
-      * VBA Stomping
-      * Email Hiding Rules
-      * Resource Forking
-      * Process Argument Spoofing
+      * change default file association;
+      * screensaver;
+      * windows management instrumentation event subscription;
+      * unix shell configuration modification;
+      * trap;
+      * lc_load_dylib addition;
+      * netsh helper dll;
+      * accessibility features;
+      * appcert dlls;
+      * appinit dlls;
+      * application shimming;
+      * image file execution options injection;
+      * powershell profile;
+      * emond;
+      * component object model hijacking;
+      * installer packages;
+   * exploitation for privilege escalation;
+   * hijack execution flow:
+      * dll search order hijacking;
+      * dll side-loading;
+      * dylib hijacking;
+      * executable installer file permissions weakness;
+      * dynamic linker hijacking;
+      * path interception by path environment variable;
+      * path interception by search order hijacking;
+      * path interception by unquoted path;
+      * services file permissions weakness;
+      * services registry permissions weakness;
+      * cor_profiler;
+      * kernelcallbacktable;
+   * process injection:
+      * dynamic-link library injection;
+      * portable executable injection;
+      * thread execution hijacking;
+      * asynchronous procedure call;
+      * thread local storage;
+      * ptrace system calls;
+      * proc memory;
+      * extra window memory injection;
+      * process hollowing;
+      * process doppelgänging;
+      * vdso hijacking;
+      * listplanting;
+   * scheduled rask/job:
+      * at;
+      * cron;
+      * scheduled task;
+      * systemd timers;
+      * container orchestration job;
+   * valid accounts:
+      * default accounts;
+      * domain accounts;
+      * local accounts;
+      * cloud accounts;
+7. **defense evasion**, which means techniques used to avoid detection throughout their compromise, such as:
+   * abuse elevation control mechanism:
+      * setuid and setgid;
+      * bypass user account control;
+      * sudo and sudo caching;
+      * elevated execution with prompt;
+   * access token manipulation:
+      * token impersonation/theft;
+      * create process with token;
+      * make and impersonate token;
+      * parent pid spoofing;
+      * sid-history injection;
+   * bits jobs;
+   * build image on host;
+   * debugger evasion;
+   * deobfuscate/decode files or information;
+   * deploy container;
+   * direct volume access;
+   * domain policy modification:
+      * group policy modification;
+      * domain trust modification;
+   * execution guardrails:
+      * environmental keying;
+   * exploitation for defense evasion;
+   * file and directory permissions modification:
+      * windows file and directory permissions modification;
+      * linux and mac file and directory permissions modification;
+   * hide artifacts:
+      * hidden files and directories;
+      * hidden users;
+      * hidden window;
+      * ntfs file attributes;
+      * hidden file system;
+      * run virtual instance;
+      * vba stomping;
+      * email hiding rules;
+      * resource forking;
+      * process argument spoofing;
    * Hijack Execution Flow
        * DLL Search Order Hijacking
        * DLL Side-Loading
