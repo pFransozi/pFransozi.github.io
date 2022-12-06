@@ -2,7 +2,7 @@
 layout: page
 permalink: /links/
 title: links
-description: some links for online tools.
+description: some links for useful online tools.
 nav: true
 nav_order: 5
 ---
