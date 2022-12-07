@@ -34,3 +34,4 @@ nav_order: 5
 
 * Base64 Decode and Encode: [base64decode](https://www.base64decode.org/){:target="_blank"} and [base64encode](https://www.base64encode.org/){:target="_blank"}.
 
+* Amazing toolkit: [CyberChef](https://gchq.github.io/CyberChef/){:target="_blank"}.
