@@ -9,7 +9,7 @@ category: ['Cybersecurity-Certification-Content']
 
 ## Introduction
 
-Here we'll continue ISC² CC foundational concepts, talking about risk management process concepts. This is a sequence of a story started [in this link]({% post_url 2022-09-21-ISC2-CC-Foundational-Concepts-I %}){:target="_blank"}.
+Here we continue ISC² CC foundational concepts, talking about risk management process concepts. This is a sequence of a story started [in this link]({% post_url 2022-09-21-ISC2-CC-Foundational-Concepts-I %}){:target="_blank"}.
 
 Before we reach our target, let's talk a little bit about concepts and risk management process.
 
