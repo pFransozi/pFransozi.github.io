@@ -90,4 +90,4 @@ for that, understanding the organization and senior management’s attitude to
 
 ## References
 
-[NIST SP 800–30 Rev. 1 Guide for Conducting Risk Assessments](https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final)
+[NIST SP 800–30 Rev. 1 Guide for Conducting Risk Assessments](https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final){:target="_blank"}
