@@ -5,7 +5,7 @@ permalink: /cheatsheets/
 description: A growing collection of trick-and-treating
 nav: true
 nav_order: 3
-display_categories: [tools]
+display_categories: [tools, linux]
 horizontal: true
 ---
 
