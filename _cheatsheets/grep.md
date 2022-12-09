@@ -10,6 +10,10 @@ category: linux
 ## General Purposes
 
 ~~~ shell
+#
+# lines that beging with To:, without consider case-sensitive.
+egrep -i '^To:' email.eml
+
 # 
 # filter for "failed" or "error"
 # -E specifies that the pattern provided as an argument is a regular expressio
