@@ -1,0 +1,38 @@
+---
+layout: page
+title: locate
+description: some useful ways to use locate.
+img: 
+importance: 1
+category: linux
+---
+
+## General Purpose
+
+~~~ shell
+# 
+# 
+locate log.txt
+locate log.*
+locate *log.txt
+
+# 
+# match the term exactly.
+locate -b myfile.txt
+
+# 
+# contain your search term anywhere in their name
+locate -i example
+
+#
+# files or directories that have 8 characters in their names.
+locate -r '^.{8}$'
+
+# 
+# letters abc, which are followed by 3 digits.
+locate -r 'abc[0-9]{3}'
+
+#
+# specific content, in this case .txtx
+locate -r '\.txt$'
+~~~
