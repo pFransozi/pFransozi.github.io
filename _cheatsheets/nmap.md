@@ -9,6 +9,7 @@ category: tools
 ## My faves
 
 ~~~ shell
+nmap -T4 -A -Pn -vv scanme.nmap.org
 nmap -A -sS -vv scanme.nmap.org
 nmap -sS -sU -vv scanme.nmap.org
 nmap -sX scanme.nmap.org
