@@ -3,10 +3,9 @@ layout: post
 title:  ISC² CC Foundational Concepts III
 date:   2022-12-08 8:00:00
 description: analysis of foundational concepts from first chapter of the self-paced “Certified in Cybersecurity” training, focusing on security controls and governance elements.
-tags: ['ISC2', 'CC', 'Concepts', 'Security-Control', 'Governance-Elements']
-category: ['Cybersecurity-Certification-Content']
+tags: ['security-control', 'governance-elements', 'concepts']
+category: ['ISC²-CC-Content']
 ---
-
 ## Introduction
 
 This is the last part of the first chapter from the self-paced “Certified in Cybersecurity” training, which is about Security Controls and Governance Elements. The first two parts are:

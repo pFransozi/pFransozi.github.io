@@ -3,10 +3,9 @@ layout: post
 title:  ISC² CC Foundational Concepts I
 date:   2022-11-28 11:33:00
 description: analysis of foundational concepts from first chapter of the self-paced “Certified in Cybersecurity” training, focusing on CIA.
-tags: ['ISC2', 'CC', 'Concepts', 'CIA']
-category: ['Cybersecurity-Certification-Content']
+tags: ['cia', 'concepts']
+category: ['ISC²-CC-Content']
 ---
-
 ## Introduction
 
 **ISC² CC Foundational Concepts** is a bunch of stories based on self-paced course called **Certified in Cybersecurity from (ISC)²**, which is a preparation for (ISC)² **Certified in Cybersecurity**, which is an entry-level cybersecurity certification.
@@ -83,7 +82,7 @@ The first chapter of the self-paced “Certified in Cybersecurity” training is
 
 Those three concepts compound the famous CIA triad and form the cornerstone of any organization’s security infrastructure and cybersecurity development. From those concepts, technologies are developed and upgraded to guarantee one or more requirements, which are placed by them, ensuring one or more aspects of what now is regarded as information security, or data security.
 
-### Confidentiality
+### confidentiality
 
 It must guarantee data protection preventing access to unauthorized users and so improper data disclosure. But as well as it must guarantee authorized users access to information. From that,it derives gaining access to an information system (known as triple-A), non-repudiation, and privacy, for instance.
 
@@ -109,7 +108,7 @@ Related to confidentiality are:
 * **Wiretapping** is the electronic version of eavesdropping, the best way against that is to use encryption to protect the communication;
 * **Social Engineering**, the best defense is to educate users to protect them against social engineering.
 
-## Integrity
+### integrity
 
 It must guarantee the completeness, accuracy, internal consistency, and usefulness of data and systems in an information system. Integrity is related to consistency and requires that all instances of the data be identical in form, content, and meaning.
 
@@ -128,7 +127,7 @@ Some threats are:
 * **Man-In-The-Middle (MITM)** attacks place the attacker in the middle of a communication session, monitoring everything that’s occurring.
 * **Replay** attacks eavesdrop on logins and reuse the captured credentials.
 
-## Availability
+### availability
 
 It means that systems and data are accessible at the time and where authorized users need them in the form and format required. This does not mean that data or systems are available 100% of the time. Instead, the systems and data meet the requirements of the business for a timely and reliable access.
 

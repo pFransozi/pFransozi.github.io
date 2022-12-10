@@ -3,10 +3,9 @@ layout: post
 title:  ISC² CC Incident Response, Business Continuity and Disaster Recovery Concepts
 date:   2022-12-08 21:30:00
 description: analysis of second chapter of the self-paced “Certified in Cybersecurity” training, focusing on incident response, business continuity and disaster recovery.
-tags: ['ISC2', 'CC', 'Concepts', 'incident-response', 'business-continuity', 'disaster-recovery']
-category: ['Cybersecurity-Certification-Content']
+tags: ['incident-response', 'business-continuity', 'disaster-recovery', 'concepts']
+category: ['ISC²-CC-Content']
 ---
-
 ## Introduction
 
 Here we continue ISC² CC from second chapter of the self-paced "Certified in Cybersecurity". The first chapter start [here]({% post_url 2022-09-21-ISC2-CC-I-Foundational %}){:target="_blank"}.
@@ -17,7 +16,7 @@ This post is based on three topics:
 * **business continuity**;
 * **disaster recovery**;
 
-## incident response basic aspects
+## Incident Response Basic Aspects
 
 Let's try some definitions:
 
@@ -36,20 +35,13 @@ Based on those two definitions, let's try draw some propositions:
 In every field of knowledge there are terms that describe that field and support definitions, the incident terminology is:
 
 * **breach** is an event of loss of control, unauthorized disclosure, unauthorized acquisition, or any similar occurrence, where a person other than an authorized user accesses or potentially accesses personally identifiable information;
-
 * **event** is any observable occurrence** in a network or system;
-
 * **exploit** is a particular attack that exploits system vulnerabilities;
-
-* **incident** is an event that actually or potentially jeopardizes the confidentiality, integrity or availability of an information system or the information the system processes, stores or transmits.
-
-* **intrusion** is a security event, or a combination of events, that constitutes a deliberate security incident in which an intruder gains, or attempts to gain, access to a system or system resource without authorization.
-
-* **threat** is any circumstance or event with the potential to adversely impact organizational operations, organizational assets, individuals, other organizations or the nation through an information system via unauthorized access, destruction, disclosure, modification of information and/or denial of service.
-
-* **vulnerability** is weakness in an information system, system security procedures, internal controls or implementation that could be exploited by a threat source.
-
-* **zero day** is a previously unknown system vulnerability with the potential of exploitation without risk of detection or prevention because it does not, in general, fit recognized patterns, signatures or methods.
+* **incident** is an event that actually or potentially jeopardizes the confidentiality, integrity or availability of an information system or the information the system processes, stores or transmits;
+* **intrusion** is a security event, or a combination of events, that constitutes a deliberate security incident in which an intruder gains, or attempts to gain, access to a system or system resource without authorization;
+* **threat** is any circumstance or event with the potential to adversely impact organizational operations, organizational assets, individuals, other organizations or the nation through an information system via unauthorized access, destruction, disclosure, modification of information and/or denial of service;
+* **vulnerability** is weakness in an information system, system security procedures, internal controls or implementation that could be exploited by a threat source;
+* **zero day** is a previously unknown system vulnerability with the potential of exploitation without risk of detection or prevention because it does not, in general, fit recognized patterns, signatures or methods;
 
 ### the goal of incident response
 
@@ -70,19 +62,16 @@ CC defines four steps, as follows:
   * implement an incident response team;
   * practice incident identification;
   * plan the coordination of communication between stakeholders, considering the possibility that a primary method of communication may not be available.
-
 * **detection and analysis** must :
   * monitor all possible attack vectors;
   * analyze incident using known data and threat intelligence;
   * prioritize incident response;
   * standardize incident documentation;
-
 * **containment, eradication and recovery**:
   * gather evidence;
   * choose an appropriate containment strategy;
   * identify the attacker;
   * isolate the attack;
-
 * **post-incident activity**:
   * identify evidence that may need to be retained;
   * document lessons learned;
@@ -124,7 +113,7 @@ When an incident occurs, the response team has four primary responsibilities:
 * implement any necessary recovery procedures to restore security and recover from incident-related damage;
 * supervise the implementation of any additional security measures necessary to improve security and prevent recurrence of the incident;
 
-## business continuity
+## Business Continuity
 
 Business continuity plan intents to sustain business operations while recovering from a significant disruption.
 
@@ -153,7 +142,7 @@ How often should an organization test its business continuity plan (BCP)?
 
 This is a critical question that must be done, and the answer is routinely, constantly, ongoing process. Each individual organization must determine how often to test its BCP, but it should be tested at predefined intervals as well as when significant changes happen within the business environment.
 
-## disaster recovery
+## Disaster Recovery
 
 Disaster recovery planning steps in where BC leaves off.
 

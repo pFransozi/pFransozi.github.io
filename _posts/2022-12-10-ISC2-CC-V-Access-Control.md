@@ -1,12 +1,11 @@
 ---
 layout: post
 title:  ISC² CC Access Control
-date:   2022-11-29 10:56:00
-description: analysis of third chapter of the self-paced “Certified in Cybersecurity” training, focusing on access control concepts; physical and logical access controles. 
-tags: ['ISC2', 'CC', 'Concepts', 'Access-Control']
-category: ['Cybersecurity-Certification-Content']
+date:   2022-12-10 8:50:00
+description: analysis of third chapter of the self-paced “Certified in Cybersecurity” training, focusing on access control concepts; physical and logical access controls. 
+tags: ['Access-Control', 'Concepts']
+category: ['ISC²-CC-Content']
 ---
-
 ## Introduction
 
 Here we continue ISC² CC foundational concepts, talking about access control. This is a sequence of a story started [in this link]({% post_url 2022-09-21-ISC2-CC-I-Foundational %}){:target="_blank"}.
@@ -21,7 +20,7 @@ At the end of the day, security all comes down to who can get access to organiza
 
 Access controls are not just about restricting access to information system and data, but also about allowing access, which means to grant the appropriate level of access to authorized users, processes, services, and to deny access to unauthorized users, processes, services.
 
-## control access strategies
+## Control Access Strategies
 
 ### defense in depth
 
@@ -43,15 +42,15 @@ Systems often monitor access to private information, and if logs indicate that s
 
 The principle of least privilege is based on the idea that by limiting the access that users have, it becomes more difficult for attackers to compromise systems and networks. This can help to prevent data breaches, malware infections, and other types of security incidents.
 
-### Privileged Access Management
+### privileged access management
 
 Privileged access management (PAM) is a security discipline that involves controlling and monitoring access to privileged accounts and sensitive systems. Privileged accounts are accounts that have more access and permissions than regular user accounts, such as administrator accounts and other accounts that have the ability to make changes to systems and networks. PAM involves implementing processes and technologies to ensure that access to privileged accounts is tightly controlled and monitored, in order to prevent unauthorized access and abuse. This can include implementing strong authentication mechanisms, such as two-factor authentication, to ensure that only authorized users are able to access privileged accounts. PAM can also involve implementing tools to monitor privileged account activity and detect potential security threats.
 
-### Segregation of Duties
+### segregation of duties
 
 A core element of authorization is the principle of segregation of duties. It is based on the security practice that no one person should control an entire high-risk transaction from start to finish, which means it breaks the transaction into separate parts and requires a different person to execute each part of the transaction. Another implementation of segregation of duties is dual control, which means someone knows part of the secret and other person other, but never one of them know the full secret.
 
-### Privileged Accounts
+### privileged accounts
 
 Privileged accounts are those with permissions beyond those of normal users, such as managers and administrators. Broadly speaking, these accounts have **elevated privileges** and are used by many different classes of users, including:
 
@@ -66,22 +65,46 @@ Other classes of privileged user accounts may be created on a per-client or per-
 * deeper trust verification than regular user accounts;
 * more auditing than regular user accounts;
 
-### How Users Are Provisioned
+### how users are provisioned
 
 Other situations that call for provisioning new user accounts or changing privileges include:
 
-* a new employee
-* change of position 
-* separation of employment
+* a new employee;
+* change of position;
+* separation of employment;
 
 ## Physical Access Control
 
-Something here!
+Physical access controls are self-explanatory. They are all things that can be physically touch, which means physical mechanisms deployed to prevent, monitor, or detect direct contact with systems or areas within a facility.
+
+* Fencing or barriers around the perimeter of the datacenter property to prevent unauthorized entry;
+* Gates or access points that can be opened or closed to control entry to the property;
+* Security guards stationed at the gates or access points to verify the identity of individuals attempting to enter the property, using written authorization or visitor logs;
+* Surveillance cameras or other monitoring systems to monitor activity around the gates and on the property;
+* Access control panels or card readers at the entrances to the datacenter building that require authorized individuals to present a valid ID or security badge;
+* Security doors or turnstiles that can be locked and unlocked remotely to control access to the interior of the datacenter building;
+* Security cameras or other monitoring systems inside the datacenter building to monitor activity and detect unauthorized access;
+* Biometric scanners or other advanced technology that can be used to verify the identity of individuals attempting to enter restricted areas of the datacenter, along with physical access logs or other written records of authorized access;
 
 ## Logical Access Control
 
+Whereas physical access controls **are tangible methods or mechanisms that limit someone from getting access to an area or asset**, logical access controls are electronic methods that limit someone from getting access to systems, and sometimes even to tangible assets or areas.
+
+Logical access control typically involves the use of user accounts, passwords, and other authentication methods to verify the identity of individuals who are attempting to access a computer system or network. Access to specific systems or data may be restricted based on the user's identity, their role or responsibilities within the organization, and the level of access that they are authorized to have.
+
+Types of logical access controls include:
+
+* **user accounts and passwords**: This is the most basic form of logical access control, and it involves creating unique user accounts for each individual who needs to access a computer system or network. Users must provide a valid username and password to authenticate their identity and gain access to the system;
+* **two-factor authentication**: This is a more advanced form of logical access control that involves requiring users to provide two different forms of authentication in order to gain access to a system. In addition to a username and password, users may be required to provide a fingerprint, a security token, or some other form of authentication;
+* **role-based access control**: In this type of logical access control, access to systems and data is granted based on the user's role or responsibilities within the organization. Different roles may have different levels of access to different systems and data, and access may be restricted or granted based on the user's role;
+* **access control lists**: An access control list (ACL) is a list of users or groups of users who are granted or denied access to specific resources. The ACL can be used to control access to systems, data, or other resources on a network, and it can be used to enforce different levels of access for different users or groups;
+* **context-based access control**: In this type of logical access control, access to systems and data is granted based on the context in which the user is accessing the system. This can include factors such as the user's location, the time of day, the device being used, and other contextual information;
+* **discretionary access control**: In discretionary access control (DAC), access to systems and data is granted based on the user's discretion or judgment. This means that users have the ability to control who has access to the resources that they own or manage, and they can grant or revoke access as needed;
+* **mandatory access control**: In mandatory access control (MAC), access to systems and data is granted based on a set of rules or policies that are defined by the system administrator. Access is not based on the user's discretion, and users do not have the ability to grant or revoke access to the resources that they own or manage;
+* **rule-based access control**: In rule-based access control, access to systems and data is granted or denied based on a set of rules or policies that are defined by the system administrator. The rules can specify which users or groups of users are granted access to specific resources, and they can be used to enforce different levels of access based on the user's role or responsibilities.
+
 ## References
 
-* [Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}
+[Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}.
 
-[NIST SP 800–30 Rev. 1 Guide for Conducting Risk Assessments](https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final){:target="_blank"}
+[NIST SP 800-53 Rev. 5](https://doi.org/10.6028/NIST.SP.800-53r5){:target="_blank"}.

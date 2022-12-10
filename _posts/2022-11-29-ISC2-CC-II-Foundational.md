@@ -3,10 +3,9 @@ layout: post
 title:  ISC² CC Foundational Concepts II
 date:   2022-11-29 10:56:00
 description: analysis of foundational concepts from first chapter of the self-paced “Certified in Cybersecurity” training, focusing on risk management process
-tags: ['ISC2', 'CC', 'Concepts', 'Risk']
-category: ['Cybersecurity-Certification-Content']
+tags: ['risk', 'concepts']
+category: ['ISC²-CC-Content']
 ---
-
 ## Introduction
 
 Here we continue ISC² CC foundational concepts, talking about risk management process concepts. This is a sequence of a story started [in this link]({% post_url 2022-09-21-ISC2-CC-I-Foundational %}){:target="_blank"}.
