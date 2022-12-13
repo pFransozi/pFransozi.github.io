@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  ISC² CC Access Control
+title:  ISC² CC V Access Control
 date:   2022-12-10 8:50:00
 description: analysis of third chapter of the self-paced “Certified in Cybersecurity” training, focusing on access control concepts; physical and logical access controls. 
 tags: ['Access-Control', 'Concepts']
