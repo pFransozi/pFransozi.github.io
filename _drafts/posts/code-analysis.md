@@ -6,7 +6,6 @@ description: code snippet analysis
 tags: ['code', 'php', 'Concepts', 'CIA']
 category: ['Cybersecurity-Certification-Content']
 ---
-
 ## code snippet
 
 ~~~ php
