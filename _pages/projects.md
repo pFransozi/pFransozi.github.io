@@ -5,7 +5,7 @@ permalink: /projects/
 description: A growing collection of my projects.
 nav: true
 nav_order: 2
-display_categories: [tools, programming]
+display_categories: [tools, programming, nmap, containerization]
 horizontal: true
 ---
 
