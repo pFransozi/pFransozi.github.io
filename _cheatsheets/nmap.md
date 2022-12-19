@@ -30,7 +30,7 @@ nmap --dns-servers 8.8.8.8,8.8.4.4 scanme.nmap.org  # It specifies DNS servers.
 
 nmap -n scanme.nmap.org # No DNS resolution.
 
-nmap -Pn scanme.nmap.org  # No ping option, which means it's not check 
+nmap -PN scanme.nmap.org  # No ping option, which means it's not check 
                           # whether the target is online.
 
 nmap 192.168.1.1/24  # It specifies IP range.
