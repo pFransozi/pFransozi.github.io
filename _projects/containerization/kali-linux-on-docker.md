@@ -99,21 +99,13 @@ sudo apt update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 ~~~
 
-After that, you can run docker using the next command:
-
-~~~ shell
-docker run hello-word
-~~~
+After that, you can run docker using the next command: `docker run hello-word`.
 
 But probably you'll get a permission denied error. Let's understand it more closely. The steps above install docker in a default way. By default, docker requires root privileges because it needs access to resources that are normally restricted to root-level processes. Those resources are critical to functioning of the OS, and for that allowing non-root processes to access them could potentially compromise the system's security and stability. Docker bypasses that running a process called Docker Engine daemon in background, and usually it was started at boot time, with root privileges for managing containers. By default, It listens for API requests on a Unix socket located at /var/run/docker.sock.
 
 Reading something here and there, I think running Docker as root is generally less secure than running it as a non-root user. This is because the root user has full privileges on the system, which means that any vulnerabilities in Docker could potentially be exploited by an attacker to gain full access to the host machine.
 
-If you don't worry, you can use docker cli as root privileges, always that you need to interact with docker daemon, as next:
-
-~~~ shell
-sudo docker run hello-world
-~~~
+If you don't worry, you can use docker cli as root privileges, always that you need to interact with docker daemon, as next: `sudo docker run hello-world`.
 
 In docs.docker.com, there're two ways for that situation, one is a really solution, other is a work-around, which means the daemon still run in privilege mode, but the docker command does not need be prefaced by sudo anymore. The work-around is to add an user into docker group, granting to it privilege to access.
 
@@ -157,11 +149,7 @@ LABEL maintainer=
 
 Labels are optional in a dockerfile, but they can be useful for providing information about the image to users and for tracking changes to the image over time. Labels can be viewed using the docker inspect command, and they can also be used to filter and search for images in a registry.
 
-For view information about a container, use the next command:
-
-~~~ shell
-docker inspect container-name
-~~~
+For view information about a container, use the next command: `docker inspect container-name`.
 
 Return to dockerfile, some commands are executed into the base image, for that RUN directive is used. It's important to take care if the command has any interaction with the user, if so, the build will stop. It's important a non interactive mode for guarantee automation. 
 
