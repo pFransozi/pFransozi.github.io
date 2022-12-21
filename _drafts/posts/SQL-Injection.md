@@ -1,11 +1,11 @@
----
+<!-- ---
 layout: post
 title:  SQL Injection
 date:   2022-08-21 16:40:16
 description: analysis of SQL Injection technique
 tags: Injection 
 category: Cybersecurity Certification Content
----
+--- -->
 The main topics of this story in order is:
 
 What is SQL injection?

@@ -1,19 +1,53 @@
 ---
 layout: page
-title: nmap project
-description: a project to dive into nmap tool
+title: scanning web servers
+description: understanding some nmap powerful scripts to scan web servers.
 img: 
-importance: 1
-category: tools
+importance: 0
+category: nmap
 ---
+## Introduction
 
+One of the most powerful features of nmap is the Nmap Scripting Engine (NSE), which is an engine that allows to execute scripts, that are developed using LUA programming language), aiming to automate a wide variety of networking tasks.
 
+A group of those scripts is dedicated to HTTP and they are used to find vulnerabilities and misconfiguration settings in web applications. This page, which is part of Nmap Project, focus on those scripts and techiniques that are related to audit web servers and web penetration tests.
 
-<https://github.com/nmap/nmap>
+To list scripts related to HTTP, use:
+
+~~~ shell
+ls -al /usr/share/nmap/scripts/
+~~~
+
+They are text-based, so you can open using a text editor.
 
 ## Scanning Web Services
 
+The next topics are based on the existince of a running web server, by default it can be running in 80, 443 ports. Nmap can verify that in many ways, such as next:
+
+~~~ shell
+nmap -sS -sV -O -p80,443 scanme.nmap.org 
+~~~
+
+A brief analysis of arguments:
+
+* **-sS** is TCP/SYN scan that never completes TCP connection, which means a more unobtrusive, stealthy, and quickly way to scan. This mode requires previlege;
+* **-sV** performs a service and version detection. '-sV' already executes a scan port, but if you desire a TCP/SYN scan like -sS, run as privelege user, otherwise nmap runs unprivilege mode, like -sT,which means a complete TCP connection in a way opposed to '-sS', more obstrusive, detectable, and slow;
+* **-O** is OS detection and it requires privilege mode as well;
+* **-p80,443** specifies ports that are known to run http services;
+* **scanme.nmap.org** is used for tests, but when you have a target, you must change it to your target;
+* **-v**, **-vv**, **-vvv**, **-d** are modes of verbosity and debug.
+
 ### Listing supported HTTP methods
+
+[http-methods](https://nmap.org/nsedoc/scripts/http-methods.html){:target="_blank"} is a kind of enumeration script, which is used to list all HTTP methods available in an HTTP server. The script code can be found [here](https://github.com/nmap/nmap/blob/master/scripts/http-methods.nse).
+
+
+The next command scan ports 80, 443, which are by default related to HTTP and HTTPS, testing all http methods, which are GET, HEAD, POST, OPTIONS, DELETE, PUT, CONNECT, TRACE, for HTTP; and GET, HEAD, POST, OPTIONS, TRACE, CONNECT, for HTTPS.
+
+
+~~~ shell
+nmap -Pn -n -p80,443 --script http-methods --script-args http-methods.test-all=true insecure.org -d
+~~~
 
 Enumeration of HTTP methods:
 nmap -p80,443 --script http-methods --script-args http-methods.test-all=true scanme-nmap.org
@@ -35,7 +69,6 @@ You can learn more about common risks associated with each method at https://
 www.owasp.org/index.php/Testing_for_HTTP_Methods_and_XST_
 (OWASP-CM-008 ). -->
 
-<https://nmap.org/nsedoc/scripts/http-methods.html>
 
 ### Discovering interesting files and folders on web servers
 

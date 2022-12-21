@@ -1,11 +1,11 @@
----
+<!-- ---
 layout: post
 title:  Broken Object Level Authorization
 date:   2022-08-21 16:40:16
 description: analysis of SQL Injection technique
 tags: Injection 
 category: Cybersecurity Certification Content
----
+--- -->
 
 In 2019, OWASP released the first version of an API Security Top 10 report, which is similar to its other best-known project OWASP Top Ten. This year, OWASP plan to release a new version.
 

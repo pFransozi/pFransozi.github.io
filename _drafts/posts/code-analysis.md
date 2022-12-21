@@ -1,10 +1,10 @@
----
+<!-- ---
 layout: post
 title: code snippet analysis I
 date:   2022-12-10 11:33:00
 description: code snippet analysis
 tags: ['code', 'php', 'Concepts', 'CIA']
-category: ['Cybersecurity-Certification-Content']
+category: ['Cybersecurity-Certification-Content'] -->
 ---
 ## code snippet
 
