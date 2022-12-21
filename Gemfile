@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 group :jekyll_plugins do
+    gem 'public_suffix'
     gem 'listen'
     gem 'jekyll'
     gem 'jekyll-archives'
@@ -7,18 +8,24 @@ group :jekyll_plugins do
     gem 'jekyll-email-protect'
     gem 'jekyll-feed'
     gem 'jekyll-imagemagick'
+    gem 'htmlcompressor'
     gem 'jekyll-minifier'
     gem 'jekyll-paginate-v2'
+    gem 'namae'
+    gem 'latex-decode'
     gem 'jekyll-scholar'
     gem 'jekyll-sitemap'
     gem 'jekyll-link-attributes'
     gem 'jekyll-twitter-plugin'
+    gem 'gemoji'
     gem 'jemoji'
     gem 'mini_racer'
     gem 'unicode_utils'
     gem 'webrick'
 end
 group :other_plugins do
+    gem 'multi_xml'
     gem 'httparty'
+    gem 'sax-machine'
     gem 'feedjira'
 end
