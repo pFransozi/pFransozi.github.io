@@ -166,12 +166,12 @@ Whereas business continuity planning is about maintaining critical business func
 
 ## References
 
-* [Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}.
+[Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}.
 
-* [Contingency Planning Guide for Federal Information Systems](https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final){:target="_blank"}.
+[Contingency Planning Guide for Federal Information Systems](https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final){:target="_blank"}.
 
-* [Computer Security Incident Handling Guide](https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final){:target="_blank"}.
+[Computer Security Incident Handling Guide](https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final){:target="_blank"}.
 
-* [Guidelines to plan and prepare for incident response](https://www.iso.org/standard/62071.html){:target="_blank"}.
+[Guidelines to plan and prepare for incident response](https://www.iso.org/standard/62071.html){:target="_blank"}.
 
-* [Guidelines for information and communication technology readiness for business continuity](https://www.iso.org/obp/ui/#iso:std:iso-iec:27031:ed-1:v1:en){:target="_blank"}.
+[Guidelines for information and communication technology readiness for business continuity](https://www.iso.org/obp/ui/#iso:std:iso-iec:27031:ed-1:v1:en){:target="_blank"}.

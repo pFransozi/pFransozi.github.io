@@ -167,8 +167,8 @@ Some threats are:
 
 ## References
 
-* [Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}
+[Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}.
 
-* [What Is the CIA Triad?](https://www.f5.com/labs/learning-center/what-is-the-cia-triad#:~:text=These%20three%20letters%20stand%20for,objectives%20for%20every%20security%20program.){:target="_blank"}
+[What Is the CIA Triad?](https://www.f5.com/labs/learning-center/what-is-the-cia-triad#:~:text=These%20three%20letters%20stand%20for,objectives%20for%20every%20security%20program.){:target="_blank"}.
 
-* [Implementing the Health Insurance Portability and Accountability Act (HIPAA) Security Rule: A Cybersecurity Resource Guide](https://csrc.nist.gov/publications/detail/sp/800-66/rev-2/draft){:target="_blank"}
+[Implementing the Health Insurance Portability and Accountability Act (HIPAA) Security Rule: A Cybersecurity Resource Guide](https://csrc.nist.gov/publications/detail/sp/800-66/rev-2/draft){:target="_blank"}.

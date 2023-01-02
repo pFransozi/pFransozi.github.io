@@ -51,8 +51,8 @@ Overall, regulations, standards, policies, and procedures are all important tool
 
 ## References
 
-* [Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}
+[Certified in Cybersecurity℠ — CC](https://www.isc2.org/Certifications/CC?filter=featured&searchRoot=A82B5ABE5FF04271998AE8A4B5D7DEFD){:target="_blank"}.
 
-* [Security and Privacy Controls for Information Systems and Organizations](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final){:target="_blank"}
+[Security and Privacy Controls for Information Systems and Organizations](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final){:target="_blank"}.
 
-* [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework){:target="_blank"}.
+[NIST Cybersecurity Framework](https://www.nist.gov/cyberframework){:target="_blank"}.
