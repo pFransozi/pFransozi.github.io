@@ -1,9 +1,9 @@
 ---
 layout: page
 title: scanning web servers
-description: understanding some nmap powerful scripts to scan web servers.
+description: understanding some nmap powerful scripts to scan web servers
 img: 
-importance: 0
+importance: 1
 category: nmap
 ---
 ## Introduction
@@ -16,16 +16,16 @@ To list scripts related to http, use: `ls -al /usr/share/nmap/scripts/ | grep ht
 
 ## Scanning Web Services
 
-The next topics are based on the existence of a running web server, by default it can be running in 80, 443 ports. Nmap can verify if there is a web service running on those ports in many ways. One example is: `nmap -sS -sV -O -p80,443 scanme.nmap.org`. Considering public services, it's common that they are running on their default ports. Otherwise, it may be required a deeper scanning to detect which port the service runs on, if any, such as `nmap -sS -sV -O -p1024-20000 -T4 scanme.nmap.org`.
+The next topics are based on the existence of a running web server, by default it can be running in 80, 443 ports, in public network. Nmap can verify if there is a web service running on those ports in many ways. One example is: `nmap -sS -sV -O -p80,443 scanme.nmap.org`. Considering public services, it's common that they are running on their default ports. Otherwise, it may be required a deeper scanning to detect which port the service runs on, if any, such as `nmap -sS -sV -O -p1024-20000 -T4 scanme.nmap.org`.
 
 A brief analysis of those flags:
 
 * `-sS` is tcp/syn scan that never completes tcp connection, which means a more unobtrusive, stealthy, and quickly way to scan. This mode requires privilege;
-* `-sV` performs a service and version detection, as well as a service scan. If in a privilege mode will be a `-sS`, tcp/syn, otherwise in an unprivileged mode, service scan will be `-sT`, which means a complete tcp connection is a way opposed to `-sS`, more obtrusive, detectable, and slow;
+* `-sV` performs a service and version detection, as well as a service scan. If in a privilege mode will be a `-sS` flag, tcp/syn, otherwise in an unprivileged mode, service scan will be `-sT`, which means a complete tcp connection is a way opposed to `-sS`, more obtrusive, detectable, and slow;
 * `-O` is os detection and it requires privilege mode as well;
 * `-p80,443` specifies ports that are known to run http services;
 * `-p1025-20000` specifies ports that are out of the default range. For a more aggressive approach it can be used `-p-` which will scan all 65535 ports;
-* `-T4` specifies a timing template known as aggressive, but it can adjust from `-T0` to `-T5` depends on the network the command is sent from, and the target network;
+* `-T4` specifies a timing template known as aggressive, but it can be adjusted from `-T0` to `-T5` depends on the network from the command is sent and the target network.
 * `scanme.nmap.org` is used for tests, but when you have a target, you must change it to your target;
 
 That command returns something like this:
@@ -55,7 +55,7 @@ No level of verbosity gives a bottom line result. Otherwise, there are several v
 * `-dd` or `-d2` increases debugging output even further;
 * `-ddd` or `-d3` increases debugging output to the maximum level;
 
-A multiple verbosity options can be used together, such as -v -d to increase the level of detail in the output.
+A multiple verbosity options can be used together, such as `-v` and `-d` to increase the level of detail in the output.
 
 ### Listing supported http methods
 
@@ -70,7 +70,9 @@ There are two main flags when using nmap and nse, which are `--script` and `--sc
 * `http.useragent` changes the value of user-agent, which is by default `Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)`. To suppress that http field passes a empty string;
 * `http-methods.retest`is used to test each method individually;
 
-By default, http-method script uses http options method to ask to the web server which are the http methods available for a specific resource, by default `/` root web path. When `http-methods.retest` parameter is used, nmap forge a request for each method and it analyzes the web server return. For example, without http-methods.retest the request is:
+By default, http-method script uses http options method to ask to the web server which are the http methods available for a specific resource, by default `/` root web path. When `http-methods.retest` parameter is used, nmap forge a request for each method and it analyzes the web server return. The options method is implemented in web servers to inform clients of its supported methods, but this method does not consider configuration or firewall rules, and having an http method listed by options does not necessarily mean that it is accessible to you.
+
+For example, without http-methods.retest the request is:
 
 ~~~ http
 OPTIONS /resource HTTP/1.1
@@ -223,8 +225,6 @@ User-Agent: MyClient/1.0
 HTTP/1.1 200 Connection established
 ~~~
 
-The options method is implemented in web servers to inform clients of its supported methods, but this method does not consider configuration or firewall rules, and having an http method listed by options does not necessarily mean that it is accessible to you.
-
 Return to the command above, let's analyze its return. It starts with a ping scan, which is used to discover if the host is online, and dns resolution:
 
 ~~~ log
@@ -318,7 +318,7 @@ Those methods are worthy of further discussion that goes beyond the context of t
 
 **Trace method** requests an application-level loop-back of the request message, back to the client from the web server as the content of a 200 (OK) response. Trace allows the client to see what is being received at the other end of the request chain. 
 
-Historically, it could be used to bypass httponly cookie flag on cookies, vulnerability known as Cross Site Tracing, and was used to disclosure sensitive information from http headers that were restricted from javascript and cookies. That kind of attack is no longer possible in modern web browsers. 
+Historically, it could be used to bypass httponly cookie flag on cookies, vulnerability known as Cross Site Tracing, and was used to disclosure sensitive information from http headers that were restricted from javascript and cookies. **That kind of attack is no longer possible in modern web browsers**. 
 
 Otherwise, it can lead to disclosure of sensitive information such as internal authentication headers appended by reverse proxies or web application firewalls in a way to bypass those such as [this example](https://www.blackhillsinfosec.com/three-minutes-with-the-http-trace-method/), using Burpsuite or ZAP.
 
@@ -342,19 +342,116 @@ Overwriting resource is a possible vulnerability related to put method, sending 
 
 ### Discovering interesting files and folders on web servers
 
-### Brute forcing HTTP authentication
+Discovering files and directories is usually the next task done after discovering a web service running on a target. And it is a kind of task that need to be automated. Nmap has a stript called `http-enum`, which is used to enumerate files and directories used by popular web applications.
+
+There are several tools that perform this kind of task, and the main difference between them is the database, in which there are a combination of files names and directories. `Http-enum` has its own database, but allows to use nikto database, since a combination of popular directories and files names is set.
+
+According to the script (`/usr/share/nmap/script`), only pages that return `200 OK` or `401 Authentication Required` are listed, except when `http-enum.displayall` is set. 
+
+The first step of the script is to test if the server return a proper `404 Not Found` status, using two random files. In the case of different results, the script aborts because it is not possible distinguish between a 200-looking 404 cannot be distinguished and
+an actual 200. If `301 Moved Permanently` or `401 Authentication Required`, then the script abort as well.
+
+The basic command starts with: `nmap -sV --script http-enum scanme.nmap.org`. As result:
+
+~~~ log
+PORT      STATE    SERVICE    VERSION
+22/tcp    open     ssh        OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+25/tcp    filtered smtp
+80/tcp    open     http       Apache httpd 2.4.7 ((Ubuntu))
+| http-enum: 
+|   /images/: Potentially interesting directory w/ listing on 'apache/2.4.7 (ubuntu)'
+|_  /shared/: Potentially interesting directory w/ listing on 'apache/2.4.7 (ubuntu)'
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+1434/tcp  filtered ms-sql-m
+9929/tcp  open     nping-echo Nping echo
+31337/tcp open     tcpwrapped
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+~~~
+
+By default, `http-enum` script uses the root directory, which is `/`. To change use `--script-args http-enum.basepath=`. Another useful args are: `--script-args http-enum.displayall` displays all file and directory tested, even the discarded ones. And `http-enum.fingerprintfile=`, which is used to define a specific fingerprint file.
+
+### Brute forcing 
+
+`http-brute` script is used to perform brute-force password auditing against web servers that are using http authentication, allowing robust dictionary attack against HTTP basic, digest, and NTLM authentication.
+
+The basic command is: `nmap -p80 --script http-brute scanme.nmap.org`. As result:
+
+~~~ log
+~~~
+
+By default, the script uses `usernames.lst` and `passwords.lst`, which are located at `/usr/shared/nmap/nselib/data/`. To change the reference lists, use `--script-args userdb=? usernames.txt,passdb=` arguments.
+
+Another interesting argument is `--script-args brute.firstOnly`, which is used to quit after finding one valid account. 
+
+It is possible to perform a brute-force password auditing against web applications, using databases of popular web applications, such as wordpress, joomla!, django, drupal, mediawiki, websphere.
+
+The basic command is: `nmap --script http-form-brute -sV scanme.nmap.org`. as result:
+
+~~~ log
+~~~
+
+The script automatically attempts to detect the form fields required to authenticate into the web application, and it uses a database of popular applications internally to help during the form detection phase. If script does not detected the fields, `--script-args http-form-brute.passvar=?,http-form-brute.uservar=?` arguments can be used to set them manually.
+
+There are two specialized scripts for web application framework: `http-wordpress-brute` and `http-joomla-brute`. The joomla script will fetch a security token and include it in the login requests.
 
 ### Detecting web application firewalls
 
+`http-waf-detect` and `http-waf-fingerprint` are scripts for detecting traffic filtering system such as web application firewall or intrusion prevention system. It can be done because because there are different responses in the web application when a malicious payload is used, then the script compare a response from a save http request with a response from a request that containing attack payload. The http-waf-detect script uses a fingerprint database to recognize special headers and cookies in the responses to attempt to identify products.
+
 ### Detecting possible XST vulnerabilities
+
+`nmap -sV --script http-methods,http-trace --script-args http-methods.retest scanme.nmap.org`
 
 ### Detecting XSS vulnerabilities
 
+`nmap -sV --script http-unsafe-output-escaping scanme.nmap.org`
+`nmap -sV --script http-phpself-xss,http-unsafe-output-escaping scanme.nmap.org`
+`nmap -sV --script http-xssed scanme.nmap.org` (query online database xssed.com)
+
+
 ### Finding SQL injection vulnerabilities
+
+`nmap -sV --script http-sql-injection scanme.nmap.org`
 
 ### Finding web applications with default credentials
 
+`nmap -sV --script http-default-accounts scanme.nmap.org`
+
+For a less intrusive scan, filter out probes by category using `http-default-accounts.category`.
+
+* web: this category manages web applications;
+* router: this category manages the interfaces of routers;
+* voip: this category contains voip devices;
+* security: this category manages security-related software;
+* industrial: this category manages software related to industrial control
+systems (icses);
+* printer: this category manages printer devices;
+* storage: this category contains storage devices;
+* virtualization: this category manages software for virtualization;
+* console: this category contains remote consoles;
+
 ### Detecting insecure cross-domain policies
+
+`nmap --script http-cross-domain-policy scanme.nmap.org`
+
+### Detecting exposed source code control systems
+
+`nmap -sV --script http-git scanme.nmap.org`
+`nmap -sV --script http-svn-info scanme.nmap.org`
+
+### Auditing the strength of cipher suites in SSL servers
+
+`nmap --script ssl-enum-ciphers -sV scanme.nmap.org`
+
+Other scripts: 
+
+* ssl-ccs-injection: This checks whether a server is vulnerable to CCS injection (CVE-2014-0224).
+* ssl-cert: This obtains information about SSL certificates.
+* ssl-dh-params: This checks whether a server is vulnerable to Logham (CVE-2015-4000).
+* ssl-heartbleed: This checks whether a server is vulnerable to Heartbleed (CVE-2014-0160).
+* ssl-poodle: This checks whether a server is vulnerable to Poodle (CVE-2014-3566).
+* sslv2-drown: This checks whether a server is vulnerable to Drown (CVE-2015-3197, CVE-2016-0703, and CVE-2016-0800);
+* ssl-cert-intaddr: Reports any private IP address found in the SSL certificate;
 
 ## References
 
