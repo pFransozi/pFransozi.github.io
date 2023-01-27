@@ -6,7 +6,6 @@ img:
 importance: 1
 category: linux
 ---
-
 ## General Purpose
 
 ~~~ shell
