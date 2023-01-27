@@ -3,7 +3,7 @@ layout: page
 title: scanning web servers
 description: understanding some nmap powerful scripts to scan web servers
 img: 
-importance: 1
+importance: 100
 category: nmap
 ---
 ## Introduction
