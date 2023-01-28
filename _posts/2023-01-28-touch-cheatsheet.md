@@ -4,9 +4,8 @@ title:  touch - cheatsheet
 date:   2023-01-28 01:00:00
 description: some useful ways to use touch.
 language: en-us
-tags: ["touch", "tool", "linux"]
+tags: ["cheatsheet", "tools", "linux"]
 language: en-us
-category: ["cheatsheet"]
 ---
 ## General Purpose
 
