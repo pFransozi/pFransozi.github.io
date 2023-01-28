@@ -1,10 +1,12 @@
 ---
-layout: page
-title: docker
+layout: post
+title:  docker - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use docker.
-img: 
-importance: 2
-category: tools
+language: en-us
+tags: ["docker", "tool"]
+language: en-us
+category: ["cheatsheet"]
 ---
 ## General Purpose
 

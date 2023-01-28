@@ -1,12 +1,13 @@
 ---
-layout: page
-title: awk
+layout: post
+title:  awk - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use awk.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["awk", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purposes
 
 ~~~ shell

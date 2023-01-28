@@ -1,12 +1,13 @@
 ---
-layout: page
-title: touch
+layout: post
+title:  touch - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use touch.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["touch", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purpose
 
 ~~~ shell

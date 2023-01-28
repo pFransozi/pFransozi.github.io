@@ -1,11 +1,12 @@
 ---
-layout: page
-title: kali linux on docker
+layout: post
+title:  kali linux on docker
+date:   2023-01-28 01:00:00
 description: some steps to configure docker and kali linux on docker
 language: en-us
-img: 
-importance: 100
-category: containerization
+tags: ["docker", "kali-linux"]
+language: en-us
+category: ["docker", "containerization"]
 ---
 ## Introduction
 

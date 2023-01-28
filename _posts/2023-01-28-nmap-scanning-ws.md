@@ -1,10 +1,12 @@
 ---
-layout: page
-title: scanning web servers
+layout: post
+title:  scanning web servers
+date:   2023-01-28 01:00:00
 description: understanding some nmap powerful scripts to scan web servers
-img: 
-importance: 100
-category: nmap
+language: en-us
+tags: ["web-servers"]
+language: en-us
+category: ["nmap", "reconnaissance-tool"]
 ---
 ## Introduction
 

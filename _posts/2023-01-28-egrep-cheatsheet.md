@@ -1,12 +1,13 @@
 ---
-layout: page
-title: egrep
+layout: post
+title:  egrep - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use egrep.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["egrep", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purposes
 
 ~~~ shell

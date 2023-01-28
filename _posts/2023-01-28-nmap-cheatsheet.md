@@ -1,10 +1,12 @@
 ---
-layout: page
-title: nmap
-description: some useful ways to use network mapper tool.
-img: 
-importance: 1
-category: tools
+layout: post
+title:  nmap - cheatsheet
+date:   2023-01-28 01:00:00
+description: some useful ways to use nmap.
+language: en-us
+tags: ["nmap", "tool"]
+language: en-us
+category: ["cheatsheet"]
 ---
 ## My faves
 

@@ -1,12 +1,13 @@
 ---
-layout: page
-title: find
+layout: post
+title:  find - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use find.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["find", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purposes
 
 ~~~ shell

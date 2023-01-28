@@ -1,12 +1,13 @@
 ---
-layout: page
-title: head
+layout: post
+title:  head - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use head.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["head", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purposes
 
 ~~~ shell

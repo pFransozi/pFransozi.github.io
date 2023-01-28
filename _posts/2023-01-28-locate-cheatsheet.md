@@ -1,12 +1,13 @@
 ---
-layout: page
-title: locate
+layout: post
+title:  locate - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use locate.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["locate", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purpose
 
 ~~~ shell

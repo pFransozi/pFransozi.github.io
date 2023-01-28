@@ -1,12 +1,13 @@
 ---
-layout: page
-title: less
+layout: post
+title:  less - cheatsheet
+date:   2023-01-28 01:00:00
 description: some useful ways to use less.
-img: 
-importance: 1
-category: linux
+language: en-us
+tags: ["less", "tool", "linux"]
+language: en-us
+category: ["cheatsheet"]
 ---
-
 ## General Purposes
 
 ~~~ shell
