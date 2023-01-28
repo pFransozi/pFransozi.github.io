@@ -6,7 +6,6 @@ description: some useful ways to use egrep.
 language: en-us
 tags: ["cheatsheet", "tools", "unix"]
 language: en-us
-category: [""]
 ---
 ## General Purposes
 
