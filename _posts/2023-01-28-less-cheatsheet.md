@@ -4,9 +4,8 @@ title:  less - cheatsheet
 date:   2023-01-28 01:00:00
 description: some useful ways to use less.
 language: en-us
-tags: ["less", "tool", "linux"]
+tags: ["cheatsheet", "tools", "unix"]
 language: en-us
-category: ["cheatsheet"]
 ---
 ## General Purposes
 

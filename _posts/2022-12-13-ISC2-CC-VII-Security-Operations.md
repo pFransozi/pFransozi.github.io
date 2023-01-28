@@ -3,8 +3,7 @@ layout: post
 title:  ISC² CC VII Security Operations
 date:   2022-12-13 12:00:00
 description: analysis of fifth chapter of the self-paced “Certified in Cybersecurity” training, focusing Security Operations.
-tags: ['data-security', 'system-hardening', 'security-policies', 'awareness-training']
-category: ['isc²-cc-content']
+tags: ["security-operations", "cc", "isc²"]
 ---
 ## Introduction
 

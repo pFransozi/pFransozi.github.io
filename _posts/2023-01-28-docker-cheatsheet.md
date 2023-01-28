@@ -4,9 +4,8 @@ title:  docker - cheatsheet
 date:   2023-01-28 01:00:00
 description: some useful ways to use docker.
 language: en-us
-tags: ["docker", "tool"]
+tags: ["cheatsheet", "tools", "docker"]
 language: en-us
-category: ["cheatsheet"]
 ---
 ## General Purpose
 

@@ -3,9 +3,8 @@ layout: post
 title:  docker - uma introdução didática - parte 1
 date:   2023-01-28 01:00:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
-tags: ["introdução", "docker", "docker-compose"]
-language: en-us
-category: ["docker", "conteinerização"]
+tags: ["docker", "docker-compose", "containerization"]
+language: pt-br
 ---
 ## Introdução
 

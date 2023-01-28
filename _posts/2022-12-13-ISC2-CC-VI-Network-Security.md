@@ -3,8 +3,7 @@ layout: post
 title:  ISC² CC VI Network Security
 date:   2022-12-13 10:00:00
 description: analysis of fourth chapter of the self-paced “Certified in Cybersecurity” training, focusing on Network Security.
-tags: ['network-concepts', 'network-cyber-threats-attacks', 'network-sec-infra']
-category: ['isc²-cc-content']
+tags: ["network", "cc", "isc²"]
 ---
 ## Introduction
 

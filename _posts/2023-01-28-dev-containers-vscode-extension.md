@@ -3,9 +3,8 @@ layout: post
 title:  docker containerized environment in vscode
 date:   2023-01-28 01:00:00
 description: this document covers the devcontainers extension for vscode, which enables to work with containerized environments
-tags: ["devcontainer", "vscode"]
+tags: ["devcontainer", "vscode", "containerization"]
 language: en-us
-category: ["docker", "containerization"]
 ---
 ## Introduction
 

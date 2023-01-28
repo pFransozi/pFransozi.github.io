@@ -3,8 +3,7 @@ layout: post
 title:  ISC² CC IV Incident Response, Business Continuity and Disaster Recovery Concepts
 date:   2022-12-08 21:30:00
 description: analysis of second chapter of the self-paced “Certified in Cybersecurity” training, focusing on incident response, business continuity and disaster recovery.
-tags: ['incident-response', 'business-continuity', 'disaster-recovery', 'concepts']
-category: ['isc²-cc-content']
+tags: ["incident-response", "business-continuity", "disaster-recovery", "cc", "isc²"]
 ---
 ## Introduction
 
