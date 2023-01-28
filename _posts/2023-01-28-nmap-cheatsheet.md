@@ -4,9 +4,9 @@ title:  nmap - cheatsheet
 date:   2023-01-28 01:00:00
 description: some useful ways to use nmap.
 language: en-us
-tags: ["nmap", "tool"]
+tags: ["cheatsheet", "nmap", "tools"]
 language: en-us
-category: ["cheatsheet"]
+category: []
 ---
 ## My faves
 
