@@ -93,7 +93,7 @@ docker logs mysql --follow
 docker exec -it mysql mysql -p
 ~~~
 
-## create a docker container from postgres imagem
+## create a docker container from postgres image
 ~~~ shell
 #docker pull Postgresql
 #docker pull dpage/pgadmin4 #web-based administration tool for PostgreSQL
