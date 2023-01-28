@@ -6,7 +6,6 @@ description: some useful ways to use nmap.
 language: en-us
 tags: ["cheatsheet", "nmap", "tools"]
 language: en-us
-category: []
 ---
 ## My faves
 
