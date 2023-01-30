@@ -3,7 +3,7 @@ layout: post
 title:  docker - uma introdução didática - parte 1
 date:   2023-01-28 01:00:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
-tags: ["docker", "docker-compose", "containerization"]
+tags: ["docker", "containerization"]
 language: pt-br
 ---
 ## Introdução
@@ -12,30 +12,23 @@ Este material traz um compilado de tópicos introdutórios sobre *docker* e *doc
 
 Serão três partes subdivididas como segue: 
 
-* parte 1
-  * conceitos bases;
-  * contexto;
-  * instalação;
-  * primeira execução;
-  * imagem e contêiner;
-  * básico sobre cliente docker, linha de comando;
-  * executar e encerrar contêineres;
-  * mergulhando nas imagens;
-  * construindo imagens;
-  * definindo condições iniciais do contêiner;
-  * usando volume e portas para interagir com contêineres;
-  * permitindo conexões externas com contêineres;
-  * exercícios;
-  * referências;
-* parte 2
-  * executar um grupo de contêineres que interajam entre si via http;
-  * executar um grupo de contêineres que interajam entre si via volume;
-  * escalar manualmente aplicações;
-  * usar softwares de terceiros nos contêineres como parte de um projeto, tais como banco de dados;
-* parte 3
-  * examinar as imagens que são utilizadas nos contêineres;
-  * utilizar métodos para reduzir o tamanho do contêiner e o tempo de construção, tal como *build* em vários estágios;
-  * deploy automático de contêineres;
+* [Primeira Parte](#primeira-parte)
+  * [Conceitos bases](#conceitos-bases);
+  * [Contexto](#contexto);
+  * [Instalação](#instalação);
+  * [Primeira execução](#primeira-execução);
+  * [Imagem e contêiner](#imagem-e-contêiner);
+  * [Básico sobre cliente docker, linha de comando](#básico-sobre-cliente-docker-linha-de-comando);
+  * [Executar e encerrar contêineres](#executar-e-encerrar-contêineres);
+  * [Mergulhando nas imagens](#mergulhando-nas-imagens);
+  * [Construindo imagens](#construindo-imagens);
+  * [Definindo condições iniciais do contêiner](#definindo-condições-iniciais-do-contêiner);
+  * [Usando volume e portas para interagir com contêineres](#usando-volume-e-portas-para-interagir-com-contêineres);
+  * [Permitindo conexões externas com contêineres](#permitindo-conexões-externas-com-contêineres);
+  * [Exercícios](#exercícios);
+  * [Referências](#referências);
+* [parte 2]({% post_url 2023-01-28-docker-uma-introducao-p2 %}){:target="_blank"}
+* [parte 3]({% post_url 2023-01-28-docker-uma-introducao-p3 %}){:target="_blank"}
 
 Esse material tem o caráter introdutório, com teoria e prática sobre os temas, abordando tópicos fundamentais sobre docker e conteinerização. Embora exista uma espécie de índice, os temas se desenvolvem sem um lugar específico, mas ao longo do texto todo.
 
@@ -51,7 +44,9 @@ Contêiner é uma tecnologia de virtualização do tipo de isolamento em nível 
 
 Embora a técnica de *chroot* traga a ideia de isolamento em nível de sistema operacional, a técnica é muito limitada porque não faz isolamento no nível do espaço do kernel, mantendo todos os recursos de hardware compartilhados. Contêiner é uma técnica de isolamento em nível de sistema operacional que é implementada no nível do espaço do kernel, permitindo um isolamento total dos recursos de hardware. Dentre as vantagens desse tipo de técnica estão: reduzida sobrecarga, principalmente se comparado à virtualização hipersivionada, pois os programas que rodam dentro de uma partição virtual usam as interfaces de chamadas de sistema padrões do sistema operacional.
 
-Com isso, *docker* é um conjunto de ferramentas cujo objetivo é implementar virtualização de nível do sistema operacional, com isolamento e mecanismos de gerenciamento de recursos, utilizando `cgroups` e `namespaces`. A base desse conjunto de ferramentas é composta por: servidor (*docker* *daemon*), comunicação por *rest* *api* (*docker* engine *api*), cliente (*docker* cli, *docker* desktop), repositório de imagens (*docker* hub). O serviço de *daemon* do *docker*, também chamado de *dockerd*, é um processo persistente que gerencia os contêineres e manipula objetos vinculados a eles. O *daemon* responde a requisições que chegam pela *api* e que se originam geralmente pela ferramenta de linha de comando. 
+Com isso, *docker* é um conjunto de ferramentas cujo objetivo é implementar virtualização de nível do sistema operacional, com isolamento e mecanismos de gerenciamento de recursos, utilizando `cgroups` e `namespaces`. A base desse conjunto de ferramentas é composta por: servidor (*docker* *daemon*), comunicação por *rest* *api* (*docker* engine *api*), cliente (*docker* cli, *docker* desktop), repositório de imagens (*docker* hub). O serviço de *daemon* do *docker*, também chamado de *dockerd*, é um processo persistente que gerencia os contêineres e manipula objetos vinculados a eles. O *daemon* responde a requisições que chegam pela *api* e que se originam geralmente pela ferramenta de linha de comando.
+
+[⇡](#introdução)
 
 ### Contexto
 
@@ -62,13 +57,17 @@ Com isso, *docker* é um conjunto de ferramentas cujo objetivo é implementar vi
 * permite a criação de imagens, com ambientes predefinidos, que servem de base para criação de outros contêineres, mantendo integridade entre eles. Além disso, suporta infraestrutura como código (*IaC*), *dockerfile*, no qual se especifica várias características para uma imagem que servirá de protótipo para criação de contêineres;
 * em virtude da baixa sobrecarga, um contêiner deve ser efêmero, isto é, é possível criar várias instâncias de um mesmo contêiner, aumentando a disponibilidade de um serviço, mas também deve ser possível desalocar os contêineres, reduzindo a disponibilidade. O termo que descreve esse processo é orquestração, cujo objetivo é aumentar ou diminuir recursos (*horizontal scaling*);
 
+[⇡](#introdução)
+
 ### Instalação
 
 Dois são os pré-requisitos de instalação: *docker* e *docker-compose*, ambos da *docker inc.*. *Docker* possui um rico ambiente de documentação que pode ser acessado [aqui](docs.docker.com){:target="_blank"}. Em se tratando de instalação, mais informações podem ser obtidas [aqui](docs.docker.com/engine/install/){:target="_blank"}. O mesmo vale para [docker-compose](docs.docker.com/compose/){:target="_blank"} e os documentos de [instalação](https://docs.docker.com/compose/install/){:target="_blank"} para ele.
 
 Ademais, em se tratando de instalação do *docker* é importante saber que a arquitetura inicial exigia que ela fosse feita como super usuário (root / administrador). A partir da versão 19.03 essa exigência foi alterada, permitindo a instalação do *docker* com usuário comum. Tal assunto pode ser visto [aqui](https://docs.docker.com/engine/security/rootless/){:target="_blank"}.
 
-Além disso, é comum que após a instalação do *docker*, no caso em que se opte por executá-lo como super usuário, o usuário responsável por executá-lo seja incluído no grupo `docker`. Assim, não será necessário prefaciar o comando `docker` com `sudo`. Mais detalhes [aqui](https://docs.docker.com/engine/install/linux-postinstall/){:target="_blank"}. 
+Além disso, é comum que após a instalação do *docker*, no caso em que se opte por executá-lo como super usuário, o usuário responsável por executá-lo seja incluído no grupo `docker`. Assim, não será necessário prefaciar o comando `docker` com `sudo`. Mais detalhes [aqui](https://docs.docker.com/engine/install/linux-postinstall/){:target="_blank"}.
+
+[⇡](#introdução)
 
 ### Primeira execução
 
@@ -145,6 +144,8 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ~~~
 
+[⇡](#introdução)
+
 ### Imagem e contêiner
 
 Contêineres são instâncias de imagens, as quais, por sua vez, são criadas de acordo com a finalidade desejada para o contêiner, servindo como um protótipo. *Docker* possui uma funcionalidade para compilação de imagens a partir de arquivo de instruções, chamado de *dockerfile*. Entra em jogo o conceito de infraestrutura como código, pela qual a configuração da infraestrutura de ambientes é feita por meio de arquivos de instruções. 
@@ -192,6 +193,8 @@ CONTAINER ID   IMAGE                 COMMAND           CREATED         STATUS   
 6630496d6fe8   hello-world           "/hello"          4 seconds ago   Exited (0) 3 seconds ago             laughing_carver
 ~~~
 
+[⇡](#introdução)
+
 ### Básico sobre cliente docker, linha de comando
 
 *Docker* funciona em uma arquitetura cliente-servidor: um cliente, geralmente linha de comando, solicita via *rest* *api* para o servidor, *daemon*, que execute algum comando. Embora existam outros clientes, a interface de linha de comando (cli - command line interface) é o cliente mais comum e versátil e uma lista completa das *flags* é encontrada [aqui](https://docs.docker.com/engine/reference/commandline/cli/){:target="_blank"}.
@@ -225,6 +228,8 @@ Note que ao executar `run nginx` o terminal congela logo após iniciar o contêi
 Em resumo: contêineres que executam processos persistêntes podem ser colocados em *background*, desvinculando-o do terminal que o executou: `docker container run -d nginx`. Parar um contêiner: `docker container stop <id ou nome>`. Remover um contêiner: `docker container rm <id ou nome>`, e um imagem: `docker imagem rm nginx`.
 
 Com o tempo é comum que o *docker* fique *entupido* de contêineres e imagens. Para resolver isso é importante fazer uma *limpeza* usando a *flag* `prune`: `docker container prune`, `docker image prune`. Ou ainda com a *flag* `--rm` junto ao comando `docker run`. Desse modo, *docker* removerá o contêiner logo em seguida ao fim de sua execução. Exemplo: `docker container run -it --rm ubuntu`.
+
+[⇡](#introdução)
 
 ### Executar e encerrar contêineres
 
@@ -406,6 +411,8 @@ docker run -d --rm -it --name looper-it ubuntu sh -c 'while true; do date; sleep
 
 As duas primeiras linhas encerar a execução de um contêiner e removê-lo. A terceira é uma maneira de criar um contêiner de tal modo que ao encerrar o processo principal, o contêiner é removido.
 
+[⇡](#introdução)
+
 ### Mergulhando nas imagens
 
 Imagens são protótipos básicos para construção de outras imagens ou contêineres. Há dois lugares básico de armazenamento de imagens: o primeiro é local, o segundo é o repositório público do *docker*. E como já vimos é possível localizar imagens no repositório público pelo comando `docker search postgres`.
@@ -439,6 +446,8 @@ docker.io/library/ubuntu:23.04
 ~~~
 
 Imagens são construídas por diferentes camadas e metadados. Em alguns circunstâncias as camadas podem otimizar o processo de obtenção de uma outra imagem, quando essa compartilha uma camada base que já está disponível localmente. Geralmente essa camada base é outra imagem. Imagens permitem tags e, consequentemente, permitem serem entiquetas usando o comando `docker tag`. O nome de uma imagem é composto de três partes: *repositório/organização/imagem:tag*. As imagens que são oficinais, são indicadas apenas por *imagem:tag*.
+
+[⇡](#introdução)
 
 ### Construindo imagens
 
@@ -667,6 +676,8 @@ total 8
 /usr/src/app # 
 ~~~
 
+[⇡](#introdução)
+
 ### Definindo condições iniciais do contêiner
 
 Nesta seção iniciaremos por configurar um contêiner de modo interativo, ou seja, a partir de um contêiner criado sobre uma imagem base de um sistema operacional, realizaremos as instalação necessárias para execução da aplicação desejada. A imagem que buscamos deverá conseguir executar a aplicação *youtube-dl*, uma ferramenta de linha de comando que faz download de vídeos. Segundo [a documentação](https://ytdl-org.github.io/youtube-dl/download.html){:target="_blank"}, a única dependência é python em uma das seguintes versões 2.6, 2.7, 3.2+.
@@ -793,7 +804,9 @@ Ou ainda quando apenas a instrução `CMD` é utilizada com um caminho para um s
 |`ENTRYPOINT /bin/ping -c 3` e `CMD ["localhost"]` | 	`/bin/sh -c '/bin/ping -c 3' localhost` |
 |`ENTRYPOINT ["/bin/ping","-c","3"]` e `CMD ["localhost"]` | `/bin/ping -c 3 localhost` |
 
-`ENTRYPOINT` terá sempre um valor fixo nos contêineres executados a partir de uma mesma imagem. No entanto, em cada execução `docker run` é possível passar diferentes argumentos que funcionam como `CMD`, mesmo que ele esteja atribuído no dockerfile, o parâmetro passado na chamada do `docker run` o sobreescreverá. 
+`ENTRYPOINT` terá sempre um valor fixo nos contêineres executados a partir de uma mesma imagem. No entanto, em cada execução `docker run` é possível passar diferentes argumentos que funcionam como `CMD`, mesmo que ele esteja atribuído no dockerfile, o parâmetro passado na chamada do `docker run` o sobreescreverá.
+
+[⇡](#introdução)
 
 ### Usando volume e portas para interagir com contêineres
 
@@ -804,6 +817,8 @@ A imagem que criamos na seção anterior tem como finalidade isolar uma aplicaç
 A técnica é chamada de *bind mount* e é feita pelo comando *docker run*: `docker run -v "$(pwd):/mydir" youtube-dl https://imgur.com/JY5tHqr`. Ademais, esssa ténica pode ser usada para conectar contêineres que precisam compartilhar arquivos entre si.
 
 Outra estratégia é compartilhar um arquivo específico, por exemplo, um arquivo de configurações: `-v $(pwd)/config.file:/mydir/config.file`. Com isso, modificações no arquivo a partir do host refletem no contêiner.
+
+[⇡](#introdução)
 
 ### Permitindo conexões externas com contêineres
 
@@ -818,9 +833,13 @@ Também é possível limitar as conexões para certo protocolo: `EXPOSE <porta>/
 
 Expor portas é uma questão crítica na segurança de ambientes e o modo como isso é feito pode ocasionar que qualquer um tenha acesso à porta exposta. Uma forma de reduzir a área de exposição é forçar que a ligação seja feita apenas com um host específico, tal como: `-p 127.0.0.1:33456:4000`. Assim, apenas conexões do localhost podem ser feitas. Menos recomendado é `-p 3456:3000`, que é igual a `-p 0.0.0.0:33456:4000`, significando que a porta `4000` está aberta para qualquer um.
 
+[⇡](#introdução)
+
 ### Exercícios
 
 Todo: exercícios com foco nos temas acima.
+
+[⇡](#introdução)
 
 ## Referências
 
@@ -861,3 +880,5 @@ Todo: exercícios com foco nos temas acima.
 [understanding-docker-without-losing-your-shit-cf2b30307c63](https://blog.hipolabs.com/understanding-docker-without-losing-your-shit-cf2b30307c63){:target="_blank"}.
 
 [understanding-the-dockerfile-format-3cc6](https://dev.to/aws-builders/understanding-the-dockerfile-format-3cc6){:target="_blank"}.
+
+[⇡](#introdução)
