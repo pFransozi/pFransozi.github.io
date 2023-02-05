@@ -8,9 +8,9 @@ language: pt-br
 ---
 ## Introdução
 
-Este material traz um compilado de tópicos introdutórios sobre *docker* e *docker-compose* com teoria e prática. Todas as referências utilizadas estão disponíveis na seção *referências*.
+Este material traz um compilado de tópicos introdutórios sobre as ferramentas `docker` e `docker-compose` com teoria e prática. Essas são ferramentas desenvolvidas pela *docker inc*, que compõe um conjunto de ferramentas para conteinerização. Foram essas ferramentas que aperfeiçoaram e popularizaram o uso de contêineres, embora o conceito e algumas técnicas já existissem antes.
 
-Serão três partes subdivididas como segue: 
+Serão três partes, a primeira segue esta subdivisão, as demais podem ser acessadas pelos links abaixo: 
 
 * [Primeira Parte](#primeira-parte)
   * [Conceitos bases](#conceitos-bases);
@@ -30,48 +30,48 @@ Serão três partes subdivididas como segue:
 * [parte 2]({% post_url 2023-01-28-docker-uma-introducao-p2 %}){:target="_blank"}
 * [parte 3]({% post_url 2023-01-28-docker-uma-introducao-p3 %}){:target="_blank"}
 
-Esse material tem o caráter introdutório, com teoria e prática sobre os temas, abordando tópicos fundamentais sobre docker e conteinerização. Embora exista uma espécie de índice, os temas se desenvolvem sem um lugar específico, mas ao longo do texto todo.
+Esse material tem o caráter introdutório, com teoria e prática sobre os temas, abordando tópicos fundamentais sobre a ferramenta `docker`, `docker compose` e, consequentemente, sobre conteinerização. Embora exista uma espécie de índice, os temas se desenvolvem sem um lugar específico, mas ao longo do texto todo.
 
-Esta é a primeira parte.
+Esta é a primeira parte e todas as referências utilizadas estão disponíveis na seção *referências*.
 
 ## Primeira Parte
 
 ### Conceitos bases
 
-Contêiner é uma tecnologia de virtualização do tipo de isolamento em nível de sistema operacional (os-level virtualization), diferenciando-se das virtualizações do tipo *hipervisionadas* (hardware hypervisors), cuja interação com o hardware é intermediada por meio de um software de supervisão. O isolamento de um contêiner ocorre no nível do sistema operacional por meio de técnicas de segregação de instâncias de espaços de usuários. 
+Contêiner é uma tecnologia de virtualização do tipo de isolamento em nível de sistema operacional (*os-level virtualization*), diferenciando-se das virtualizações do tipo *hipervisionadas* (*hardware hypervisors*), cuja interação com o hardware é intermediada por meio de um software de supervisão. O isolamento de um contêiner ocorre no nível do sistema operacional por meio de técnicas de segregação de instâncias de espaços de usuários. 
 
-*Chroot* é uma das primeiras técnicas, se não a primeira, de isolamento em nível de sistema operacional pela qual processos e seus subprocessos são isolados do resto do sistema de arquivos e processos. Essa técnica consiste em recriar toda a árvore de diretórios necessárias para executar um programa, copiando todos os programas do sistema necessários para executá-lo e ajustando as referências para esse novo simulacro. Em seguida, é utilizado o `chroot` para modificar o diretório root para o diretório base recriado, criando um isolamento para o programa executado que não conseguirá acessar nada além do diretório base.
+*Chroot* é uma das primeiras técnicas, se não a primeira, de isolamento em nível de sistema operacional pela qual processos e seus subprocessos são isolados do resto do sistema de arquivos e processos. Essa técnica consiste em recriar toda a árvore de diretórios necessárias para executar um programa, copiando todos os programas do sistema necessários para executá-lo e ajustando as referências para esse novo simulacro. Em seguida, é utilizado o `chroot` para modificar o diretório `root` para o diretório base recriado, criando um isolamento para o programa executado que não conseguirá acessar nada além do diretório base.
 
-Embora a técnica de *chroot* traga a ideia de isolamento em nível de sistema operacional, a técnica é muito limitada porque não faz isolamento no nível do espaço do kernel, mantendo todos os recursos de hardware compartilhados. Contêiner é uma técnica de isolamento em nível de sistema operacional que é implementada no nível do espaço do kernel, permitindo um isolamento total dos recursos de hardware. Dentre as vantagens desse tipo de técnica estão: reduzida sobrecarga, principalmente se comparado à virtualização hipersivionada, pois os programas que rodam dentro de uma partição virtual usam as interfaces de chamadas de sistema padrões do sistema operacional.
+Embora a técnica de *chroot* traga a ideia de isolamento em nível de sistema operacional, a técnica é muito limitada porque não faz isolamento no nível do espaço do kernel, mantendo todos os recursos de hardware compartilhados. As tecnologias mais modernas de contêineres utilizam técnica de isolamento em nível de sistema operacional que é implementada no nível do espaço do kernel, permitindo um isolamento total dos recursos de hardware. Dentre as vantagens desse tipo de técnica estão: redução das despesas (overhead) de recursos necessários para executar um recurso, principalmente se comparado à virtualização hipersivionada, pois os programas que rodam dentro de uma partição virtual usam as interfaces de chamadas de sistema padrões do sistema operacional.
 
-Com isso, *docker* é um conjunto de ferramentas cujo objetivo é implementar virtualização de nível do sistema operacional, com isolamento e mecanismos de gerenciamento de recursos, utilizando `cgroups` e `namespaces`. A base desse conjunto de ferramentas é composta por: servidor (*docker* *daemon*), comunicação por *rest* *api* (*docker* engine *api*), cliente (*docker* cli, *docker* desktop), repositório de imagens (*docker* hub). O serviço de *daemon* do *docker*, também chamado de *dockerd*, é um processo persistente que gerencia os contêineres e manipula objetos vinculados a eles. O *daemon* responde a requisições que chegam pela *api* e que se originam geralmente pela ferramenta de linha de comando.
+Com isso, *docker* é um conjunto de ferramentas cujo objetivo é implementar virtualização de nível do sistema operacional, com isolamento e mecanismos de gerenciamento de recursos, utilizando `cgroups` e `namespaces`. A base desse conjunto de ferramentas é composta por: servidor (`docker daemon`), comunicação por `rest api` (`docker engine` `api`), cliente (`docker cli`, `docker desktop`), repositório de imagens (`docker hub`). O serviço de `daemon` do *docker*, também chamado de `dockerd`, é um processo persistente que gerencia os contêineres e manipula objetos vinculados a eles. O `daemon` responde a requisições que chegam pela `api` e que se originam geralmente pela ferramenta de linha de comando.
 
 [⇡](#introdução)
 
 ### Contexto
 
-*Docker* é uma consolidada ferramenta quando se pensa em integração e entrega contínuas em ambientes de desenvolvimento de software, pois:
+`Docker` é uma consolidada ferramenta quando se pensa em integração e entrega contínuas em ambientes de desenvolvimento de software, pois:
 
 * permite ambientes isolados e customizados, o que significa instalar no contêiner apenas o que é necessário para execução do software principal, seja o próprio software ou algum servidor;
-* permite um completo isolamento de tal modo que em um mesmo host pode-se ter vários contêineres executando diferentes versões de *python*, por exemplo, sem nenhuma interferência entre os próprios contêineres e entres eles e o host;
-* permite a criação de imagens, com ambientes predefinidos, que servem de base para criação de outros contêineres, mantendo integridade entre eles. Além disso, suporta infraestrutura como código (*IaC*), *dockerfile*, no qual se especifica várias características para uma imagem que servirá de protótipo para criação de contêineres;
-* em virtude da baixa sobrecarga, um contêiner deve ser efêmero, isto é, é possível criar várias instâncias de um mesmo contêiner, aumentando a disponibilidade de um serviço, mas também deve ser possível desalocar os contêineres, reduzindo a disponibilidade. O termo que descreve esse processo é orquestração, cujo objetivo é aumentar ou diminuir recursos (*horizontal scaling*);
+* permite um completo isolamento de tal modo que em um mesmo *host* pode-se ter vários contêineres executando diferentes versões de `python`, por exemplo, sem nenhuma interferência entre os próprios contêineres e entres eles e o *host*;
+* permite a criação de imagens, com ambientes predefinidos, que servem de base para criação de outros contêineres, mantendo integridade entre eles. Além disso, suporta infraestrutura como código (*IaC*), `dockerfile`, no qual se especifica várias características para uma imagem que servirá de protótipo para criação de contêineres;
+* em virtude da redução de despesa (overhead) de recursos necessários para o funcionamento de um contêiner, um contêiner deve ser efêmero, isto é, é possível criar várias instâncias de um mesmo contêiner, aumentando a disponibilidade de um serviço, mas também deve ser possível desalocar os contêineres, reduzindo a disponibilidade. O termo que descreve esse processo é orquestração, cujo objetivo é aumentar ou diminuir recursos (*horizontal scaling*). Além disso, contêineres são pragmáticos, ou seja, *posso destruir todos eles hoje, mas também se for preciso recrio-os amanhã*.
 
 [⇡](#introdução)
 
 ### Instalação
 
-Dois são os pré-requisitos de instalação: *docker* e *docker-compose*, ambos da *docker inc.*. *Docker* possui um rico ambiente de documentação que pode ser acessado [aqui](docs.docker.com){:target="_blank"}. Em se tratando de instalação, mais informações podem ser obtidas [aqui](docs.docker.com/engine/install/){:target="_blank"}. O mesmo vale para [docker-compose](docs.docker.com/compose/){:target="_blank"} e os documentos de [instalação](https://docs.docker.com/compose/install/){:target="_blank"} para ele.
+Dois são os pré-requisitos de instalação: `docker` e `docker-compose`, ambos da *docker inc.*. *Docker* possui um rico ambiente de documentação que pode ser acessado [aqui](docs.docker.com){:target="_blank"}. Em se tratando de instalação, mais informações podem ser obtidas [aqui](docs.docker.com/engine/install/){:target="_blank"}. O mesmo vale para [docker-compose](docs.docker.com/compose/){:target="_blank"} e os documentos de [instalação](https://docs.docker.com/compose/install/){:target="_blank"} para ele.
 
-Ademais, em se tratando de instalação do *docker* é importante saber que a arquitetura inicial exigia que ela fosse feita como super usuário (root / administrador). A partir da versão 19.03 essa exigência foi alterada, permitindo a instalação do *docker* com usuário comum. Tal assunto pode ser visto [aqui](https://docs.docker.com/engine/security/rootless/){:target="_blank"}.
+Ademais, em se tratando de instalação do `docker` é importante saber que a arquitetura inicial exigia que ela fosse feita como super usuário (root / administrador). A partir da versão 19.03 essa exigência foi alterada, permitindo a instalação com usuário sem privilégios de root / administrador. Tal assunto pode ser visto [aqui](https://docs.docker.com/engine/security/rootless/){:target="_blank"}.
 
-Além disso, é comum que após a instalação do *docker*, no caso em que se opte por executá-lo como super usuário, o usuário responsável por executá-lo seja incluído no grupo `docker`. Assim, não será necessário prefaciar o comando `docker` com `sudo`. Mais detalhes [aqui](https://docs.docker.com/engine/install/linux-postinstall/){:target="_blank"}.
+Além disso, é comum que após a instalação do `docker`, no caso em que se opte por executá-lo como super usuário, o usuário responsável por executá-lo seja incluído no grupo `docker`. Assim, não será necessário prefaciar o comando `docker` com `sudo`. Mais detalhes [aqui](https://docs.docker.com/engine/install/linux-postinstall/){:target="_blank"}.
 
 [⇡](#introdução)
 
 ### Primeira execução
 
-A melhor forma para validar a instalação do *docker* é realizar uma primeira execução de uma imagem chamada *hello-world* usando o comando `docker container run hello-world`. Nesse caso, meu usuário foi incluído ao grupo `docker`, removendo a necessidade de prefaciar o comando com `sudo`.
+A melhor forma para validar a instalação do `docker` é realizar uma primeira execução de uma imagem chamada `hello-world`, usando o comando `docker container run hello-world`. Nesse caso, meu usuário foi incluído ao grupo `docker`, removendo a necessidade de prefaciar o comando com `sudo`.
 
 ~~~ shell
 Unable to find image 'hello-world:latest' locally
@@ -100,24 +100,23 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
-
-#
-# obtendo esse retorno, a instalação do *docker* foi um sucesso.
-#
 ~~~
 
-Esse é o retorno de uma execução que foi feita pela primeira vez com referência à imagem `hello-world`. As cinco primeiras linhas nos indicam isso porque nelas está registrado a tentativa do *docker* de buscar a imagem, que segue o seguinte procedimento:
+Esse é o retorno de uma execução com sucesso e que foi feita pela primeira vez utilizando a imagem `hello-world`. As cinco primeiras linhas nos indicam isso porque nelas está registrada a tentativa do `docker` de encontrar uma imagem. Nesse procedimento segue os seguintes passos:
 
-1. primeiro busca-se a imagem no repositório local. No caso acima, não foi encontrada, `Unable to find image 'hello-world:latest' locally`;
-2. segundo, caso não encontrando no primeiro passo, busca-se no repositório público.
+1. em primeiro lugar, busca-se a imagem no repositório local. No caso acima, não foi encontrada, `Unable to find image 'hello-world:latest' locally`;
+2. em segundo, caso não encontrando no primeiro passo, busca-se no repositório público;
+3. por fim, se a imagem não for encontrada em nenhum desses dois locais, o comando não será executado.
 
-O repositório oficial do *docker* encontra-se [aqui](hub.docker.com){:target="_blank"} e nele imagens oficiais de ferramentas, aplicações e sistemas operacionais são armazenadas e disponibilizadas para uso geral. Ademais, qualquer usuário pode incluir imagens no repositório, seguindo as políticas específicas de assinatura, e nesse sentido imagens não oficiais também estão disponíveis.
+O repositório oficial do `docker` encontra-se [aqui](hub.docker.com){:target="_blank"} e nele imagens oficiais de ferramentas, aplicações e sistemas operacionais são armazenados e disponibilizados para uso geral. Ademais, qualquer usuário pode incluir imagens no repositório, seguindo as políticas específicas de assinatura, e nesse sentido imagens não oficiais também estão disponíveis.
 
-Imagens não oficinais são imagens que não tem uma garantia da sua finalidade, pois podem traz algum malware. Lembre-se que qualquer um pode disponibilizar imagens no repositório do *docker*, sem curadoria da *docker inc*, e o download é feito pela internet. Esses fatores colocam a exigência de garantir que o que está sendo executado é seguro.
+Imagens não oficinais são imagens que não tem uma garantia da sua finalidade, pois podem trazer algum malware. Lembre-se que qualquer um pode disponibilizar imagens no repositório do `docker`, sem curadoria da *docker inc*, e o download é feito pela internet. Esses fatores colocam a exigência de garantir que o que está sendo executado é seguro.
 
-Vinculada a imagem existem duas informações que precisam ser observadas. A *tag* é utilizada para indicar a versão da imagem e quando não informada é utilizada `latest`. Dependendo do gerenciamento da imagem, tags marcam ciclos de atualização distintos. Por exemplo, na imagem do *kalilinux* existe uma *tag* chamada *kali-rolling* que indica que a imagem é semanalmente atualizada com novas ferramentas e versões. E existe *kali-last-release* que segue uma atualização a cada quatro meses. *Digest* é outra informação importante, pois pode ser utilizado para validar se a imagem que chegou até o repositório local não foi adulterada no caminho. 
+As imagens trazem alguns metadados, dentre os quais cabe destacar: `tag` e `digest`. A `tag` é utilizada para indicar a versão da imagem, cuja atribuição é feita no momento da geração. `tag` funciona como um versionamento, podendo ser especificada uma `tag` toda vez que for utilizar uma imagem particular para construir um contêiner. Por exemplo: `docker container run hello-world:1.0`.
 
-As sucessivas execuções do comando `docker container run hello-world` ou `docker container run hello-world:latest` encontrará a imagem no repositório local, sem mostrar no log as primeiras cinco linhas analisadas acima. Isso muda caso a imagem mude ou a *tag*.
+Caso não seja usado `:alguma-tag`, por padrão `docker` busca a imagem marcada como `:latest`. Dependendo do gerenciamento da imagem, *tags* marcam ciclos de atualização distintos. Por exemplo, na imagem do `kalilinux` existe uma `tag` chamada `kali-rolling` que indica que a imagem é semanalmente atualizada com novas ferramentas e versões. E existe `kali-last-release` que segue uma atualização a cada quatro meses. `digest` é um outro metadado que merece nossa atenção, sendo visto geralmente quando uma imagem é trazida para o repositório local pela primeira vez. Na execução feita acima, a primeira da imagem `hello-world`, foi impresso o `digest:sha256:aa0cc8055b82dc2509bed2e19b275c8f463506616377219d9642221ab53cf9fe`, que significa um *hash* da imagem que saiu do repositório remoto e chegou no local. Lembremo-nos que essa transferência é feita pela internet e técnicas podem ser utilizadas para modificar o conteúdo que será entregue. Acerca disso ainda, é importante não confundir com os identificadores das imagens. Eles são também *hashes*, porém vinculados ao ambiente local. Nesse sentido, `digest` é uma informação que garante a integridade entre a imagem local e a sua origem.
+
+Por fim, cabe destacar que outras sucessivas execuções do comando `docker container run hello-world` ou `docker container run hello-world:latest` não buscarão mais a imagem no repositório remoto, pois a mesma encontra-se no repositório local.
 
 ~~~ shell
 $ docker container run hello-world
@@ -148,23 +147,21 @@ For more examples and ideas, visit:
 
 ### Imagem e contêiner
 
-Contêineres são instâncias de imagens, as quais, por sua vez, são criadas de acordo com a finalidade desejada para o contêiner, servindo como um protótipo. *Docker* possui uma funcionalidade para compilação de imagens a partir de arquivo de instruções, chamado de *dockerfile*. Entra em jogo o conceito de infraestrutura como código, pela qual a configuração da infraestrutura de ambientes é feita por meio de arquivos de instruções. 
-
-Um arquivo `dockerfile` suporta uma série de instruções, que podem ser conferidas [aqui](https://docs.docker.com/engine/reference/builder/){:target="_blank"}, mas uma versão básica de um arquivo seria:
+Contêineres são instâncias de imagens, as quais, por sua vez, são criadas de acordo com uma finalidade que se deseja obter executando um contêiner, ou seja, imagens são protótipos para contêineres. `Docker` possui uma funcionalidade para compilação de imagens a partir de arquivo de instruções, chamado de `dockerfile`. Por sua vez, o conceito de infraestrutura como código, `IaC`, entra em cena. De modo breve, `IaC` é a capacidade que algumas ferramentas tem de criar e configurar ambientes a partir de arquivos de instruções, a partir de código. Em tese, os ambientes são sempre criados e configurados igualmente seguindo as instruções dos arquivos em qualquer ambiente que os hospede. Um arquivo `dockerfile` suporta uma série de instruções, que podem ser conferidas [aqui](https://docs.docker.com/engine/reference/builder/){:target="_blank"}, mas uma versão básica de um arquivo seria:
 
 ~~~ dockerfile
 FROM <imagem>:<tag>
-
 RUN <instala dependências>
-
 CMD <comandos que são executados quando há uma solicitação de execução de contêiner, `docker container run`>
 ~~~
 
-A partir de um `dockerfile`, pode-se executar o comando `docker image build`, o qual analisará o arquivo e compilará uma imagem. A partir dessa funcionalidade o *docker* tornou-se uma poderosa ferramenta de automação para criação de ambientes com grande relevância ao longo do processo de integração e entrega contínuos. 
+Com base nessa estrutura básica, a instrução `FROM` é utilizada para referenciar uma imagem mais básica que dará suporte a construção da imagem desejada. Portanto, geralmente uma imagem depende de outra imagem. Geralmente, essas imagens bases possuem o mínimo de recursos de um sistema operação. A instrução `RUN` permite com que componentes sejam instalados em cima da versão *enxuta* em vista de adaptar a primeira imagem aos objetivos que se deseja com os contêineres gerados a partir dessa imagem.
 
-O `dockerfile` e a funcionalidade de compilação de imagens do *docker* garantem que todas as imagens serão criadas com as mesmas características, as quais são registradas no arquivo de instruções, não importando o ambiente que hospede os contêineres. Isso permite com que a aplicação seja isolada desse ambiente com todas as suas dependências e integrada ao longo de todo o processo de desenvolvimento até a entrega do artefato final. Reduzindo, com isso, a famosa situação *na-minha-máquina-o-problema-não-acontece*.
+`FROM` e `RUN` são instruções que operam no escopo de uma imagem. Inclusive, durante a construção de uma imagem ao executar um desses comandos um contêiner temporário é construído para que seja executado o comando e uma imagem é gerada, com as novas modificações, e a partir da qual as demais instruções do arquivo de instruções serão executadas. Por conta disso, `FROM` e `RUN` são instruções que tem o seu campo de ação delimitado pelo escopo da imagem. Diferente, por exemplo, da instrução `CMD`, pela qual é possível executar comandos no escopo do contêiner gerado.
 
-Ainda sobre imagens, elas devem ser consideradas imutáveis e com algum grau de efemeridade. Recomenda-se que a cada modificação o arquivo de instruções seja modificado e a imagem recriada, evitando-se, assim, inconsistências.
+A partir de um `dockerfile`, pode-se executar o comando `docker image build`, a partir do qual uma análise do arquivo de instruções ocorrerá e consequentemente a imagem será compilada. Sem dúvida, essa é a funcionalidade que tornou o `docker` popular para auxiliar em processos de automação de ambientes para integração e entrega contínuos, não obstante tenha sido a primeira ferramente para isso. O `dockerfile` e a funcionalidade de compilação de imagens do *docker* garantem que todas as imagens serão criadas com as mesmas características, as quais são registradas no arquivo de instruções, não importando o ambiente que hospede os contêineres. Isso permite com que a aplicação seja isolada desse ambiente com todas as suas dependências e integrada ao longo de todo o processo de desenvolvimento até a entrega do artefato final. Reduzindo, com isso, a famosa situação *na-minha-máquina-o-problema-não-acontece*.
+
+Se não devemos ter apego aos contêineres, gerando-os e destruindo-os à medida que for necessário, as imagens tem uma duração maior e tendem a ser versionadas quando mudanças não necessárias. Ainda sobre imagens, elas devem ser consideradas imutáveis e com algum grau de efemeridade. Recomenda-se que a cada modificação o arquivo de instruções seja modificado e versionado, e a imagem recriada com nova versão, evitando-se, assim, inconsistências.
 
 Para listar as imagens no ambiente local, usa-se o seguinte comando `docker image ls` ou `docker images`. E como resultado, temos:
 
@@ -174,7 +171,9 @@ REPOSITORY                          TAG        IMAGE ID       CREATED          S
 hello-world                         latest     feb5d9fea6a5   16 months ago    13.3kB
 ~~~
 
-Ao executar `docker container run hello-world`, o *docker* faz download da imagem para o repositório local, o qual será requisitado toda vez que um contêiner for executado com referência a `hello-world` ou `hello-world:latest`. Nos casos em que um volume grande de diversas imagens são utilizadas constantemente, é importante revisar o repositório local para controlar os recursos dispendidos em disco para isso.
+Lembrando que `REPOSITORY`, `TAG`, `IMAGE ID`, `CREATED` e `SIZE` são metadados utilizados para descrever um arquivo de imagens.
+
+Ao executar `docker container run hello-world`, o `docker` faz download da imagem para o repositório local, o qual será requisitado toda vez que um contêiner for executado com referência a `hello-world` ou `hello-world:latest`. Nos casos em que um volume grande de diferentes imagens são utilizadas constantemente, é importante revisar o repositório local para controlar os recursos dispendidos em disco para isso.
 
 Os contêineres são imutáveis e efêmeros, a criação e destruição deles não deve ser um problema. Por conta disso, alterações que devem persistir em todas as instâncias não devem ser feitas em um contêiner específico, mas no arquivo `dockerfile`, desde o qual gerou-se uma imagem que serve de base para os contêineres. Contêineres são ambientes isolados entre si e do ambiente que os hospeda, exceto quando definidos métodos de interação via stdin/stdout/stderr, volumes compartilhados, e TCP/UDP.
 
@@ -193,13 +192,26 @@ CONTAINER ID   IMAGE                 COMMAND           CREATED         STATUS   
 6630496d6fe8   hello-world           "/hello"          4 seconds ago   Exited (0) 3 seconds ago             laughing_carver
 ~~~
 
+Como já vimos para imagens, `CONTAINER ID`, `IMAGE`, `COMMAND`, `CREATED`, `STATUS`, `PORTS`, `NAMES` são metadados utilizados para descrever um contâiner. `CONTAINER ID` é um dos mais utilizados para referenciar um contêiner quando utilizar alguma das flags do comando `docker`, por exemplo, `docker container stop 6630496d6fe8`. `IMAGE` indica qual imagem o contêiner usa como base. `COMMAND` indica o comando que é executado quando o contêiner inicia a execução. Geralmente um contêiner tem uma função específica, realizada pela execução de um programa que estará descrito nesse metadado. Contêiners são instâncias de imagens que podem assumir alguns estados, quais sejam, `created`, `restarting`, `running`, `removing`, `paused`, `exited` and `dead`. Esses estados são indicados no metadado `STATUS`. Nesse exemplo, o estado `exited` indica que o programa executando dentro do contêiner encerrou a execução e retornou um código. Esse código pode indicar execução correta ou incorreta do programa. `PORTS` é um metadado que indicará se o contêiner faz alguma ligação por porta com o `host` que o hospeda. Geralmente, programas do tipo servidores farão uma ligação com o `host`, compartilhando o serviço por meio de uma ligação entre portas (porta-do-host:porta-do-contêiner). Nesses casos será indicado qual ip e porta do host e do contêiner estão ligados. `NAMES` é uma alternativa para `CONTAINER ID`. Quando não especificado, `docker` gera um nome por conta própria. Caso se queira atribuir um nome usa-se a *flag* `--name`. 
+
+
+~~~ shell
+$ `docker run --name oi-mundo hello-world`
+$ docker ps -a
+CONTAINER ID   IMAGE                                             COMMAND                  CREATED         STATUS                     PORTS     NAMES
+48222d0fc147   hello-world                                       "/hello"                 7 seconds ago   Exited (0) 6 seconds ago             oi-mundo
+~~~
+
 [⇡](#introdução)
 
 ### Básico sobre cliente docker, linha de comando
 
-*Docker* funciona em uma arquitetura cliente-servidor: um cliente, geralmente linha de comando, solicita via *rest* *api* para o servidor, *daemon*, que execute algum comando. Embora existam outros clientes, a interface de linha de comando (cli - command line interface) é o cliente mais comum e versátil e uma lista completa das *flags* é encontrada [aqui](https://docs.docker.com/engine/reference/commandline/cli/){:target="_blank"}.
+`Docker` funciona em uma arquitetura cliente-servidor: um cliente, geralmente linha de comando, solicita via *rest* *api* para o servidor, *daemon*, que execute algum comando. Embora existam outros clientes, a interface de linha de comando (cli - command line interface) é o cliente mais comum e versátil. As *flags* que adaptam as execuções do comando `docker` podem ser encontradas [aqui](https://docs.docker.com/engine/reference/commandline/cli/){:target="_blank"}.
 
-`docker container run <image>` é um comando que solicita ao *daemon* que crie um container, utilizando a imagem informada, e que esse contêiner seja executado. No exemplo que estamos utilizando até aqui, o contêiner é executado e se encerra porque o processo principal do contêiner executou a sua função. Além disso, a imagem também fica registrada no repositório local. Para removê-la, usa-se o seguinte comando `docker image rm hello-world`. No entanto, um contêiner ainda faz referência a essa imagem e por isso obtemos a seguinte mensagem `Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container <container ID> is using its referenced image <image ID>`.
+`docker container run <image>` é um comando que inicia uma sequência de comandos ao `daemon`: obter uma imagem, caso ela não exista no repositório local; criar um contêiner baseado nessa imagem; iniciar o contêiner. No exemplo utilizado até aqui, o contêiner é iniciado e logo se encerra porque o processo principal executado ao iniciar o contêiner foi concluído. Quando o contêiner encerra a função para a qual ele foi iniciado, geralmente essa informação está no metadado `COMMAND`, ele encerra o seu ciclo de vida. No entanto, o contêiner não é excluído,
+
+
+No exemplo que estamos utilizando até aqui, o contêiner é executado e se encerra porque o processo principal do contêiner executou a sua função. Além disso, a imagem também fica registrada no repositório local. Para removê-la, usa-se o seguinte comando `docker image rm hello-world`. No entanto, um contêiner ainda faz referência a essa imagem e por isso obtemos a seguinte mensagem `Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container <container ID> is using its referenced image <image ID>`.
 
 Para listar os contêineres encerrados usa-se `docker container ls -a` ou `docker ps -a` ou ainda `docker container ls -a | grep hello-world`. Nesse última caso, `| grep hello-world` filtra o retorno pela palavra *hello-world*.
 

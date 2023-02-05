@@ -8,9 +8,10 @@ language: pt-br
 ---
 ## Introdução
 
-Esta é a segunda parte de um projeto de introdução ao docker e docker compose. Na primeira parte, exploramos conceitos de conteinerização e funcionalidades do docker em contêineres sem orquestração, tais como: criar arquivos de instruções, compilar images, diferentes maneiras de executar um contêiner, de encerrá-lo ou interagir com ele.
+Esta é a segunda parte de um projeto de introdução ao *docker* e *docker compose*. Na primeira parte, exploramos conceitos de conteinerização e funcionalidades do *docker* em contêineres sem orquestração, tais como: criar arquivos de instruções, compilar images, diferentes maneiras de executar um contêiner, de encerrá-lo ou interagir com ele.
 
-Agora, avançaremos um pouco na complexidade e incluiremos a orquestração no assunto. A seguir, os tópicos abordados nesta parte e o link para as outras duas.
+Agora, avançaremos um pouco na complexidade e incluiremos a orquestração no assunto. A seguir, o indíce de tópicos desta parte e links para as parte 1 e 2.
+os tópicos abordados nesta parte e o link para as outras duas.
 
 * [Parte 1]({% post_url 2023-01-28-docker-uma-introducao-p1 %}){:target="_blank"};
 * [Parte 2](#parte-2)
@@ -29,13 +30,13 @@ Agora, avançaremos um pouco na complexidade e incluiremos a orquestração no a
 
 ### Começando com docker compose
 
-Em algumas situações apenas um contêiner não é suficiente para atender a finalidade desejada, seja porque necessita-se de vários serviços que executam em distintos contêineres, seja porque necessita-se dimensionar algum serviço aumentando ou diminuindo sua disponibilidade. Nesse sentido, *docker compose* surge como uma ferramenta para definir e executar múltiplas aplicações em *docker* contêiner. Ele oferece algumas características:
+Em algumas situações, apenas um contêiner não é suficiente para atender a finalidade desejada, seja porque necessita-se de vários serviços que executam em distintos contêineres, seja porque necessita-se dimensionar algum serviço aumentando ou diminuindo sua disponibilidade. Nesse sentido, *docker compose* surge como uma ferramenta para definir e executar múltiplas aplicações em *docker* contêiner. Ele oferece algumas características:
 
-* permitir uma composição complexa de múltiplos contêineres em um único host;
+* permitir uma composição complexa de múltiplos contêineres em um único *host*;
 * isolamento das cargas de trabalho pelo *docker*;
 * reutilização de configuração de ambientes (*IaC*);
 
-Para testar se o docker compose está instalado corretamente, use o comando `docker compose version`. O resultado tem que ser `Docker Compose version v2.2.3`. `v2` é a última versão do docker compose, que vem em substituição a versão `v1`. Geralmente a `v1` ainda está disponível pelo alias `docker-compose`.
+Para testar se o *docker compose* está instalado corretamente, use o comando `docker compose version`. O resultado tem que ser `Docker Compose version v2.2.3`. `v2` é a última versão do *docker compose*, que vem em substituição a versão `v1`. Geralmente a `v1` ainda está disponível pelo alias `docker-compose`.
 
 ~~~ shell
 $ docker-compose version
@@ -45,23 +46,17 @@ CPython version: 3.8.10
 OpenSSL version: OpenSSL 1.1.1f  31 Mar 2020
 ~~~
 
-Enquanto que a `v1` foi escrita em *python*, a `v2` foi escrita em *go*, se incorporando ao ecossistema do *docker* em *go*. Mais informações sobre as diferenças entre as versões podem ser encontradas [aqui](https://www.docker.com/blog/announcing-compose-v2-general-availability/)
-
-Se por ventura `docker compose` não estiver disponível, siga as instruções abaixo para instalá-lo.
+Enquanto a `v1` foi escrita em *python*, a `v2` foi em *go*, se incorporando ao ecossistema do *docker* em *go*. Mais informações sobre as diferenças entre as versões podem ser encontradas [aqui](https://www.docker.com/blog/announcing-compose-v2-general-availability/). Se por ventura `docker compose` não estiver disponível, siga as instruções abaixo para instalá-lo.
 
 ~~~ shell
 $ mkdir -p ~/.docker/cli-plugins/
-$ curl -SL https://github.com/docker/compose/releases/download/
-v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/
-docker-compose
+$ curl -SL https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
 $ chmod +x ~/.docker/cli-plugins/docker-compose
 $ docker compose version
 Docker Compose version v2.2.3
 ~~~
 
-Iniciemos por um exercício com o objetivo de executar um contêiner com um servidor web, usando o comando `docker run --rm -p 8080:80 --name nginx-compose nginx`. Nele usa-se uma imagem oficial `nginx`,  atribui-se um nome à instância do contêiner `nginx-compose`, faz-se a ligação das portas `8080` no host, `80` no contêiner, e ativa-se a *flag* `--rm`, que cumpre a função de remover o contêiner assim que ele encerrar a sua execução.
-
-Como não foi utilizada a *flag* `-d`, ao iniciar o contêiner o stream de saída começa a imprimir na tela informações sobre o serviço web.
+Com o docker *compose instalado*, iniciemos por um exercício com o objetivo de executar um contêiner com um servidor web, usando o comando `docker run --rm -p 8080:80 --name nginx-compose nginx`. Nele usa-se uma imagem oficial `nginx`,  atribui-se um nome à instância do contêiner `nginx-compose`, faz-se a ligação das portas `8080` no *host*, `80` no contêiner, e ativa-se a *flag* `--rm`, que cumpre a função de remover o contêiner assim que ele encerrar a sua execução. Como não foi utilizada a *flag* `-d`, ao iniciar o contêiner o stream de saída começa a imprimir na tela informações sobre o serviço web.
 
 ~~~ log
 2023/01/29 00:58:56 [notice] 1#1: using the "epoll" event method
@@ -71,11 +66,9 @@ Como não foi utilizada a *flag* `-d`, ao iniciar o contêiner o stream de saíd
 2023/01/29 00:58:56 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
 2023/01/29 00:58:56 [notice] 1#1: start worker processes
 2023/01/29 00:58:56 [notice] 1#1: start worker process 29
-2023/01/29 00:58:56 [notice] 1#1: start worker process 30
-2023/01/29 00:58:56 [notice] 1#1: start worker process 31
 ~~~
 
-E para validar se o serviço foi iniciado corretamente:
+E para validar se o serviço foi iniciado corretamente, podemos executar uma requisição `http` ao servidor. Lembremos que do lado do *host*, o acesso é pela porta `8080`, que está ligada com a porta `80` do contêiner.
 
 ~~~ shell
 $ curl 127.0.0.1:8080
@@ -104,7 +97,7 @@ Commercial support is available at
 </html>
 ~~~
 
-Além disso, podemos incluir uma página no nosso servidor. Por exemplo, esta:
+Além disso, podemos incluir uma página no nosso servidor. Criando, por exemplo, um *hello world* em html.
 
 ~~~ shell
 ~/hello-world-page$ touch hello-world.html
@@ -119,7 +112,7 @@ Além disso, podemos incluir uma página no nosso servidor. Por exemplo, esta:
 ~/hello-world-page$ echo "</html>" >> hello-world.html
 ~~~
 
-Agora, execute `docker run --rm -p 8080:80 --name nginx-compose -v $(pwd)/static-site:/usr/share/nginx/html nginx`. Um diretório `static-site` foi criado no diretório `hello-world-page`, no diretório atual onde o comando foi executado, representado por `$(pwd)`. Agora copie o arquivo `hello-world.html` para `static-site`. Em seguida: `curl 127.0.0.1:8080/hello-world.html`.
+Em seguida, executando o comando `docker run --rm -p 8080:80 --name nginx-compose -v $(pwd)/static-site:/usr/share/nginx/html nginx`, pelo qual um diretório no contêiner é mapeado com um diretório no *host*, permitindo, assim, com que arquivos sejam compartilhadas e editados, neste caso. Em outros situações, pode-se negar a permissão de edição dos arquivos. No *host*, no diretório atual, `$(pwd)`, em que o comando foi executado, `hello-world-page`, caso não exista, será criado um diretório chamado `static-site`. Do outro lado, `static-site` é o diretório que o servidor do *nginx* consulta para os conteúdos estáticos. Portanto, precisamos copiar o arquivo `hello-world.html` para lá e assim: `curl 127.0.0.1:8080/hello-world.html`.
 
 ~~~ shell
 ~/hello-world-page/static-site$ curl 127.0.0.1:8080/hello-world.html
@@ -134,9 +127,9 @@ Agora, execute `docker run --rm -p 8080:80 --name nginx-compose -v $(pwd)/static
 </html>
 ~~~ 
 
-A diferença entre os dois comandos é `-v $(pwd)/static-site:/usr/share/nginx/html`, através do qual criou-se uma ligação entre o diretório padrão do nginx com um diretório no host. Com uma configuração operacional, podemos passá-la para um arquivo de instruções do *docker compose*, conhecido como `docker-compose.yml`.
+Com todos as configurações necessárias para executar um contêiner como planejado, podemos adaptar essas configurações para um arquivo de instruções do *docker compose*, conhecido como `docker-compose.yml`. Primeiro vamos criar o arquivo e imprimir nele as configurações. Em seguinda, vamos executar o comando `docker compose up` no mesmo diretório onde o arquivo foi criado. *Docker compose* busca por padrão o arquivo `docker-compose.yml`, porém é possível informar outro arquivo usando a flag `-f`, por exemplo `docker compose -f arquivo-alternativo.yml up`
 
-~~~ docker
+~~~ shell
 ~/hello-world-page$ touch docker-compose.yml
 ~/hello-world-page$ echo \
 "services:
@@ -148,9 +141,8 @@ A diferença entre os dois comandos é `-v $(pwd)/static-site:/usr/share/nginx/h
       - ./static-site:/usr/share/nginx/html" > docker-compose.yml
 ~~~
 
-Então executamos o comando `docker compose up`.
-
-~~~ log 
+~~~ shell
+~/hello-world-page$ docker compose up
 [+] Running 2/0
  ⠿ Network hello-world-page_default    Created                                                                                              0.0s
  ⠿ Container hello-world-page-nginx-1  Created                                                                                              0.0s
@@ -190,7 +182,7 @@ CONTAINER ID   IMAGE     COMMAND               CREATED            STATUS        
 af3fe9ffc3e1   nginx    "/docker-entrypoint.…" About an hour ago  Up About an hour 0.0.0.0:8080->80/tcp, :::8080->80/tcp  hello-world-page-nginx-1
 ~~~
 
-Então, copiar o arquivo de configurações para servir de base com o comando: `docker cp hello-world-page-nginx-1:/etc/nginx/nginx.conf nginx.conf`. Lembre-se que `hello-world-page-nginx-1` é o nome do contêiner e que o arquivo gerado, `nginx.conf`, será gerado no diretório atual onde o comando for executado. No caso deste exercício, consideramos `hello-world-page`.
+Então, copiar o arquivo de configurações para servir de base, com o comando: `docker cp hello-world-page-nginx-1:/etc/nginx/nginx.conf nginx.conf`. Lembre-se que `hello-world-page-nginx-1` é o nome do contêiner e que o arquivo gerado, `nginx.conf`, será gerado no diretório atual onde o comando for executado. No caso deste exercício, consideramos `hello-world-page`.
 
 ~~~ shell
 ~/hello-world-page$ ls -l
@@ -239,7 +231,7 @@ REPOSITORY                               TAG        IMAGE ID       CREATED      
 custom-nginx                             0.1        0647169b49d4   10 hours ago   142MB
 ~~~
 
-Por fim, criar um `docker-compose.yml` com referência a imagem criada acima, e subí-lo.
+Por fim, criar um `docker-compose.yml` com referência a imagem criada acima, e executá-la.
 
 ~~~ shell
 ~/hello-world-page$ echo \
@@ -267,7 +259,9 @@ hello-world-page-nginx-1  | 2023/01/29 13:41:31 [notice] 1#1: using the "epoll" 
 hello-world-page-nginx-1  | 2023/01/29 13:41:31 [notice] 1#1: nginx/1.23.3
 ~~~
 
-Esse foi um exemplo simples de como iniciar uma aplicação utilizando *docker compose*, ainda sem usarmos todo o potencial da ferramente: ambientes complexos e dimensionamento.  Antes de avançarmos em direção a isso, vamos retomar dois aspectos da arquitetura do *docker* e *docker compose*, consequentemente, a saber, volumes e redes.
+Esse foi um exemplo simples de como iniciar uma aplicação utilizando *docker compose*, ainda sem usarmos todo o potencial da ferramente: ambientes complexos e dimensionamento.  Antes de avançarmos em direção a isso, vamos retomar dois aspectos da arquitetura do *docker* e *docker compose*, a saber, volumes e redes.
+
+[⇡](#introdução)
 
 ### Volumes com docker compose
 
@@ -279,7 +273,7 @@ Os volumes tem as seguintes características:
 * volumes não estão ligados a um único contêiner, mas podem ser vinculados a distintos;
 * volumes podem ser ligados a mais de um contêiner ao mesmo tempo;
 * volumes podem ser locais ou remotos;
-* volumes são abstrações, isto é, não estão ligados diretamente ao sistema de arquivos locais, sendo gerenciado pelo *docker* e permite que eles sejam movidos.
+* volumes são abstrações, isto é, não estão ligados diretamente ao sistema de arquivos locais, mas são gerenciados pelo *docker*.
 
 Já vimos uma maneira simples de vincular um diretório externo a um diretório interno no container (dir-host:dir-contêiner) utilizando a *flag* `-v` tal como `-v $(pwd)/static-site:/usr/share/nginx/html` ou no *docker-compose*
 
@@ -288,11 +282,11 @@ volumes:
       - ./static-site:/usr/share/nginx/html
 ~~~
 
-Com isso `/static-site` diretório compartilha espaço com `/usr/share/nginx/html` e outros contêineres podem se ligar ao mesmo diretório no host. No entanto, essa caso de uso coloca uma dependência na estrutura de diretórios e do sistema operacional.
-
-Outra maneira é criar um volume usando `docker volume create exemplo-de-volume`.
+Com isso o diretório `/static-site` compartilha espaço com o diretório `/usr/share/nginx/html` e outros contêineres podem se ligar ao mesmo diretório no host. No entanto, nesse caso de uso há uma dependência à estrutura do sistema de arquivos e ao sistema operacional. Outra maneira é criar um volume usando `docker volume create exemplo-de-volume`, pelo qual atingimos um grau de abstração em relação à estrutura do sistema de arquivos e ao sistema operacional. Ao fim do trecho a seguir, fazer uma inspeção no volume `exemplo-de-volume` usando o camando `docker volume inspect`, pelo qual é exibido o seu arquivo de configurações. Dentre as configurações de um volume, temos `mountpoint` que indica onde no sistema de arquivos do *host* o volume está armazenado, embora seja o *docker* quem o gerencie.
 
 ~~~ shell
+~/hello-world-page$ docker volume create exemplo-de-volume
+exemplo-de-volume
 ~/hello-world-page$ docker volume ls
 DRIVER    VOLUME NAME
 local     exemplo-de-volume
@@ -310,8 +304,9 @@ local     exemplo-de-volume
 ]
 ~~~
 
-A partir da inspeção do volume, vemos informações funcionais tal como `"Mountpoint": "/var/lib/docker/volumes/exemplo-de-volume/_data"`. E podemos fazer um teste vinculando esse volume a um contêiner.
+Agora jápodemos vincular o volume criado a um contêiner, usando `--mount`. Por um lado, indica-se a origem, que no nosso caso é o nome do volume `exemplo-de-volume`, por outro lado, o alvo, ou seja, em qual diretório o volume será montado no contêiner. Ao fim, temos `--mount source=exemplo-de-volume,target=/storage`. No exemplo a seguir, o contêiner executa um terminal bash, no qual um arquivo chamado `arquivo.teste` é criado no volume. Em seguida, um outro contêiner é gerado, vinculado ao mesmo volume e, como se espera, o arquivo deve ser compartilhado entre os contêineres.
 
+* primeiro terminal bash
 ~~~ shell
 ~/hello-world-page$ docker run -it --rm --name exemplo-volume-container --mount source=exemplo-de-volume,target=/storage bash
 bash-5.2# ls -l
@@ -329,9 +324,7 @@ bash-5.2# cat arquivo.teste
 arquivo.teste
 bash-5.2# 
 ~~~
-
-O arquivo criado acima está persistido no volume vinculado ao contêiner. Agora tentemos fazer um teste, construir outro contêiner vinculado ao mesmo volume.
-
+* segundo terminal bash
 ~~~ shell
 docker run -it --rm --name exemplo-volume-container-dois --mount source=exemplo-de-volume,target=/storage bash
 bash-5.2# 
@@ -345,7 +338,7 @@ bash-5.2# cat arquivo.teste
 arquivo.teste
 ~~~
 
-Vamos fazer um outro teste: executar dois contêineres que acessem simultaneamente o mesmo volume.
+Em outro teste, vamos executar dois contêineres acessando o mesmo volume de modo tal que durante certo tempo eles acessem simultaneamente o mesmo volume. O teste é simples, mas atinge o objetivo de mostrar que o mesmo volume não fica restrito ao contêiner que o acesse primeiro.
 
 ~~~ shell
 ~/hello-world-page$ docker run -d -it --name container-2 --mount source=exemplo-de-volume,target=/storage bash -c "for i in \$(seq 1 1 100000); do echo \$HOSTNAME \$i >> /storage/\$HOSTNAME.txt; done"
@@ -659,3 +652,7 @@ https://stackoverflow.com/questions/25049667/how-to-generate-a-json-log-from-ngi
 https://docs.docker.com/storage/volumes/
 
 https://www.docker.com/blog/announcing-compose-v2-general-availability/
+
+https://docs.docker.com/compose/reference/
+
+https://docs.docker.com/storage/bind-mounts/
