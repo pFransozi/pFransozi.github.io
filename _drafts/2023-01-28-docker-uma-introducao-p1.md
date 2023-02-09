@@ -194,7 +194,6 @@ CONTAINER ID   IMAGE                 COMMAND           CREATED         STATUS   
 
 Como já vimos para imagens, `CONTAINER ID`, `IMAGE`, `COMMAND`, `CREATED`, `STATUS`, `PORTS`, `NAMES` são metadados utilizados para descrever um contâiner. `CONTAINER ID` é um dos mais utilizados para referenciar um contêiner quando utilizar alguma das flags do comando `docker`, por exemplo, `docker container stop 6630496d6fe8`. `IMAGE` indica qual imagem o contêiner usa como base. `COMMAND` indica o comando que é executado quando o contêiner inicia a execução. Geralmente um contêiner tem uma função específica, realizada pela execução de um programa que estará descrito nesse metadado. Contêiners são instâncias de imagens que podem assumir alguns estados, quais sejam, `created`, `restarting`, `running`, `removing`, `paused`, `exited` and `dead`. Esses estados são indicados no metadado `STATUS`. Nesse exemplo, o estado `exited` indica que o programa executando dentro do contêiner encerrou a execução e retornou um código. Esse código pode indicar execução correta ou incorreta do programa. `PORTS` é um metadado que indicará se o contêiner faz alguma ligação por porta com o `host` que o hospeda. Geralmente, programas do tipo servidores farão uma ligação com o `host`, compartilhando o serviço por meio de uma ligação entre portas (porta-do-host:porta-do-contêiner). Nesses casos será indicado qual ip e porta do host e do contêiner estão ligados. `NAMES` é uma alternativa para `CONTAINER ID`. Quando não especificado, `docker` gera um nome por conta própria. Caso se queira atribuir um nome usa-se a *flag* `--name`. 
 
-
 ~~~ shell
 $ `docker run --name oi-mundo hello-world`
 $ docker ps -a
@@ -208,16 +207,13 @@ CONTAINER ID   IMAGE                                             COMMAND        
 
 `Docker` funciona em uma arquitetura cliente-servidor: um cliente, geralmente linha de comando, solicita via *rest* *api* para o servidor, *daemon*, que execute algum comando. Embora existam outros clientes, a interface de linha de comando (cli - command line interface) é o cliente mais comum e versátil. As *flags* que adaptam as execuções do comando `docker` podem ser encontradas [aqui](https://docs.docker.com/engine/reference/commandline/cli/){:target="_blank"}.
 
-`docker container run <image>` é um comando que inicia uma sequência de comandos ao `daemon`: obter uma imagem, caso ela não exista no repositório local; criar um contêiner baseado nessa imagem; iniciar o contêiner. No exemplo utilizado até aqui, o contêiner é iniciado e logo se encerra porque o processo principal executado ao iniciar o contêiner foi concluído. Quando o contêiner encerra a função para a qual ele foi iniciado, geralmente essa informação está no metadado `COMMAND`, ele encerra o seu ciclo de vida. No entanto, o contêiner não é excluído,
+`docker container run <image>` é um comando que inicia uma sequência de outros comandos ao `daemon`: obter uma imagem, caso ela não exista no repositório local; criar um contêiner baseado nessa imagem; iniciar o contêiner. No exemplo utilizado até aqui, o contêiner é iniciado e logo se encerra porque o processo principal executado ao iniciar o contêiner foi concluído. Quando o contêiner encerra a função para a qual ele foi iniciado, geralmente essa informação está no metadado `COMMAND`, ele encerra o seu ciclo de vida. No entanto, o contêiner não é excluído, ele permace e pode ser visto acessando o comando `docker ps -a` e excluído utilizando o comando `docker container rm <contêiner-id>`. Além disso, a imagem também fica registrada no repositório local. Para removê-la, usa-se o seguinte comando `docker image rm hello-world` ou `docker rmi hello-world`. No entanto, um contêiner ainda faz referência a essa imagem e por isso obtemos a seguinte mensagem `Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container <container ID> is using its referenced image <image ID>`.
 
+Nesse caso, lista-se os contêineres encerrados utilizando os comandos acima ou podemos listar os contêineres encerrados filtrando pela imagem que se deseja remover, tal como em `docker container ls -a | grep hello-world`. `| grep hello-world` filtra o retorno pela palavra *hello-world*.
 
-No exemplo que estamos utilizando até aqui, o contêiner é executado e se encerra porque o processo principal do contêiner executou a sua função. Além disso, a imagem também fica registrada no repositório local. Para removê-la, usa-se o seguinte comando `docker image rm hello-world`. No entanto, um contêiner ainda faz referência a essa imagem e por isso obtemos a seguinte mensagem `Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container <container ID> is using its referenced image <image ID>`.
+Sabendo as informações sobre o(s) contêiner(es) que são dependentes da imagem que queremos remover, basta executar `docker container rm <id>` ou uma sequência de ids `docker container rm <id> <id> <id> <id>`. Os *ids* utilizados pelo `docker` em vários contextos são hashes únicos. Para facilitar o uso deles, é possível utilizar os primeiros três ou mais caracteres de um id para referenciá-lo. Supondo que o id do contêiner a ser removido seja *6630496d6fe8*, bastaria `docker container rm 663`. Acaso *663* não identifique um único objeto, mais um dígito precisa ser incluído.
 
-Para listar os contêineres encerrados usa-se `docker container ls -a` ou `docker ps -a` ou ainda `docker container ls -a | grep hello-world`. Nesse última caso, `| grep hello-world` filtra o retorno pela palavra *hello-world*.
-
-Sabendo as informações sobre o(s) contêiner(es) que são dependentes da imagem que queremos remover, basta executar `docker container rm <id>` ou uma sequência de ids `docker container rm <id> <id> <id> <id>`. Os ids utilizados pelo *docker* em vários contextos são hashes únicos. Para facilitar o uso deles, é possível utilizar os primeiros três ou mais caracteres de um id para referenciá-lo. Supondo que o id do contêiner a ser removido seja *6630496d6fe8*, bastaria `docker container rm 663`. Acaso *663* não identifique um único objeto, mais um dígito precisa ser incluído.
-
-Como *docker* suporta centenas de contêines e pode ser que uma grande quantidade deles esteja parado, para excluí-los usa-se o commando `docker container prune`. `Prune` é uma *flag* versátil que pode ser utilizado em vários contextos para fazer uma *limpeza* de objetos que não estão em um status de execução: `docker image prune`, `docker system prune`.
+Como `docker` suporta centenas de contêines e pode ser que uma grande quantidade deles esteja parado, para excluí-los usa-se o commando `docker container prune`. `Prune` é uma *flag* versátil que pode ser utilizada em vários contextos para fazer uma *limpeza* de objetos que não estão em um status de execução: `docker image prune`, `docker system prune`.
 
 Depois de remover o contêiner, será possível remover a image `hello-world`, e para confirmação utilize `docker image ls`. Imagens podem ser obtidas usando o comando `docker image pull hello-world`. E para consultar no repositório do *docker*, pode-se utilizar o comando `docker search hello-world`.
 
@@ -231,30 +227,30 @@ bitnami/nginx                Bitnami nginx Docker Image                      150
 ubuntu/nginx                 Nginx, a high-performance reverse proxy & we…   75                   
 ~~~
 
-Os primeiros registro da busca indicam sempre as distribuições oficiais, que devem ter prioridade caso você não tenha confiança em algum fornecedor especifico além do oficial. Com isso, busca-se garantir integridade da imagem e dos contêineres que serão gerados, reduzindo o risco de gerar algum problema no host ou na aplicação dependentes do contêiner. Atente-se também ao indicar de reconhecimento da comunidade,*stars*, desde o qual pode-se considerar que uma imagem é segura. 
+Os primeiros registros da busca indicam sempre as distribuições oficiais, que devem ter prioridade caso você não tenha confiança em algum fornecedor especifico além do oficial. Com isso, busca-se garantir integridade da imagem e dos contêineres que serão gerados, reduzindo o risco de gerar algum problema no host ou na aplicação dependentes do contêiner. Atente-se também ao indicar de reconhecimento da comunidade,*stars*, desde o qual pode-se considerar que uma imagem é segura. 
 
 Escolhida a imagem, já sabemos como proceder: `docker container run ngix`. Essa é a maneira mais simples, embora nesse comando existam outros processos subjacentes, tais como: `docker pull ngix`, `docker create ngix`, `docker container start ngix`.
 
-Note que ao executar `run nginx` o terminal congela logo após iniciar o contêiner. Isso é o comportamente padrão do *docker* em contêineres que executam tarefas persistentes, ou seja, o terminal fica vinculado a executação. Se executar o comando `docker ps` em outro terminal, o contêiner nginx estará em execução. Em alguns cenários, opta-se por executar o contêiner desvinculando-o do terminal. Para isso, usa-se o comando `docker container run -d nginx`. `-d` é a forma simplificada de `--deatach`, os quais modificam o comportamento do comando `docker run` para que o contêiner seja executado em *background* e que no terminal seja apenas impresso o *id* do contêiner.
+Note que ao executar `run nginx` o terminal congela logo após iniciar o contêiner. Isso é o comportamente padrão do `docker` em contêineres que executam tarefas persistentes, ou seja, o terminal fica vinculado a executação. Se executar o comando `docker ps` em outro terminal, o contêiner nginx estará em execução. Em alguns cenários, opta-se por executar o contêiner desvinculando-o do terminal. Para isso, usa-se o comando `docker container run -d nginx`. `-d` é a forma simplificada de `--deatach`, os quais modificam o comportamento do comando `docker run` para que o contêiner seja executado em *background* e que no terminal apenas seja impresso o *id* do contêiner.
 
 Em resumo: contêineres que executam processos persistêntes podem ser colocados em *background*, desvinculando-o do terminal que o executou: `docker container run -d nginx`. Parar um contêiner: `docker container stop <id ou nome>`. Remover um contêiner: `docker container rm <id ou nome>`, e um imagem: `docker imagem rm nginx`.
 
-Com o tempo é comum que o *docker* fique *entupido* de contêineres e imagens. Para resolver isso é importante fazer uma *limpeza* usando a *flag* `prune`: `docker container prune`, `docker image prune`. Ou ainda com a *flag* `--rm` junto ao comando `docker run`. Desse modo, *docker* removerá o contêiner logo em seguida ao fim de sua execução. Exemplo: `docker container run -it --rm ubuntu`.
+Com o tempo é comum que o `docker` fique *entupido* de contêineres e imagens. Para resolver isso é importante fazer uma *limpeza* usando a *flag* `prune`: `docker container prune`, `docker image prune`. Ou ainda com a *flag* `--rm` junto ao comando `docker run`. Desse modo, `docker` removerá o contêiner logo em seguida ao fim de sua execução. Exemplo: `docker container run -it --rm ubuntu`.
 
 [⇡](#introdução)
 
 ### Executar e encerrar contêineres
 
-Há diferentes *flags* que modificam o modo como um contêiner é executado e como interage com o terminal que o executou. A maneira mais simples para executar um contêiner é `docker run ubuntu`, embora nele estejam ocultos outros passos.
+Há diferentes *flags* que modificam o modo como um contêiner é executado e como ele interage com o terminal que o executou. A maneira mais simples para executar um contêiner é `docker run ubuntu`. Há, no entanto, implícito nesse comando outros que compõe o ciclo de criação de um contêiner. 
 
-1. já sabemos que se a imagem não estiver disponível localmente, *docker* irá buscá-la no repositório. Para verificar se uma imagem existe localmente podemos usar o comando `docker images ubuntu`. Caso não entre, é possível localizar a imagem no repositório `docker search ubuntu`. 
-2. Caso exista a imagem no repositório, `docker pull ubuntu` fará o trabalho de trazer a imagem para o repositório local.
+1. Já sabemos que se a imagem não estiver disponível localmente, `docker` irá buscá-la no repositório. Para verificar se uma imagem existe localmente podemos usar o comando `docker images ubuntu`. Se o retorno for vazio, pode-se tentar localizar a imagem no repositório online pelo comando `docker search ubuntu`. Importante destacar que esse comando utiliza apenas o `docker hub` como repositório de busca, embora existam outros. Nesses casos, pode-se fazer a busca pelo browser e utilizar o comando `docker pull <endereço-da-image>` para obtê-la;  
+2. Caso exista a imagem no repositório, `docker pull ubuntu` fará o trabalho de trazer a imagem para o repositório local. Nesse exemplo, busca-se uma imagem `ubuntu:latest` no repositório `docker hub`;
 3. Com imagem disponível localmente, `docker create ubuntu` irá criar um contêiner baseado na imagem, sem executá-lo. Nesse momento algumas *flags* podem ser usadas para modificar o comportamento do contêiner quando o mesmo for executado. Algumas delas discutiremos a seguir;
-4. `docker start <id>` executa o contêiner.
+4. `docker start <id>` executa o contêiner;
 
-`docker run ubuntu` abstrai todos esses passos e facilita a execução de contêineres. Ao executar esse comando, embora a imagem seja de um sistema operacional, o contêiner será encerrado logo após a inicialização. Talvez estivêssemos esperando um comportamente similar a uma máquina virtual, que permanece executando o sistema operacional mesmo que nenhum processo específico seja executado. Cabe destacar que contêineres diferem em vários aspectos de máquinas virtuais, inclusive nesse. Eles têm o propósito de isolar e executar processos específicos, incluindo aí tudo que é necessário para isso, e quando esse processo específico se encerra, junto com ele também o contêiner se encerrá.
+Ao executar esse comando, embora a imagem seja de um sistema operacional, o contêiner será encerrado logo após a inicialização. Talvez estivêssemos esperando um comportamente similar a uma máquina virtual, que permanece executando o sistema operacional mesmo que nenhum processo específico seja executado. Contêineres possuem despesas contínuas, ou seja, despesas que não estão ligadas diretamente a um serviço, menores do que um ambiente virtualizado. Eles têm o propósito de isolar e executar processos específicos, incluindo aí tudo que é necessário para isso, e quando esse processo específico se encerra, junto com ele também o contêiner se encerrá.
 
-No caso da imagem *ubuntu*, ela foi construída para executar um processo de *bash* quando inicializada sem um comando específico, o qual pode ser confirmado no registro do contêiner. 
+No caso da imagem `ubuntu`, ela foi construída para executar um processo de bash quando inicializada sem um comando específico. Confirmamos essa hipótese no registro de execução do contêiner.
 
 ~~~ shell
 docker ps -a
@@ -263,7 +259,7 @@ CONTAINER ID   IMAGE              COMMAND                  CREATED         STATU
 d1a6ef4dc22b   ubuntu             "bash"                   4 seconds ago   Exited (0) 3 seconds ago             eager_pike
 ~~~
 
-O comando executado no contêiner foi *bash* e ele encerrou a execução com código *0*, o que indica sucesso. No entanto, o contêiner se encerrou e não permitiu nenhuma interação, como se nada tivesse acontecido.
+O comando `bash` foi executado no contêiner, encerrando-se com código `0`, o que tende a indicar sucesso. Isso porque esses códigos não dependem do `docker` mas do retorno do programa executado. De todo modo, o contêiner se encerrou e não permitiu nenhuma interação, como se nada tivesse acontecido.
 
 ~~~ shell
 $ docker run ubuntu echo "echoing"
@@ -292,14 +288,14 @@ Retype new password: root
 passwd: password updated successfully
 ~~~
 
-Mas nem sempre a entrada padrão virá de um terminal. Pode, por exemplo, ser vinculado pelo *pipe* de um retorno do comando `echo "This is a piped input"`, como no exemplo a seguir.
+Mas nem sempre a entrada padrão virá de um terminal. Pode-se, por exemplo, vincular um *pipe* de um retorno de um comando, tal como `echo "essa entrada vem de um pipe"`, como no exemplo a seguir.
 
 ~~~ shell
-$ echo "This is a piped input" | docker run -i ubuntu cat
-This is a piped input
+$ echo "essa entrada vem de um pipe" | docker run -i ubuntu cat
+essa entrada vem de um pipe
 ~~~
 
-Ou ainda nesse outro caso, no qual a entrada padrão do contêiner é vinculado ao terminal e o comando passado como parâmetro o recebe e executa. A primeira linha é entrada de dados, a segunda, o retorno do comando `cat`.
+Ou ainda este outro caso, em que a entrada padrão do contêiner é vinculada ao terminal, recebendo um comando atribuído como parâmetro e executando-o. A primeira linha é entrada de dados, a segunda, o retorno do comando `cat`. Como foi atribuída a *flag* `-i`, o comando `cat` *prende* a execução, aguardando a interação.
 
 ~~~ shell
 $ docker run -i ubuntu cat
@@ -309,7 +305,7 @@ test docker
 test docker
 ~~~
 
-Nesse último caso, a entrada padrão do contêiner foi vinculado ao terminal que executou o processo. A primeira linha *docker test* foi digitada, a segunda, foi resultado do comando `cat`. Um último exemplo:
+Nesse último caso, a entrada padrão do contêiner foi vinculada ao terminal que executou o processo. A primeira linha *docker test* foi digitada, a segunda, foi resultado do comando `cat`. Um último exemplo:
 
 ~~~ shell
 $ docker run -i ubuntu rev
@@ -317,21 +313,20 @@ $ docker run -i ubuntu rev
 0987654321
 ~~~
 
-Embora nesses exemplos tenhamos conseguido interagir com comandos executados dentro do contêiner, enviando e recebendo dados, em certa situações é necessário interagir com um terminal dentro do contêiner. Nesse caso, é necessário alocar um *pseudo-TTY*, ou seja, um terminal emulado. Para isso, a *flag* utilizada é `--tty` ou `-t`.
+Embora nesses exemplos tenhamos conseguido interagir com comandos executados dentro do contêiner, enviando e recebendo dados, em certas situações é necessário interagir com um terminal dentro do contêiner. Nesse caso, é necessário alocar um *pseudo-TTY*, ou seja, um terminal emulado. Para isso, a *flag* utilizada é `--tty` ou `-t`.
 
 ~~~ shell
 $ docker run -t ubuntu
 root@c197f5486a62:/# 
 ~~~
 
-No exemplo acima, foi requisitado um terminal para o *docker* e nos foi entregue `root@c197f5486a62`. No entanto, nenhum *stream* de entrada foi vinculado ao *stream* de entrada padrão do contêiner. Isso fica mais explicito quando vinculamos um *stream* por *pipe*.
+No exemplo acima, foi requisitado um terminal para o `docker` e nos foi entregue `root@c197f5486a62`. No entanto, nenhum *stream* de entrada foi vinculado ao *stream* de entrada padrão do contêiner. Isso fica mais explícito quando usamos *pipe* para vincular um *stream*.
 
 ~~~ shell
 $ echo "from echo" | docker run -t ubuntu cat
-
 ~~~
 
-O retorno é uma linha em branco. Embora o cat tenha se conectado ao terminal emulado, o terminal emulado não se conectou à entrada do *pipe* porque não foi designado ao *docker* que ele exposse o *stream* de entrada padrão para receber entrada de dados externo. Lembremos que um contêiner é totalmente isolado, exceto se configurado para se conectar com o *mundo exterior*, e exceto pelo sdtout e sdterr.
+O retorno é uma linha em branco. Embora o cat tenha se conectado ao terminal emulado, o terminal emulado não se conectou à entrada do *pipe* porque não foi designado ao `docker` que ele exposse o *stream* de entrada padrão para receber entrada de dados externo. Lembremos que um contêiner é totalmente isolado, exceto se configurado para se conectar com o *mundo exterior*, e exceto pelo *sdtout* e *sdterr*.
 
 Com isso, no geral e na maioria das vezes é interessante criar o contêiner com `-it`, `docker create -it ubuntu` ou `docker run -it ubuntu`. Caso se opte por não usar `docker run`, quando o contêiner for executado, deve-se vincular o terminal ao contêiner `docker start -ai <id>`. 
 
@@ -341,7 +336,7 @@ Apenas como registro, `-it` é a forma simplificada para `--interactive` e `--tt
 
 * `-d` executa o contêiner em *background*;
 * `-it` cria um terminal e abre o *stream* padrão de entrada do contêiner que poderá ser vinculado ao terminal;
-* `--name` cria o contêiner com um nome inicial, quando não informado a *docker* engine gera um nome aleatório, que pode ser utilizado no lugar do id;
+* `--name` cria o contêiner com um nome inicial, embora quando não informado o comando `docker` gera um nome aleatório. O nome do contêiner é um substituto para o *id*, podendo explicitar mais claramente a função do contêiner;
 * `sh -c 'while true; do date; sleep 1; done'` comando que será executado no shell dentro do contêiner. O comando executa uma repetição infinita, `while true`, que imprime a data e a hora, `do date`, em intervalos de um segundo, `sleep 1`;
 
 ~~~ shell
@@ -410,9 +405,7 @@ root          86  0.0  0.0   2788  1032 pts/0    S+   10:49   0:00 sleep 1
 root          87  0.0  0.0   7060  1576 pts/1    R+   10:49   0:00 ps aux
 ~~~
 
-Com `ps aux` notamos que nosso processo inicial está em execução.
-
-Algumas vezes usar `docker stop` pode ser lento, pois ele segue um tempo de espera para garantir que todos as aplicações se encerrem depois de um `SIGTERM` com `SIGKILL`. Caso seja preciso encerrar um contêiner mais rapidamente, há algumas opções.
+Com `ps aux` notamos que nosso processo inicial está em execução. Algumas vezes usar `docker stop` pode ser lento, pois ele segue um tempo de espera para garantir que todos as aplicações se encerrem depois de um `SIGTERM` com `SIGKILL`. Caso seja preciso encerrar um contêiner mais rapidamente, há algumas opções.
 
 ~~~ shell
 docker kill looper
@@ -421,13 +414,13 @@ docker rm looper
 docker run -d --rm -it --name looper-it ubuntu sh -c 'while true; do date; sleep 1; done'
 ~~~
 
-As duas primeiras linhas encerar a execução de um contêiner e removê-lo. A terceira é uma maneira de criar um contêiner de tal modo que ao encerrar o processo principal, o contêiner é removido.
+As duas primeiras linhas encerram a execução de um contêiner e removem-no. A terceira é uma maneira de criar um contêiner de tal modo que ao encerrar o processo principal, o contêiner é removido.
 
 [⇡](#introdução)
 
 ### Mergulhando nas imagens
 
-Imagens são protótipos básicos para construção de outras imagens ou contêineres. Há dois lugares básico de armazenamento de imagens: o primeiro é local, o segundo é o repositório público do *docker*. E como já vimos é possível localizar imagens no repositório público pelo comando `docker search postgres`.
+Imagens são protótipos básicos para construção de outras imagens ou contêineres. Há dois lugares básicos de armazenamento de imagens: o primeiro é local, o segundo é o repositório público do *docker*. E como já vimos é possível localizar imagens no repositório público pelo comando `docker search postgres`.
 
 ~~~ shell
 $ docker search postgres
@@ -442,9 +435,9 @@ rapidfort/postgresql               RapidFort optimized, hardened image for Post�
 
 As imagens que são oficiais, além da manutenção dos autores da imagem, são também cuidadas e revistas pela *docker inc.*. Essas imagens oficiais seguem um padrão de criação que visa disponibilizar uma base de sistema operacional essencial que sirva de começo para a maioria dos usuários; disponibilizar imagens de ambientes de linguagens de programação populares, bancos de dados e outros serviços de modo similar ao que os serviços PaaS oferecem; servem de exemplo das melhores práticas para `dockerfile`; garantem que atualizações de segurança sejam aplicadas em tempo hábil.
 
-Além do *ok* na coluna *official*, imagens oficiais não possuem o prefixo da organização. Já *bitnami/postgresql* não é uma imagem oficial, o nome está com o prefixo da organização, mas a coluna *automated* está como ok, o que indica que essa imagem é construída diretamente do repositório fonte.
+Além do *ok* na coluna *official*, imagens oficiais não possuem o prefixo da organização. Já `bitnami/postgresql` não é uma imagem oficial, o nome está com o prefixo da organização, mas a coluna `automated` está como *ok*, o que indica que essa imagem é construída diretamente do repositório fonte.
 
-*Docker hub* é o repositório oficial do *docker* para imagens oficiais e não-oficiais. No entanto, ele não é o único. Atualmente existe *quay.io*, vinculado à *red hat*, que disponibiliza imagens para *docker*, *podman* e *rkt*. Embora não se possa utilizar `docker search` é possível indicar um endereço para o contêiner `docker pull quay.io/nordstrom/hello-world:2.0`.
+`Docker hub` é o repositório oficial do `docker` para imagens oficiais e não-oficiais. No entanto, ele não é o único. Atualmente existe `quay.io`, vinculado à `red hat`, que disponibiliza imagens para `docker`, `podman` e `rkt`. Embora não se possa utilizar `docker search` é possível indicar um endereço para o contêiner `docker pull quay.io/nordstrom/hello-world:2.0`.
 
 Todas as imagens possuem uma *tag* como, por exemplo, *latest*, que indica que é a última versão contruída e enviada ao repositório. Mas cada mantenedor estabele seus próprios critérios em relação as *tags* e o que elas indicam. Por exemplo, a imagem *ubuntu*, além de *latest*, possui uma série de outras tags, dentre elas, algumas que indicam versões específicas, tais como `ubuntu:23.04`, `ubuntu:22.10`, `ubuntu:22.04`, `ubuntu:18.04`.
 
@@ -457,13 +450,13 @@ Status: Downloaded newer image for ubuntu:23.04
 docker.io/library/ubuntu:23.04
 ~~~
 
-Imagens são construídas por diferentes camadas e metadados. Em alguns circunstâncias as camadas podem otimizar o processo de obtenção de uma outra imagem, quando essa compartilha uma camada base que já está disponível localmente. Geralmente essa camada base é outra imagem. Imagens permitem tags e, consequentemente, permitem serem entiquetas usando o comando `docker tag`. O nome de uma imagem é composto de três partes: *repositório/organização/imagem:tag*. As imagens que são oficinais, são indicadas apenas por *imagem:tag*.
+Imagens são construídas por diferentes camadas e metadados. Em alguns circunstâncias as camadas podem otimizar o processo de obtenção de uma outra imagem, quando essa compartilha uma camada base que já está disponível localmente. Geralmente essa camada base é outra imagem. Imagens permitem tags e, consequentemente, permitem serem entiquetas usando o comando `docker tag`. O nome de uma imagem é composto de três partes: `repositório/organização/imagem:tag`. As imagens que são oficinais, são indicadas apenas por `imagem:tag`.
 
 [⇡](#introdução)
 
 ### Construindo imagens
 
-Uma das grandes potencialidades do *docker* é permitir a criação de imagens customizadas com o arquivo de instruções `dockerfile`. Sigamos um experimente sobre isso.
+Uma das grandes funcionalidades do `docker` é permitir a criação de imagens customizadas com o arquivo de instruções `dockerfile`. Sigamos um experimento sobre isso.
 
 ~~~ shell
 $ touch docker-custom.sh
@@ -486,7 +479,7 @@ Hello, docker!
 $ 
 ~~~
 
-Nossa imagem irá executar o programa `docker-custom.sh`, mas para isso ela precisa de uma base que execute arquivos `.sh`. Geralmente, uma imagem se baseia em outra que tem uma versão *enxuta* do linux, a partir da qual outras ferramentas são instaladas para atingir o propósito ao qual os contêineres gerados dela se destinam. *Dockerfile* é um arquivo texto, então podemos usar editor de texto para escrevê-lo.
+A imagem acima irá executar o programa `docker-custom.sh`, mas para isso ela precisa de uma base que execute arquivos `.sh`. Geralmente, uma imagem se baseia em outra que tem uma versão *enxuta* do linux, a partir da qual outras ferramentas são instaladas para atingir o propósito ao qual os contêineres gerados a partir dela se destinam. `Dockerfile` é um arquivo texto, então podemos usar editor de texto para escrever nele.
 
 ~~~ shell
 $ touch Dockerfile
@@ -560,24 +553,24 @@ $ docker run hello-docker-custom
 Hello, docker!
 ~~~
 
-Na construção da imagem acima podemos notar as camadas que a compõem. As camadas tem multiplas funções. Por um lado, pode ser interessante limitar o número de camadas para reduzir o espaço gasto com armazenamento, porém cada camada funciona como cache durante a construção de imagens. Caso apenas a última linha do *dockerfile* seja editada, o comando que faz a construção da imagem inicia a partir da camada editada e pula as camadas das seções anteriores. Isso permite construir imagens que podem ser usadas em *pipelines* mais rápidos.
+Na construção da imagem acima podemos notar as camadas que a compõem. As camadas tem multiplas funções. Por um lado, pode ser interessante limitar o número de camadas para reduzir o espaço gasto com armazenamento, porém cada camada funciona como *cache* durante a construção de imagens. Caso apenas a última linha do *dockerfile* seja editada, o comando que faz a construção da imagem inicia a partir da camada editada e pula as camadas das seções anteriores. Isso permite construir imagens que podem ser usadas em *pipelines* mais rápidos.
 
 Há duas formas de modificarmos a imagem `hello-docker-custom`. Uma das opções é modificar o arquivo de instruções, incluindo nele as modificações desejadas. A segunda opção é modificar um contêiner gerado pela imagem e criar uma imagem a partir do contêiner modificado. A primeira opção é considerada a prática mais sustentável e adequada para automação de contêineres, pois o arquivo de intruções é de fácil análise e checagem de integridade. Não obstante, sigamos com um exemplo do segundo cenário.
 
 O objetivo desse exemplo é incluir um arquivo no contêiner executado a partir da imagem `hello-docker-custom` e, em seguida, gerar uma imagem a partir do contêiner modificado.
 
-1. acessar o shell de uma instância de contêiner porque a nossa imagem não tem um processo constante.
+1. acessar o shell de uma instância de contêiner porque a nossa imagem não tem um processo constante;
 ~~~ shell
 $ docker run -it hello-docker-custom sh
 ~~~
 
-2. em outro terminal, criar o arquivo que queremos copiar para o contêiner.
+2. em outro terminal, criar o arquivo que queremos copiar para o contêiner;
 ~~~ shell
 $ touch additional-file
 $ echo "test file new image" > additional-file
 ~~~
 
-3. copiar o arquivo usando o comando de cópia do *docker*, pelo qual é possível copias arquivos externos diretamente para dentro do contêiner.
+3. copiar o arquivo usando o comando de cópia do `docker`, pelo qual é possível copiar arquivos externos diretamente para dentro do contêiner;
 ~~~ shell
 $ docker ps
 CONTAINER ID   IMAGE                        COMMAND                  CREATED         STATUS             PORTS     NAMES
@@ -587,7 +580,7 @@ CONTAINER ID   IMAGE                        COMMAND                  CREATED    
 $ docker cp ./additional-file sharp_northcutt:/usr/src/app/
 ~~~
 
-4. confirmar a cópia no terminal do passo 1.
+4. confirmar a cópia no terminal do passo 1;
 ~~~ shell
 /usr/src/app # ls -l
 total 8
@@ -596,7 +589,7 @@ total 8
 /usr/src/app # 
 ~~~
 
-5. listar as modificações em um contêiner comparando com a imagem base usando o comando `docker diff`. Nesse exemplo estamos usando as três primeiras letras do id. O comando retorna uma lista, identificando as mudanças com as letras A = adicionado, D = deletado, C = modificado. `A /root/.ash_history` é o arquivo de histórico criado pelo shell, e como consequência o diretório `C /root` aparece como modificado. O mesmo vale para o arquivo adicionado `A /usr/src/app/additional-file`, desde o qual os subdiretórios também aparecem como modificados.
+5. listar as modificações em um contêiner comparando com a imagem base usando o comando `docker diff`. Nesse exemplo estamos usando as três primeiras letras do *id*. O comando retorna uma lista, identificando as mudanças com as letras A = adicionado, D = deletado, C = modificado. `A /root/.ash_history` é o arquivo de histórico criado pelo shell, e como consequência o diretório `C /root` aparece como modificado. O mesmo vale para o arquivo adicionado `A /usr/src/app/additional-file`, desde o qual os subdiretórios também aparecem como modificados.
 ~~~ shell
 $ docker diff 7d0
 C /root
@@ -704,7 +697,7 @@ Digest: sha256:c1d0baf2425ecef88a2f0c3543ec43690dc16cc80d3c4e593bb95e4f45390e45
 Status: Downloaded newer image for ubuntu:18.04
 root@2b927087df24:/#
 ~~~
-2. estamos com um contêiner executando ubuntu. No entanto, as imagens de sistemas operacionais são geralmente *enxutas*, com poucas aplicações, inclusive as mais básicas, garantindo com que no contêiner esteja instalado apenas o que é necessário para o seu propósito. Uma das ferramentas que precisaremos é o `curl`, utilizado basicamente para transferir dados através de vários protocolos, e dentre esses *http*. Precisaremos dele para que na hora de montar o contêiner a aplicação *youtube-dl* seja obtida do seu endereço web oficial.
+2. estamos com um contêiner executando ubuntu. No entanto, as imagens de sistemas operacionais são geralmente *enxutas*, com poucas aplicações, inclusive as mais básicas, garantindo com que no contêiner esteja instalado apenas o que é necessário para o seu propósito. Uma das ferramentas que precisaremos é o `curl`, utilizado basicamente para transferir dados através de vários protocolos, e dentre esses o `http`. Precisaremos dele para que na hora de montar o contêiner a aplicação *youtube-dl* seja obtida do seu endereço web oficial.
 ~~~ shell
 root@2b927087df24:/# curl --help
 bash: curl: command not found
@@ -775,11 +768,11 @@ ENV LC_ALL=C.UTF-8
 ENTRYPOINT ["/usr/local/bin/youtube-dl"]
 ~~~
 
-Todo arquivo `dockerfile` deve iniciar com a instrução `FROM`, exceto pelo uso da instrução `ARG`. `FROM` marca um novo estágio da criação da imagem que serve de base para todas as instruções subsequentes. A referência a imagem base, por exemplo, *ubuntu*, pode receber uma *tag*, *18.04*, ou um *digest*. `AS <name>` pode ser usado para nomear o novo estágio da criação da imagem.
+Todo arquivo `dockerfile` deve iniciar com a instrução `FROM`, exceto pelo uso da instrução `ARG`. `FROM` marca um novo estágio da criação da imagem que serve de base para todas as instruções subsequentes. A referência a imagem base, por exemplo, `ubuntu`, pode receber uma *tag*, *18.04*, ou um *digest*. `AS <name>` pode ser usado para nomear o novo estágio da criação da imagem.
 
 A partir do momento em que a instrução `WORKDIR` é atribuída, as instruções `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, `ADD` usam como referência o diretório atribuído a ela. Caso não seja especificado `WORKDIR` será `/`.
 
-`RUN` executará qualquer comando em uma nova camada sobre a imagem atual e registrará os resultados como uma nova imagem base que servirá de base para as próximas instruções do `dockerfile`. Nesse sentido, `RUN` é uma instrução que executa em tempo de contrução das imagens, o que é ideal, por exemplo, para incluir pacotes em uma imagem. Há duas formas de se usar a instrução: `RUN <command>`, conhecida como formato *shell*, ou RUN `["executable", "param1", "param2"]`, conhecida como formato *exec*. Esta última exige que se use aspas duplas ao invés de simples, e que se use caracteres de escape como, por exemplo, `RUN ["c:\\windows\\system32\\tasklist.exe"]`. Essas exigências surgem porque no formato *exec* os valores são colocados em um json e tratados. No caso for formato *shell* é possível utilizar `\` para quebra de linhas, tal como no exemplo abaixo.
+`RUN` executará qualquer comando em uma nova camada sobre a imagem atual e registrará os resultados como uma nova imagem base que servirá de base para as próximas instruções do `dockerfile`. Nesse sentido, `RUN` é uma instrução que executa em tempo de contrução das imagens, o que é ideal, por exemplo, para incluir pacotes em uma imagem. Há duas formas de se usar a instrução: `RUN <command>`, conhecida como formato `shell`, ou `RUN` `["executable", "param1", "param2"]`, conhecida como formato `exec`. Esta última exige que se use aspas duplas ao invés de simples, e que se use caracteres de escape como, por exemplo, `RUN ["c:\\windows\\system32\\tasklist.exe"]`. Essas exigências surgem porque no formato *exec* os valores são colocados em um json e tratados. No caso for formato *shell* é possível utilizar `\` para quebra de linhas, tal como no exemplo abaixo.
 
 ~~~ shell
 RUN /bin/bash -c 'source $HOME/.bashrc; \
