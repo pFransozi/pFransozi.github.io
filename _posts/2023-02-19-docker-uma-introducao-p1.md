@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  docker - uma introdução didática - parte 1
-date:   2023-02-19 21:30:00
+date:   2023-02-20 20:00:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
 tags: ["docker", "containerization"]
 language: pt-br
@@ -852,9 +852,132 @@ Expor portas é uma questão crítica na segurança de ambientes e o modo como i
 
 [⇡](#introdução)
 
-### Exercícios
+## Exercícios
 
-Todo: exercícios com foco nos temas acima.
+### tarefa 1
+
+Testar a instalação e a permissão do `docker` usando imagem teste `hello-world`. Primeiro usando o comando `docker run`. 
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker run hello-world
+{% endhighlight %}
+</details><br>
+
+Caso não ocorra problemas na execução, esse contêiner imprime na tela a frase *Hello from Docker!* com uma explicação de como essa mensagem foi gerada usando o `docker`. No entanto, o comando `docker run` é uma simplificação de alguns outros comandos. Antes de executar cada um dos comandos na ordem correta para executar o contêiner, vamos remover os objetos criados por `docker run hello-world`.
+
+Respeitando a ordem de dependências, remova contêineres dependetes da imagem `hello-world`, em seguida a imagem.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker ps -a # listar o contêiner para obter o id
+$ docker rm <contêiner-id>
+$ docker rmi hello-world
+{% endhighlight %}
+</details><br>
+
+Executar na ordem correta os comandos utilizados pelo comando `docker run`, para executar um contêiner baseado na imagem `hello-world`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker images hello-world # verificar se a imagem existe localmente. 
+$ docker search hello-world # como removemos a imagem local, procurar no docker hub.
+$ docker pull hello-world 
+$ docker create hello-world
+$ docker ps -a # listar o contêiner criado
+$ docker start -i <contêiner-id>
+{% endhighlight %}
+</details><br>
+
+Utilizando os comandos separadamente, o rasultado deve ser o mesmo. Por fim, remova os objetivos criados.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker ps -a # listar o contêiner para obter o id
+$ docker rm <contêiner-id>
+$ docker rmi hello-world
+{% endhighlight %}
+</details><br>
+
+
+
+### tarefa 2
+
+`Alpine` é uma das mais leves distribuições do `Linux` e por isso tornou-se uma das mais populares distribuições usadas em imagens para o `docker`, como suporte para outras imagens. Primeiro, vamos verificar se a imagem `alpine` existe localmente e no repositório remoto.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker images alpine # verficar se a imagem já está disponível localmente.
+$ docker search alpine # verficar se a imagem está disponível para download no repositório remoto.
+{% endhighlight %}
+</details><br>
+
+Agora vamos obter a imagem `alpine`, isto é, fazer o download dela do repositório remoto para o local, deixando-a disponível para criação de contêineres. E verficar se ela está disponível localmente.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker image pull alpine 
+$ docker image ls | grep alpine
+{% endhighlight %}
+</details><br>
+
+Com a imagem disponível localmente, é possível instanciar contêineres baseados nela. Vamos executar um contêiner baseado na imagem `alpine` e solicitar que seja executado no contêiner o comando `ls -l`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run alpine ls -l
+{% endhighlight %}
+</details><br>
+
+O comando `docker run` cria uma instância de um contêiner baseado na imagem `alpine` e executa dentro do contêiner o comando `ls -l`. O resultado do comando é devolvido para o terminal que solicitou, imprimindo na tela.  Não é necessário utilizar as *flags* `-it` porque por padrão o docker conecta o *sdtout* do contêiner com o terminal que solicitou a execução. Como já é conhecido, depois da execução do comando no contêiner, o contêiner se encerra porque a sua função foi concluída.
+
+Execute um contêiner baseado na imagem `alpine` e solicite que seja executado o comando `echo "olá do contêiner alpine"` no contêiner.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run alpine echo "olá do contêiner alpine"
+{% endhighlight %}
+</details><br>
+
+Agora, rode o comando `/bin/sh` no contêiner.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run alpine /bin/sh
+{% endhighlight %}
+</details><br>
+
+Nas duas primeiras execuções, os comandos `ls -l` e `echo "olá do contêiner alpine"` são executados e o retorno de cada um retornado para o terminal que os executou. No último caso, o comando `/bin/sh` executa sem nenhum retorno porque o comando deveria abrir um terminal. No entanto, ao executar `docker run` não foi vinculado um terminal de entrada e saída. 
+
+Execute o comando `docker run` com shell interativo.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run -it alpine /bin/sh
+{% endhighlight %}
+</details><br>
+
+Como comparação, máquinas virtuais emulam todo uma pilha de hardware, boot e sistema operacional para então executar algum programa ou função específica. `Docker` funciona diretamente em nível de aplicação, tornando-o mais dinâmico no ciclo de criação e destrução de contêineres.
+
+Visualize os contêineres executados até agora.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container ls -a # versão completa.
+$ docker ps -a # versão simplificada.
+{% endhighlight %}
+</details><br>
 
 [⇡](#introdução)
 
@@ -869,6 +992,8 @@ Todo: exercícios com foco nos temas acima.
 [docs.docker.com: commandline cli](https://docs.docker.com/engine/reference/commandline/cli/){:target="_blank"}.
 
 [docs.docker.com: reference builder](https://docs.docker.com/engine/reference/builder/){:target="_blank"}.
+
+[training.play-with-docker.com](https://training.play-with-docker.com/){:target="_blank"}.
 
 [github.com: docker-library](https://github.com/docker-library){:target="_blank"}.
 
