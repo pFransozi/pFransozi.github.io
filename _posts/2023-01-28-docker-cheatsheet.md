@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  docker - cheatsheet
-date:   2023-01-28 01:00:00
+date:   2023-02-19 22:00:00
 description: some useful ways to use docker.
 language: en-us
 tags: ["cheatsheet", "tools", "docker"]
@@ -9,6 +9,7 @@ language: en-us
 ---
 ## Summary
 
+* [Most used commands](#most-used-commands)
 * [General Purpose](#general-purpose)
 * [Create a docker group and add it to user group](#create-a-docker-group-and-add-it-to-user-group);
 * [Create a docker container from mongo image](#create-a-docker-container-from-mongo-image);
@@ -16,6 +17,20 @@ language: en-us
 * [Create a docker container from mysql image](#create-a-docker-container-from-mysql-image);
 * [Create a docker container from postgres image](#create-a-docker-container-from-postgres-image);
 * [Stop all containers](#stop-all-containers);
+
+## Most used commands
+
+| command | explain | shorthand |
+| docker image ls |	Lists all images | docker images|
+| docker image rm <image>  | Removes an image | docker rmi|
+| docker image pull <image> | Pulls image from a docker registry | docker pull|
+| docker container ls -a | Lists all containers | docker ps -a|
+| docker container run <image> | Runs a container from an image | docker run|
+| docker container rm <container> | Removes a container | docker rm|
+| docker container stop <container> | Stops a container | docker stop|
+| docker container exec <container> | Executes a command inside the container  | docker exec|
+
+[⇡](#summary)
 
 ## General Purpose
 
