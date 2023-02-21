@@ -979,6 +979,32 @@ $ docker ps -a # versão simplificada.
 {% endhighlight %}
 </details><br>
 
+### tarefa 3
+
+Uma das características mais importantes da contêinerização com docker é o isolamento dos contêineres. Cada contêiner tem um sistema de arquivos separado e executa em um *namespace* diferente. Por padrão, os contêineres não interagem entre si, mesmo que utilizem a mesma imagem.
+
+Execute um contêiner usando a imagem `alpine`, com shell interativo e solicite a execução do comando `/bin/ash`. Ao iniciar o contêiner, crie um arquivo chamado `isolamento.txt` com o conteúdo *contêiner isolado*.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run -it alpine /bin/ash
+/ # echo "contêiner isolado" > isolamento.txt
+/ # ls -l isolamento.txt
+{% endhighlight %}
+</details><br>
+
+Em um outro terminal, crie um contêiner baseado na imagem `alpine` e solicite a execução do comando `ls`
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container run alpine ls
+{% endhighlight %}
+</details><br>
+
+Como esperado, na execução do segundo contêiner o arquivo `isolamento.txt` não é listado. Isso é o isolamento dos contêineres e uma das principais características de segurança do `docker`. No entanto, no dia-a-dia isolamento permite com que usuários rapidamente criem cópias de teste de aplicações separadas, isoladas e rodando lado a lado sem interferência. 
+
 [⇡](#introdução)
 
 ## Referências
