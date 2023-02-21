@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  docker - uma introdução didática - parte 1
-date:   2023-02-20 20:00:00
+date:   2023-02-21 19:15:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
 tags: ["docker", "containerization"]
 language: pt-br
@@ -10,7 +10,7 @@ language: pt-br
 
 Este material traz um compilado de tópicos introdutórios sobre as ferramentas desenvolvidas pela *docker inc*: `docker` e `docker-compose`; com teoria e prática. Elas surgiram e se popularizaram como um conjunto de ferramentas para conteinerização, embora o conceito de contêiner e algumas técnicas já existissem antes. 
 
-Este material se estrutura em três partes.
+Este material se estrutura em três partes e para compô-lo utilizei materiais que estão na seção referências.
 
 
 * [Primeira Parte](#primeira-parte)
@@ -903,8 +903,6 @@ $ docker rmi hello-world
 {% endhighlight %}
 </details><br>
 
-
-
 ### tarefa 2
 
 `Alpine` é uma das mais leves distribuições do `Linux` e por isso tornou-se uma das mais populares distribuições usadas em imagens para o `docker`, como suporte para outras imagens. Primeiro, vamos verificar se a imagem `alpine` existe localmente e no repositório remoto.
@@ -1005,6 +1003,77 @@ $ docker container run alpine ls
 
 Como esperado, na execução do segundo contêiner o arquivo `isolamento.txt` não é listado. Isso é o isolamento dos contêineres e uma das principais características de segurança do `docker`. No entanto, no dia-a-dia isolamento permite com que usuários rapidamente criem cópias de teste de aplicações separadas, isoladas e rodando lado a lado sem interferência. 
 
+### tarefa 4
+
+As tarefas anteriores criaram muitos objetos. Remova os contêineres e as imagens usadas acima.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container prune
+$ docker rmi alpine
+$ docker rmi hello-world
+{% endhighlight %}
+</details><br>
+
+### tarefa 5
+
+Use a imagem `devopsdockeruh/simple-web-service:ubuntu` para criação de um contêiner. Acesse o contêiner pelo terminal e leia o arquivo `./text.log`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+# O contêiner será executado desvinculado (-d) do terminal, 
+# mas com a possibilidade de vinculação (-it). 
+# O nome dele será fixo --name log-webserver
+$ docker container run -d -it --name log-webserver devopsdockeruh/simple-web-service:ubuntu
+#
+# verifica se o contêiner foi criado corretamente.
+$ docker ps | grep log-webserver
+#
+# podemos verificar se o contêiner está rodando o programa principal dele `/usr/src/app/server`.
+# `--no-stdin` não vincula o stream de entrada de dados ao terminal que executou o comando.
+# apenas é vinculado o stdout. Com isso, podemos usar o comando `ctrl+c` para encerrar
+# a visualização do stream de saída sem interromper o contêiner. 
+# Outra opção, sem usar `--no-stdin`, é a sequência `ctrl+p` e `ctrl+q`
+$ docker attach --no-stdin log-webserver
+#
+# mas o objetivo é acessar outro arquivo `./text.log`.
+# É preciso acessar o sistema de arquivos do contêiner.
+$ docker exec -it log-webserver bash
+#
+# acessado o ambiente do contêiner, basta ler o arquivo.
+root@df1404fa4f3a:/usr/src/app# tail -f ./text.log
+{% endhighlight %}
+</details><br>
+
+### tarefa 6
+
+Instanciar um contêiner baseado em uma imagem `ubuntu`, passando como argumento `sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'`. Entre as aspas estão vários comandos de terminal. Dentre eles: `read website` e `curl http://$website;`.
+
+O objetivo é fazer com que a instância do contêiner interaja com o usuário no terminal que executou o comando `docker run`, pedindo uma url que será lida pelo comando `read`, atribuída a uma variável de ambiente `website` e utilizada no comando `curl`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# ao invés de utilizar o comando run diretamente, primeiro vamos verificar se existe uma imagem ubuntu local.
+$ docker images ubuntu
+#
+# considerando que o comando acima retorne vazio, vamos procurar por uma imagem no repositório remoto do docker
+$ docker search ubuntu
+#
+# esse comando deve retornar várias linhas. entre essas, a primeira deve indicar a imagem oficial do ubuntu, chamada `ubuntu`. 
+# vamos fazer o download dessa imagem.
+#
+$ docker image pull ubuntu
+#
+# feito isso, precisamos modificar o comando  'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'` para que ele solicite a instalação do `curl` e a chamada do comando `docker run` passando uma variável de ambiente. Além disso, `-it` deve ser incluído para que o contêiner interaja com o terminal.
+#
+$ docker container run -it --env website ubuntu sh -c 'apt update && apt upgrade -y && apt install curl -y;echo "Input website:"; read website; echo $website; curl $website;'
+{% endhighlight %}
+</details><br>
+
 [⇡](#introdução)
 
 ## Referências
@@ -1032,6 +1101,8 @@ Como esperado, na execução do segundo contêiner o arquivo `isolamento.txt` n�
 [mooc.fi](https://www.mooc.fi/en/){:target="_blank"}.
 
 [devopswithdocker](https://devopswithdocker.com/){:target="_blank"}.
+
+[github.com: docker-hy](https://github.com/docker-hy){:target="_blank"}.
 
 [why-containers-stop](https://www.tutorialworks.com/why-containers-stop/){:target="_blank"}.
 
