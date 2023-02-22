@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  docker - uma introdução didática - parte 1
-date:   2023-02-21 19:15:00
+date:   2023-02-22 09:15:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
 tags: ["docker", "containerization"]
 language: pt-br
@@ -854,7 +854,7 @@ Expor portas é uma questão crítica na segurança de ambientes e o modo como i
 
 ## Exercícios
 
-### tarefa 1
+### Execício 1
 
 Testar a instalação e a permissão do `docker` usando imagem teste `hello-world`. Primeiro usando o comando `docker run`. 
 
@@ -903,7 +903,7 @@ $ docker rmi hello-world
 {% endhighlight %}
 </details><br>
 
-### tarefa 2
+### Exercício 2
 
 `Alpine` é uma das mais leves distribuições do `Linux` e por isso tornou-se uma das mais populares distribuições usadas em imagens para o `docker`, como suporte para outras imagens. Primeiro, vamos verificar se a imagem `alpine` existe localmente e no repositório remoto.
 
@@ -977,7 +977,7 @@ $ docker ps -a # versão simplificada.
 {% endhighlight %}
 </details><br>
 
-### tarefa 3
+### Exercício 3
 
 Uma das características mais importantes da contêinerização com docker é o isolamento dos contêineres. Cada contêiner tem um sistema de arquivos separado e executa em um *namespace* diferente. Por padrão, os contêineres não interagem entre si, mesmo que utilizem a mesma imagem.
 
@@ -1003,9 +1003,9 @@ $ docker container run alpine ls
 
 Como esperado, na execução do segundo contêiner o arquivo `isolamento.txt` não é listado. Isso é o isolamento dos contêineres e uma das principais características de segurança do `docker`. No entanto, no dia-a-dia isolamento permite com que usuários rapidamente criem cópias de teste de aplicações separadas, isoladas e rodando lado a lado sem interferência. 
 
-### tarefa 4
+### Exercício 4
 
-As tarefas anteriores criaram muitos objetos. Remova os contêineres e as imagens usadas acima.
+Os exercícios anteriores criaram muitos objetos. Remova os contêineres e as imagens usadas acima.
 
 <details>
 <summary>Comandos</summary>
@@ -1016,7 +1016,7 @@ $ docker rmi hello-world
 {% endhighlight %}
 </details><br>
 
-### tarefa 5
+### Exercício 5
 
 Use a imagem `devopsdockeruh/simple-web-service:ubuntu` para criar um contêiner. Acesse o contêiner pelo terminal e leia o arquivo `./text.log`.
 
@@ -1085,7 +1085,7 @@ root@df1404fa4f3a:/usr/src/app# tail -f ./text.log
 {% endhighlight %}
 </details><br>
 
-### tarefa 6
+### Exercício 6
 
 Instanciar um contêiner baseado em uma imagem `ubuntu`, passando como argumento `sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'`. Entre as aspas estão vários comandos de terminal. Dentre eles: `read website` e `curl http://$website;`.
 
@@ -1112,7 +1112,7 @@ $ docker container run -it --env website ubuntu sh -c 'apt update && apt upgrade
 {% endhighlight %}
 </details><br>
 
-Importante limpar os objetos criados após atingir o objetivo da tarefa.
+Importante limpar os objetos criados após atingir o objetivo do exercício.
 
 <details>
 <summary>Comandos</summary>
@@ -1122,6 +1122,33 @@ $ docker container prune
 </details><br>
 
 [⇡](#introdução)
+
+### Exercício 7
+
+Neste exercício usaremos a imagem `devopsdockeruh/pull_exercise`. O programa principal que roda nela solicita que o usuário informe uma senha no terminal. A senha está em um arquivo no sistema de arquivos do contêiner.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# como precisamos interagir com o contêiner, a execução precisa das *frags* `-it`.
+$ docker run -it --name=pull-exercise devopsdockeruh/pull_exercise
+#
+# feito isso, o terminal mostrará a mensagem "Give me the password: ".
+#
+# para descobrir a senha, precisar acessar o contêiner por um outro terminal. Essa imagem não possui o `bash`, precisamos usar `sh`.
+$ docker exec -it pull-exercise sh
+#
+# por onde começamos a procurar? o comando padrão que está executando na imagem pode ser visto utilizado `docker ps`
+$ docker ps
+#
+# sabemos agora que a imagem roda `node index.js`. analisando o arquivo `index.js`
+$ cat /usr/app/index.js
+#
+# no código, a senha correta é "basics".
+{% endhighlight %}
+</details><br>
+
 
 ## Referências
 
