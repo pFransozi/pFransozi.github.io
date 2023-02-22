@@ -1149,6 +1149,33 @@ $ cat /usr/app/index.js
 {% endhighlight %}
 </details><br>
 
+### Exercício 8
+
+Baseado na imagem `devopsdockeruh/simple-web-service:alpine` construa outra imagem chamada `web-server` que rode o servidor web (/usr/src/app/server). Ao fim, o servidor deve iniciar quando for executado `docker run web-server`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# há dois modos para se criar uma imagem: modificar um contêiner e a partir do contêiner criar uma imagem, 
+# criar um arquivo `Dockerfile` como base. Neste exercício vamos usar um Dockerfile.
+# O arquivo irá usar duas instruções `FROM` e `CMD`. Com a instrução `FROM` vinculamos a nova imagem a base, na qual está o web-server.
+# Com a instrução `CMD`, indicamos qual programa irá executar quando o contêiner for iniciado.
+#
+$ echo "FROM devopsdockeruh/simple-web-service" > web-server-dockerfile
+$ echo >> web-server-dockerfile 
+$ echo "CMD server" >> web-server-dockerfile
+#
+# confirmar que o arquivo foi gerado.
+$ cat web-server-dockerfile
+#
+# construir a imagem com a *tag* `web-server:latest`, usando o arquivo web-server-dockerfile.
+$ docker build -t web-server -f web-server-dockerfile .
+#
+# executar o servidor web passado como argumento na chamado do docker run.
+$ docker run web-server
+{% endhighlight %}
+</details><br>
 
 ## Referências
 
