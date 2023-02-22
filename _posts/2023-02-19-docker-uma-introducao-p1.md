@@ -1018,7 +1018,7 @@ $ docker rmi hello-world
 
 ### tarefa 5
 
-Use a imagem `devopsdockeruh/simple-web-service:ubuntu` para criação de um contêiner. Acesse o contêiner pelo terminal e leia o arquivo `./text.log`.
+Use a imagem `devopsdockeruh/simple-web-service:ubuntu` para criar um contêiner. Acesse o contêiner pelo terminal e leia o arquivo `./text.log`.
 
 <details>
 <summary>Comandos</summary>
@@ -1047,6 +1047,44 @@ root@df1404fa4f3a:/usr/src/app# tail -f ./text.log
 {% endhighlight %}
 </details><br>
 
+Esta imagem `devopsdockeruh/simple-web-service:alpine` tem a mesma função que a anterior, embora seja baseada em `alpine`. Faça download e compare os tamanhos entre elas. `Alpine` é uma das mais enxutas imagens com linux. Em seguida, faça a mesma tarefa designada acima.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# primeiro fazer o download da nova imagem.
+$ docker image pull devopsdockeruh/simple-web-service:alpine
+#
+# agora vamos listar as imagens e comparar os tamanhos. Como dissemos, a versão `alpine` é consideravelmente mais leve.
+#
+$ docker images | grep devopsdockeruh
+# agora podemos seguir os passos utilizados na primeira imagem.
+# O contêiner será executado desvinculado (-d) do terminal, 
+# mas com a possibilidade de vinculação (-it). 
+# O nome dele será fixo --name log-webserver-alp
+$ docker container run -d -it --name log-webserver-alp devopsdockeruh/simple-web-service:alpine
+#
+# verifica se o contêiner foi criado corretamente.
+$ docker ps | grep log-webserver-alp
+#
+# podemos verificar se o contêiner está rodando o programa principal dele `/usr/src/app/server`.
+# `--no-stdin` não vincula o stream de entrada de dados ao terminal que executou o comando.
+# apenas é vinculado o stdout. Com isso, podemos usar o comando `ctrl+c` para encerrar
+# a visualização do stream de saída sem interromper o contêiner. 
+# Outra opção, sem usar `--no-stdin`, é a sequência `ctrl+p` e `ctrl+q`
+$ docker attach --no-stdin log-webserver-alp
+#
+# mas o objetivo é acessar outro arquivo `./text.log`.
+# É preciso acessar o sistema de arquivos do contêiner.
+$ docker exec -it log-webserver-alp bash
+#
+# acessado o ambiente do contêiner, basta ler o arquivo.
+root@df1404fa4f3a:/usr/src/app# tail -f ./text.log
+
+{% endhighlight %}
+</details><br>
+
 ### tarefa 6
 
 Instanciar um contêiner baseado em uma imagem `ubuntu`, passando como argumento `sh -c 'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'`. Entre as aspas estão vários comandos de terminal. Dentre eles: `read website` e `curl http://$website;`.
@@ -1071,6 +1109,15 @@ $ docker image pull ubuntu
 # feito isso, precisamos modificar o comando  'echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;'` para que ele solicite a instalação do `curl` e a chamada do comando `docker run` passando uma variável de ambiente. Além disso, `-it` deve ser incluído para que o contêiner interaja com o terminal.
 #
 $ docker container run -it --env website ubuntu sh -c 'apt update && apt upgrade -y && apt install curl -y;echo "Input website:"; read website; echo $website; curl $website;'
+{% endhighlight %}
+</details><br>
+
+Importante limpar os objetos criados após atingir o objetivo da tarefa.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+$ docker container prune
 {% endhighlight %}
 </details><br>
 
