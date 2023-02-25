@@ -1177,6 +1177,67 @@ $ docker run web-server
 {% endhighlight %}
 </details><br>
 
+### Exercício 9
+
+[No exercício 6](#exercício-6) passamos os comandos `echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;` para um contêiner através do comando `docker run`. O objetivo, agora, é criar um Dockerfile baseado na imagem `ubuntu:20.04`, com as dependências instaladas para rodar a *string* de comandos acima. Esses comandos devem estar em um script, `.sh`, que deve ser copiado para a imagem e executado usando a instrução `CMD`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# primeira parte, criar arquivo curler.sh com o conteúdo `echo "Input website:"; read website; echo "Searching.."; sleep 1; curl http://$website;`.
+$ touch curler.sh
+$ echo "#!/bin/bash" > curler.sh
+$ echo "echo 'Input website:'" >> curler.sh
+$ echo "read website" >> curler.sh
+$ echo "echo 'Searching..'" >> curler.sh
+$ echo "sleep 1" >> curler.sh
+$ echo "curl http://$website" >> curler.sh
+#
+# criar o arquivo curler-dockerfile.
+$ touch curler-dockerfile
+$ echo "FROM ubuntu:20.04" > curler-dockerfile
+$ echo "RUN apt update && apt upgrade -y && apt install curl -y" >> curler-dockerfile
+$ echo "COPY ./curler.sh" >> curler-dockerfile
+$ echo "RUN chmod +x curler.sh" >> curler-dockerfile
+$ echo "CMD /curler.sh" >> curler-dockerfile
+#
+# montar a imagem com a tag curler
+$ docker build -t curler -f curler-dockerfile .
+$ docker run -it curler
+{% endhighlight %}
+</details><br>
+
+### Exercício 10
+
+[No exercício 9](#exercício-9) usamos a instrução `CMD` para rodar o comando `curl`. Com essa abordagem, o script torna-se responsável por solicitar a url. Se utilizarmos a instrução `ENTRYPOINT` para rodar o comando `curl`, podemos passar a url quando rodamos o comando `docker run`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# primeiro vamos modificar o script. A modificação permite que passemos parâmetro na execução do script.
+$ touch curler.sh
+$ echo "#!/bin/bash" > curler.sh
+$ echo "echo 'Searching..'" >> curler.sh
+$ echo "sleep 1" >> curler.sh
+$ echo "curl http://$1" >> curler.sh
+#
+# criar o arquivo curler-dockerfile.
+$ touch curler-dockerfile-v2
+$ echo "FROM ubuntu:20.04" > curler-dockerfile-v2
+$ echo "RUN apt update && apt upgrade -y && apt install curl -y" >> curler-dockerfile-v2
+$ echo "COPY ./curler.sh" >> curler-dockerfile-v2
+$ echo "RUN chmod +x curler.sh" >> curler-dockerfile-v2
+$ echo 'ENTRYPOINT ["/curler.sh"]' >> curler-dockerfile-v2
+#
+# montar a imagem com a tag curler
+$ docker build -t curler-v2 -f curler-dockerfile-v2 .
+$ docker run curler-v2 google.com
+{% endhighlight %}
+</details><br>
+
+
 ## Referências
 
 [hub.docker.com](hub.docker.com){:target="_blank"}.
