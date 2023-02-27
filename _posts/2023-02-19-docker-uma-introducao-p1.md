@@ -1237,6 +1237,33 @@ $ docker run curler-v2 google.com
 {% endhighlight %}
 </details><br>
 
+### Exercício 11
+
+Neste exercício, usaremos a ligação de volume para conectar um arquivo local com um arquivo no contêiner. A imagem utilizada para criação do contêiner é `devopsdockeruh/simple-web-service`. O arquivo no contêiner é gerado como um `log`. Deve-se utilizar a *flag* `-v`.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# no diretório corrente vamos criar um arquivo
+$ touch text.log
+# agora vamos rodar um contêiner
+$ docker run -v "$(pwd)/text.log:/usr/src/app/text.log" devopsdockeruh/simple-web-service
+{% endhighlight %}
+</details><br>
+
+### Exercício 12
+
+Neste exercício, usaremos a ligação de portas para conectar o host ao servidor web no contêiner. A imagem que deve ser utilizada é `devopsdockeruh/simple-web-service`. Nessa imagem, quando o comando `server` é passado para o comando `docker run` um servidor web é inicializado na porta 8080. No host, a porta de ligação fica a sua escolha.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# comando básico
+$ docker run -p8082:8080 devopsdockeruh/simple-web-service server
+{% endhighlight %}
+</details><br>
 
 ## Referências
 
