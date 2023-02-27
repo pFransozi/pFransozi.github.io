@@ -1265,6 +1265,37 @@ $ docker run -p8082:8080 devopsdockeruh/simple-web-service server
 {% endhighlight %}
 </details><br>
 
+### Exercício 13
+
+Neste exercício usaremos a aplicação [spring-example-project](https://github.com/pFransozi/docker-hy-material-applications/tree/main/spring-example-project) e a colocaremos em um contêiner que use a imagem `openjdk:_tag_`. Um `dockerfile` deve ser criado que copie os arquivos fontes da aplicação para a imagem e compile-os na imagem. Ao iniciar um contêiner baseado nessa imagem, deve ser possível passar o comando `java -jar ./target/docker-example-1.1.3.jar` ao `docker run` para iniciar a aplicação. Essa aplicação deve ser acessada pelo host usando uma ligação de porta.
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+#
+# primeiro deve-se clonar o projeto `spring-example-project` localmente.
+$ git clone git@github.com:pFransozi/docker-hy-material-applications.git
+#
+# acessar o diretório da aplicação
+$ cd spring-example-project
+#
+# criar um `dockerfile`
+$ touch spring-example-project-dockerfile
+$ echo "FROM openjdk:21-jdk-oraclelinux8" > spring-example-project-dockerfile
+$ echo "COPY . /usr/src/myapp" >> spring-example-project-dockerfile
+$ echo "WORKDIR /usr/src/myapp" >> spring-example-project-dockerfile
+# compila a aplicação e a disponibiliza compilada na imagem.
+$ echo "RUN ./mvnw package" >> spring-example-project-dockerfile
+# com isso, podemos iniciar um contêiner já rodando a aplicação
+$ echo 'ENTRYPOINT ["java"]' >> spring-example-project-dockerfile
+#
+# compilar uma imagem
+$ docker build -t app-spring:v1 -f spring-example-project-dockerfile .
+$ docker run -it -p8082:8080 app-spring:v1 -jar ./target/docker-example-1.1.3.jar
+{% endhighlight %}
+</details><br>
+
+
 ## Referências
 
 [hub.docker.com](hub.docker.com){:target="_blank"}.
