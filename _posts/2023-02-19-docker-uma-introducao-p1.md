@@ -1295,6 +1295,35 @@ $ docker run -it -p8082:8080 app-spring:v1 -jar ./target/docker-example-1.1.3.ja
 {% endhighlight %}
 </details><br>
 
+### Exercício 14
+
+Criar uma imagem baseada `node:16.16.0-alpine3.16` que atenda os requisitos [deste projeto](https://github.com/pFransozi/docker-hy-material-applications/tree/main/example-frontend).
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+# primeiro deve-se clonar o projeto `spring-example-project` localmente.
+$ git clone git@github.com:pFransozi/docker-hy-material-applications.git
+#
+# acessar o diretório do arquivo fonte.
+$ cd example-frontend
+#
+# criar arquivo `dockerfile`
+$ touch ex-frontend-dockerfile
+$ echo "FROM node:16.16.0-alpine3.16" > ex-frontend-dockerfile
+$ echo "COPY . /usr/src/myapp" >> ex-frontend-dockerfile
+$ echo "WORKDIR /usr/src/myapp" >> ex-frontend-dockerfile
+$ echo "RUN npm install package.json" >> ex-frontend-dockerfile
+$ echo "RUN npm run build" >> ex-frontend-dockerfile
+$ echo "RUN npm install -g serve" >> ex-frontend-dockerfile
+#
+#
+$ docker build -t ex-frontend:v1 -f ex-frontend-dockerfile .
+#
+#
+docker run -it -p5001:5000 ex-frontend:v1 serve -s -l 5000 build
+{% endhighlight %}
+</details><br>
 
 ## Referências
 
