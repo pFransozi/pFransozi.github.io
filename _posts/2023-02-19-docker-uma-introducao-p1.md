@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  docker - uma introdução didática - parte 1
-date:   2023-02-22 09:15:00
+date:   2023-03-05 09:15:00
 description: introdução à conteinerização com docker e docker-compose, conceitos básicos, comandos e exemplos
 tags: ["docker", "containerization"]
 language: pt-br
@@ -1322,6 +1322,33 @@ $ docker build -t ex-frontend:v1 -f ex-frontend-dockerfile .
 #
 #
 docker run -it -p5001:5000 ex-frontend:v1 serve -s -l 5000 build
+{% endhighlight %}
+</details><br>
+
+### Exercício 15
+
+Criar uma imagem a partir da imagem `golang` que atenda os requisitos do [projeto](https://github.com/pFransozi/docker-hy-material-applications/tree/main/example-backend).
+
+<details>
+<summary>Comandos</summary>
+{% highlight shell %}
+# primeiro deve-se clonar o projeto `example-backend` localmente.
+$ git clone git@github.com:pFransozi/docker-hy-material-applications.git
+#
+# acessar o diretório do arquivo fonte
+$ cd example-backend
+#
+# criar arquivo `dockerfile`.
+$ touch ex-backend-dockerfile
+$ echo "FROM golang " > ex-backend-dockerfile
+$ echo "COPY . /go/src/ " >> ex-backend-dockerfile
+$ echo "WORKDIR /go/src/ " >> ex-backend-dockerfile
+$ echo "RUN go build " >> ex-backend-dockerfile
+$ echo "RUN go test " >> ex-backend-dockerfile
+#
+#
+$ docker build -t go-app:v1 -f ./ex-backend-dockerfile .
+$ docker run -it -p8083:8080 go-app:v1 ./server
 {% endhighlight %}
 </details><br>
 
