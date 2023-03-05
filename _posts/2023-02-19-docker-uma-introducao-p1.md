@@ -1297,7 +1297,7 @@ $ docker run -it -p8082:8080 app-spring:v1 -jar ./target/docker-example-1.1.3.ja
 
 ### Exercício 14
 
-Criar uma imagem baseada `node:16.16.0-alpine3.16` que atenda os requisitos [deste projeto](https://github.com/pFransozi/docker-hy-material-applications/tree/main/example-frontend).
+Criar uma imagem baseada na imagem `node:16.16.0-alpine3.16` que atenda os requisitos [deste projeto](https://github.com/pFransozi/docker-hy-material-applications/tree/main/example-frontend).
 
 <details>
 <summary>Comandos</summary>
