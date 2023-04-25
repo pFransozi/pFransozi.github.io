@@ -10,7 +10,7 @@ language: en-us
 
 No doubt that arrays are the most fundamental data structure in CS, that because it is a fixed-size, contiguous block of memory of the same data type. Those aspects give to an array O(1) time to store and access an element. Arrays work on an index system starting from 0 to (n-1), where n is the size of the array.
 
-Like any data structure, an array also has its limitations. When the index is used to look up an element, time required is constant, which means O(1). Otherwise, when the algorithm looks up an element by value, for it requires an entire traversal of an array, unless it is sorted in some way. An entire traversal of an array means O(n).
+Like any data structure, an array also has its limitations. When the index is used to look up an element, time required is constant, which means O(1). Otherwise, when the algorithm looks up an element by value, it requires an entire traversal of an array, unless it is sorted in some way. An entire traversal of an array means O(n).
 
 There are three additional limitations to consider when working with arrays: 
 1. deleting an element from an array requires shifting all the subsequent elements one position to the left, which takes O(n) time. To avoid this, it's better to overwrite the value of the element you want to delete. 
@@ -27,11 +27,11 @@ There are three additional limitations to consider when working with arrays:
 
 ## Get product of all other elements
 
-The algorithm aims change each value of an array by the product of all other elements. For example, if we have an array a = [3, 2, 1], applying the algorithm should result in a new array with values [2, 3, 6].
+This problem requires an algorithm that aims change each value of an array by the product of all other elements. For example, if an array as a = [3, 2, 1], the result must be a new array as [2, 3, 6].
 
-Let's create a test file to drive the development and first one is an empty array. For that, I create a class with a method that will be responsible for main task of get product of all other elements. And the result must be an empty array as well.
+Based on that, let's start our development creating a test file to drive the coding. First test testes an empty array, calling a method that will be responsible for main task of get product of all other elements. But in this stage, the result must be an empty array as well.
 
-Next I show the steps to create it, but the entire code can be access [here](https://github.com/pFransozi/algorithms/tree/main/py-array-get-product-of-all-other-elements){:target="_blank"}.
+Next I'll show the steps to create it, but the entire code can be access [here](https://github.com/pFransozi/algorithms/tree/main/py-array-get-product-of-all-other-elements){:target="_blank"}.
 
 First test method.
 
@@ -47,21 +47,21 @@ def test_an_empty_array(self):
     self.assertEqual([], result, "Not equal.")
 ~~~
 
-Here the test breaks. For solve that, I create a python file, called called main.py, with a class and a method responsible for computing the final array. Then, create a class `GetProductOfAllOtherElements`, and a main method, `compute_product(self, nums)`.
+As expected, test has broken. For solve that, it was created a python file, called main.py, with a class and a method responsible for computing the final array. Then, I create a class `GetProductOfAllOtherElements`, and a main method, `compute_product(self, nums)`.
 
 ~~~ python
 class GetProductOfAllOtherElements:
     def compute_product(self, nums):
 ~~~
 
-With that, the error changes. Now `unittest` indicates an error in the method `GetProductOfAllOtherElements` because it does nothing. And it is ok because errors drive the development. To solve that, let's change to return the input argument `nums`.
+With that, the error has changed. Now `unittest` indicates an error in the method `GetProductOfAllOtherElements` because it does nothing. And it is ok because errors drive the development. To solve that, let's change `GetProductOfAllOtherElements` method to return the input argument `nums`.
 
 ~~~ python
 def compute_product(self, nums):
     return nums
 ~~~
 
-And then, `test_an_empty_array` test passes. Next step, to create a test for one-element array. In this test case, the expected output should match the input array.
+And then, `test_an_empty_array` test has passed. Next step is to create a test for one-element array. In this test case, the expected output should match the input array.
 
 ~~~ python
 def test_an_array_with_one_element(self):
@@ -71,7 +71,7 @@ def test_an_array_with_one_element(self):
     self.assertEqual([7], result, "Not equal.")
 ~~~
 
-Let's include another test case to test an two-element array.
+Let's include another test case to test a two-element array.
 
 ~~~ python
 def test_an_array_with_one_element(self):
@@ -117,7 +117,7 @@ def compute_product(self, nums):
         return nums
 ~~~
 
-Then, let's precompute the numbers before a given index `i`, prefix_products, and, the numbers after a given index `i`, posfix_products. At end let's build the result based on those two products.
+Then, let's precompute the numbers before a given index `i`, prefix_precompute, and, the numbers after a given index `i`, posfix_precompute. At end let's build the result based on those two products.
 
 ~~~ python
 def compute_product(self, nums):
@@ -155,7 +155,7 @@ def compute_product(self, nums):
     return result
 ~~~
 
-With that algorithm, `test_an_array_with_two_elements` test passes. Then, let's include another two tests.
+With that algorithm, `test_an_array_with_two_elements` test has passed. Then, let's include another two tests.
 
 ~~~ python
 class TestsGetProductOfAllOtherElements(unittest.TestCase):
@@ -188,7 +188,7 @@ class TestsGetProductOfAllOtherElements(unittest.TestCase):
         self.assertEqual([120, 60, 40, 30, 24], result, "Not equal.")
 ~~~
 
-When all tests pass, it is possible to refactor the main code more safely.
+When all tests have passed, it is possible to refactor the main code more safely.
 
 ~~~ python
 class GetProductOfAllOtherElements:
