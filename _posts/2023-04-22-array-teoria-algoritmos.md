@@ -261,6 +261,48 @@ class GetProductOfAllOtherElements:
 
 ## Localizar o menor intervalo a ser ordenado
 
+O algoritmo visa encontrar o menor subarray que não está ordenado, retornando um índice do lado esquerdo e outro do lado direito. Considerando o array `a = [3, 7, 5, 6, 9]`, o resultado deve ser left_index = 1 e right_index = 3, o que significa que o subarray de 1 a 3 é a menor janela do array que não está ordenado.
+
+A seguir, a primeira solução tem uma complexidade de tempo de O(nlogn) e complexidade de espaço de O(n). Essa complexidade está relacionada a função do python `sorted()`. A medida que essa função cria um novo array a complexidade de espaço é o próprio tamanho do array. Por conta disso, O(n). A complexidade nlogn está relacionada ao algoritmo utilizado pela função na ordenação, que é [Timsort](https://en.wikipedia.org/wiki/Timsort) com complexidade média de O(nlogn).
+
+~~~ python
+
+def window_nlogn(self, array):
+        left, right = None, None
+        s = sorted(array)
+        
+        for i in range(len(array)):
+            if not self.is_eq(array[i], s[i]) and self.is_none(left):
+                left = i
+            elif not self.is_eq(array[i], s[i]):
+                right = i
+
+        return left, right
+~~~
+
+Geralmente, quando se trabalha com arrays, é possível criar um algoritmo mais rápido pela iteração através dos elementos e calculando os valores mínimo, máximo e contagens. A próxima abordagem visa melhorar as complexidades de tempo e espaço. Todas as operações são sobre o mesmo array que é passado como argumento para a função. E a complexidade de tempo é linear, O(n), porque os cálculos são feitos a medida que o array é percorrido.
+
+~~~ python
+    def window_n(self, array):
+        left, right= None, None
+        n = len(array)
+        max_seen, min_seen = -float("inf"), float("inf")
+        
+        for i in range(n):
+            max_seen = max(max_seen, array[i])
+            if array[i] < max_seen:
+                right = i
+        
+        for i in range(n - 1, -1, -1):
+            min_seen = min(min_seen, array[i])
+            if array[i] > min_seen:
+                left = i
+        
+        return left, right
+~~~
+
+O código completo pode ser acessado [aqui](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted).
+
 ## Calcular soma máxima de subarray
 
 ## Encontrar o menor número de elementos à direita

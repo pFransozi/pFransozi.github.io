@@ -20,14 +20,14 @@ There are three additional limitations to consider when working with arrays:
 * **Index**
     * [Introduction](#introduction)
     * [Get product of all other elements](#get-product-of-all-other-elements)
-    * [~~Locate smallest window to be sorted~~](#locate-smallest-window-to-be-sorted)
+    * [Locate smallest window to be sorted](#locate-smallest-window-to-be-sorted)
     * [~~Calculate maximum subarray sum~~](#calculate-maximum-subarray-sum)
     * [~~Find number of smaller elements to the right~~](#find-number-of-smaller-elements-to-the-right)
     * [References](#references)
 
 ## Get product of all other elements
 
-This problem requires an algorithm that aims change each value of an array by the product of all other elements. For example, if an array as a = [3, 2, 1], the result must be a new array as [2, 3, 6].
+This problem requires an algorithm that aims change each value of an array by the product of all other elements. For example, if an array as `a = [3, 2, 1]`, the result must be a new array as `arr = [2, 3, 6]`.
 
 Based on that, let's start our development creating a test file to drive the coding. First test testes an empty array, calling a method that will be responsible for main task of get product of all other elements. But in this stage, the result must be an empty array as well.
 
@@ -259,6 +259,52 @@ class GetProductOfAllOtherElements:
 [⇡](#introduction)
 
 ## Locate smallest window to be sorted
+
+The algorithm aims to find the smallest subarray that is unsorted, returning an index from left side and other from right side. Considering the next array `a = [3, 7, 5, 6, 9]`, the result must be `left_index = 1` and `right_index = 3`, which means that the subarray from 1 to 3 is the smallest window that is unsorted.
+
+Follow, the first solution has a O(nlogn) time complexity and O(n) space complexity. That complexity is related to the python function `sorted()`. As that function creates a new array, the space complexity is n, which means the size of the old array. And nlogn is related to the algorithm adopted by python function, which is [Timsort](https://en.wikipedia.org/wiki/Timsort) with a average time complexity as O(nlogn).
+
+~~~ python
+
+def window_nlogn(self, array):
+        left, right = None, None
+        s = sorted(array)
+        
+        for i in range(len(array)):
+            if not self.is_eq(array[i], s[i]) and self.is_none(left):
+                left = i
+            elif not self.is_eq(array[i], s[i]):
+                right = i
+
+        return left, right
+~~~
+
+Frequently, when working with arrays, it's possible to create a faster algorithm by iterating through the elements and calculating minimum, maximum, or count. 
+
+Next approach aims to improve space and time complexity. The algorithm has O(1) as space complexity because no new array is created. All operations are over the same array that is passed to the function. And the time complexity is linear, O(n), because the algorithm just traverses the array. 
+
+~~~ python
+    def window_n(self, array):
+        left, right= None, None
+        n = len(array)
+        max_seen, min_seen = -float("inf"), float("inf")
+        
+        for i in range(n):
+            max_seen = max(max_seen, array[i])
+            if array[i] < max_seen:
+                right = i
+        
+        for i in range(n - 1, -1, -1):
+            min_seen = min(min_seen, array[i])
+            if array[i] > min_seen:
+                left = i
+        
+        return left, right
+~~~
+
+The full code can be accessed [here](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted).
+
+[⇡](#introduction)
 
 ## Calculate maximum subarray sum
 
