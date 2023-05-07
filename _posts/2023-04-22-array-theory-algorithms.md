@@ -337,7 +337,7 @@ def sum_max_subarray_n(self, arr):
         return max_so_far
 ~~~
 
-[Link](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
+[Link to code repository](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
 
 [⇡](#introduction)
 
