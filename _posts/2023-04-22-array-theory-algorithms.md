@@ -21,7 +21,7 @@ There are three additional limitations to consider when working with arrays:
     * [Introduction](#introduction)
     * [Get product of all other elements](#get-product-of-all-other-elements)
     * [Locate smallest window to be sorted](#locate-smallest-window-to-be-sorted)
-    * [~~Calculate maximum subarray sum~~](#calculate-maximum-subarray-sum)
+    * [Calculate maximum subarray sum](#calculate-maximum-subarray-sum)
     * [~~Find number of smaller elements to the right~~](#find-number-of-smaller-elements-to-the-right)
     * [References](#references)
 
@@ -308,6 +308,39 @@ The full code can be accessed [here](https://github.com/pFransozi/algorithms/tre
 
 ## Calculate maximum subarray sum
 
+Considering this given array `arr = [34, -50, 42, 14, -5, 86]`, the algorithm returns the max sum of any contiguous subarray of the array. For example, the algorithm must return 137 based on the sum of the max subarray, which is `subarr_max = [42, 14, -5, 86]`. There are at least three approaches to solve this problem.
+
+The most simple and probably obvious is a brute-force approach, which means, to calculate the sum of every possible subarray. For instance, the first element `arr[1]` must iterates up to `arr[n - 1]`, memorizing the max sum.
+
+To do that, at least O(n^2) time complexity is required, but the next python code is O(n^3), for the `sum` function traverses the array. Even tough time complexity is affected by `sum` function, the size isn't, because slicing uses references.
+
+~~~ python
+def sum_max_subarray_n3(self, arr):
+        
+        current_max = 0
+        for i in range(len(arr) - 1):                              # O(n)
+            for j in range(i, len(arr) +1 ):                       # O(n)
+                current_max = max(current_max, sum(arr[i:j]))      # O(k) where k is from i up to len(arr) + 1 = n.  
+        return current_max
+~~~
+
+The next approach uses dynamic programming technique. It is kadane's algorithm and it runs O(n) time complexity and the space is constant o(1).
+
+~~~ python
+def sum_max_subarray_n(self, arr):
+        max_ending_here = max_so_far = 0
+
+        for x in arr:                                       # O(n)
+            max_ending_here = max(x, max_ending_here + x)
+            max_so_far = max(max_so_far, max_ending_here)
+
+        return max_so_far
+~~~
+
+[Link](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
+
+[⇡](#introduction)
+
 ## Find number of smaller elements to the right
 
 [⇡](#introduction)
@@ -319,5 +352,7 @@ Cormen, T. H., Leiserson, C. E., Rivest, R. L., & Stein, C. (2022). Introduction
 Miller, A., & Wu, L. (2019). Daily Coding Problem: Get Exceptionally Good at Coding Interviews by Solving One Problem Every Day.
 
 [en.wikipedia.org: Array_(data_structure)](https://en.wikipedia.org/wiki/Array_(data_structure)){:target="_blank"}.
+
+[stackoverflow.com: slicing-a-list-in-python-without-generating-a-copy](https://stackoverflow.com/questions/5131538/slicing-a-list-in-python-without-generating-a-copy){:target="_blank"}.
 
 [⇡](#introduction)
