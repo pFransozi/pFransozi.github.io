@@ -20,9 +20,9 @@ Outras limitações que devem ser consideradas quando se trabalha com arrays sã
 * **Índice**
     * [Introdução](#introduction)
     * [Obter produto de todos os outros elementos](#get-product-of-all-other-elements)
-    * [~~Localizar o menor intervalo a ser ordenado~~](#localizar-o-menor-intervalo-a-ser-ordenado)
-    * [~~Calcular soma máxima de subarray~~](#calcular-soma-máxima-de-subarray)
-    * [~~Encontrar o menor número de elementos à direita~~](#encontrar-o-menor-número-de-elementos-à-direita)
+    * [Localizar o menor intervalo a ser ordenado](#localizar-o-menor-intervalo-a-ser-ordenado)
+    * [Calcular soma máxima de subarray](#calcular-soma-máxima-de-subarray)
+    * [Encontrar o menor número de elementos à direita](#encontrar-o-menor-número-de-elementos-à-direita)
     * [Referências](#referências)
 
 ## Obter produto de todos os outros elementos
@@ -256,6 +256,7 @@ class GetProductOfAllOtherElements:
 
         return result
 ~~~
+[Link para código no repo](https://github.com/pFransozi/algorithms/tree/main/py-array-get-product-of-all-other-elements){:target="_blank"}.
 
 [⇡](#introdução)
 
@@ -301,11 +302,77 @@ Geralmente, quando se trabalha com arrays, é possível criar um algoritmo mais 
         return left, right
 ~~~
 
-O código completo pode ser acessado [aqui](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted).
+[Link para código no repo](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted){:target="_blank"}.
+
+[⇡](#introdução)
 
 ## Calcular soma máxima de subarray
 
+Dado o array `arr = [34, -50, 42, 14, -5, 86]`, o algoritmo deve retornar a soma de todos os subarrays contíguos desse array. Por exemplo, o retorno deve ser 137 baseado na soma dos elementos do subarray `subarr_max = [42, 14, -5, 86]`. Existem três abordagem para esse algoritmo pelo menos.
+
+O mais simples e óbvio é a abordagem de força-bruta, isto é, calcular a soma de cada subarray possível. O primeiro elemento `arr[1]` deve iterar até `arr[n - 1]` e guardar o resultado.
+
+Esse algoritmo exige um tempo de complexidade O(n²), ou O(n³) se considerarmos que a função `sum` percorre o array mais uma vez para cada elemento do `for` anterior. Já a complexidade de espaço mantém-se constante.
+
+~~~ python
+def sum_max_subarray_n3(self, arr):
+        
+        current_max = 0
+        for i in range(len(arr) - 1):                              # O(n)
+            for j in range(i, len(arr) +1 ):                       # O(n)
+                current_max = max(current_max, sum(arr[i:j]))      # O(k) where k is from i up to len(arr) + 1 = n.  
+        return current_max
+~~~
+
+A próxima abordagem usa a técnica de programação dinâmica. É o algoritmo de Kadane que roda com complexidade de tempo O(n) e espaço é constante O(1). 
+
+~~~ python
+def sum_max_subarray_n(self, arr):
+        max_ending_here = max_so_far = 0
+
+        for x in arr:                                       # O(n)
+            max_ending_here = max(x, max_ending_here + x)
+            max_so_far = max(max_so_far, max_ending_here)
+
+        return max_so_far
+~~~
+
+[Link para o código no repo](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
+
+[⇡](#introdução)
+
 ## Encontrar o menor número de elementos à direita
+
+Dado o array `arr = [3, 4, 9, 6, 1]`, retorno um novo array no qual cada novo elemento seja a soma de quantos números são menores à direita do número na posição original do array. Para o exemplo anterior, o retorno seria `result = [1, 1, 2, 1, 0]`, ou seja, no array original existe um item que é menor que 3 à direta.
+
+~~~ python
+def smaller_counts_in_naive_way(list):
+        result = []
+
+        for item, element_value in enumerate(list):                                              #O(n)
+            count = sum(current_value < element_value for current_value in list[item + 1:])      #O(n)
+            result.append(count)
+                                                                                                #O(n²)
+        
+        return result
+~~~
+
+~~~ python
+def smaller_counts(list_arg):
+        import bisect
+
+        result_list = []
+        seen = []
+
+        for num in reversed(list_arg):
+            i = bisect.bisect_left(seen, num)
+            result_list.append(i)
+            bisect.insort(seen, num)
+
+        return list(reversed(result_list))
+~~~
+
+[Link para código no repo](https://github.com/pFransozi/algorithms/tree/main/py-find-number-of-smaller-elements-to-the-right){:target="_blank"}.
 
 [⇡](#introdução)
 

@@ -22,7 +22,7 @@ There are three additional limitations to consider when working with arrays:
     * [Get product of all other elements](#get-product-of-all-other-elements)
     * [Locate smallest window to be sorted](#locate-smallest-window-to-be-sorted)
     * [Calculate maximum subarray sum](#calculate-maximum-subarray-sum)
-    * [~~Find number of smaller elements to the right~~](#find-number-of-smaller-elements-to-the-right)
+    * [Find number of smaller elements to the right](#find-number-of-smaller-elements-to-the-right)
     * [References](#references)
 
 ## Get product of all other elements
@@ -256,6 +256,8 @@ class GetProductOfAllOtherElements:
         return result
 ~~~
 
+[Link to code in repo](https://github.com/pFransozi/algorithms/tree/main/py-array-get-product-of-all-other-elements){:target="_blank"}.
+
 [⇡](#introduction)
 
 ## Locate smallest window to be sorted
@@ -302,7 +304,7 @@ Next approach aims to improve space and time complexity. The algorithm has O(1) 
         return left, right
 ~~~
 
-The full code can be accessed [here](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted).
+[Link to code in repo](https://github.com/pFransozi/algorithms/tree/main/py-locate-smallest-window-to-be-sorted){:target="_blank"}.
 
 [⇡](#introduction)
 
@@ -312,7 +314,7 @@ Considering this given array `arr = [34, -50, 42, 14, -5, 86]`, the algorithm re
 
 The most simple and probably obvious is a brute-force approach, which means, to calculate the sum of every possible subarray. For instance, the first element `arr[1]` must iterates up to `arr[n - 1]`, memorizing the max sum.
 
-To do that, at least O(n^2) time complexity is required, but the next python code is O(n^3), for the `sum` function traverses the array. Even tough time complexity is affected by `sum` function, the size isn't, because slicing uses references.
+To do that, at least O(n²) time complexity is required, but the next python code is O(n³), for the `sum` function traverses the array. Even tough time complexity is affected by `sum` function, the size isn't, because slicing uses references.
 
 ~~~ python
 def sum_max_subarray_n3(self, arr):
@@ -324,7 +326,7 @@ def sum_max_subarray_n3(self, arr):
         return current_max
 ~~~
 
-The next approach uses dynamic programming technique. It is kadane's algorithm and it runs O(n) time complexity and the space is constant o(1).
+The next approach uses dynamic programming technique. It is kadane's algorithm and it runs O(n) time complexity and the space is constant O(1).
 
 ~~~ python
 def sum_max_subarray_n(self, arr):
@@ -337,11 +339,42 @@ def sum_max_subarray_n(self, arr):
         return max_so_far
 ~~~
 
-[Link to code repository](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
+[Link to code in repo](https://github.com/pFransozi/algorithms/tree/main/py-calculate-max-subarray.sum){:target="_blank"}.
 
 [⇡](#introduction)
 
 ## Find number of smaller elements to the right
+
+Considering the given array `arr = [3, 4, 9, 6, 1]`, return a new array in which each new element is the count of how many numbers are smaller to the right in the original array, for instance, `result = [1, 1, 2, 1, 0]`. In the original array there is one item that is smaller than 3, the element in the first position.
+
+~~~ python
+def smaller_counts_in_naive_way(list):
+        result = []
+
+        for item, element_value in enumerate(list):                                              #O(n)
+            count = sum(current_value < element_value for current_value in list[item + 1:])      #O(n)
+            result.append(count)
+                                                                                                #O(n²)
+        
+        return result
+~~~
+
+~~~ python
+def smaller_counts(list_arg):
+        import bisect
+
+        result_list = []
+        seen = []
+
+        for num in reversed(list_arg):
+            i = bisect.bisect_left(seen, num)
+            result_list.append(i)
+            bisect.insort(seen, num)
+
+        return list(reversed(result_list))
+~~~
+
+[Link to code in repo](https://github.com/pFransozi/algorithms/tree/main/py-find-number-of-smaller-elements-to-the-right){:target="_blank"}.
 
 [⇡](#introduction)
 
