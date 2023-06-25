@@ -1,0 +1,155 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title>kali linux on docker | pfransozi.github.io</title> <meta name="author" content="Philipe Fransozi"> <meta name="description" content="some steps to configure docker and kali linux on docker"> <meta property="og:site_name" content="pfransozi.github.io"> <meta property="og:type" content="website"> <meta property="og:title" content="pfransozi.github.io | kali linux on docker"> <meta property="og:url" content="https://pfransozi.github.io/blog/2023/kali-linux-on-docker/"> <meta property="og:description" content="some steps to configure docker and kali linux on docker"> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="kali linux on docker"> <meta name="twitter:description" content="some steps to configure docker and kali linux on docker"> <script type="application/ld+json">
+      {
+        "author":
+        {
+          "@type": "Person",
+          "name": "Philipe  Fransozi"
+        },
+        "url": "https://pfransozi.github.io/blog/2023/kali-linux-on-docker/",
+        "@type": "WebSite",
+        "description": "some steps to configure docker and kali linux on docker",
+        "headline": "kali linux on docker",
+        "sameAs": ["https://tryhackme.com/p/OutroHomemComum", "https://github.com/pfransozi", "https://www.linkedin.com/in/philipehf"],
+        "name": "Philipe  Fransozi",
+        "@context": "https://schema.org"
+      }
+    </script> <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous"> <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon.ico"> <link rel="stylesheet" href="/assets/css/main.css"> <link rel="canonical" href="https://pfransozi.github.io/blog/2023/kali-linux-on-docker/"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/">pfransozi.github.io</a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about</a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">repositories</a> </li> <li class="nav-item "> <a class="nav-link" href="/links/">links</a> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5"> <div class="post"> <header class="post-header"> <h1 class="post-title">kali linux on docker</h1> <p class="post-meta">January 28, 2023</p> <p class="post-tags"> <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>   ·   <a href="/blog/tag/docker"> <i class="fas fa-hashtag fa-sm"></i> docker</a>   <a href="/blog/tag/kali-linux"> <i class="fas fa-hashtag fa-sm"></i> kali-linux</a>   <a href="/blog/tag/containerization"> <i class="fas fa-hashtag fa-sm"></i> containerization</a>   </p> </header> <article class="post-content"> <h2 id="introduction">Introduction</h2> <p>This tutorial aims to create a kali linux environment that runs in a docker container. There’re two main steps to reach it:</p> <ol> <li>Install docker;</li> <li>Configure a dockerfile to create a container based on kali linux.</li> </ol> <p>I consider some kali-meta packages, some for the linux environment others tools for the ethical hacking:</p> <ul> <li>kali-linux-default;</li> <li>kali-tools-wireless;</li> <li>kali-tools-web;</li> <li>kali-tools-forensics;</li> <li>kali-tools-exploitation;</li> <li>kali-tools-database;</li> <li>kali-tools-crypto-stego;</li> <li>kali-tools-passwords.</li> </ul> <p>So far, I consider access kali only through command line interface, but, for the future, I consider configure a graphic user interface access, probably through VNC or RDP. This is a testing phase, and my reasons why I chose this environment are based on the advantages of containerization over virtualization, such as:</p> <ul> <li>more efficient resource utilization;</li> <li>faster deployment and scaling</li> <li>and easier management and maintenance of applications</li> </ul> <h2 id="hands-on">Hands-on</h2> <h3 id="install-docker-engine">Install Docker Engine</h3> <p><strong>First step</strong>, as best practices recommend, let’s update the package lists and remove any previous version of docker that is installed in the OS, which includes installed packages, configuration files, and images, containers and volumes. If you sure that it is the first installation, skip to second step.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt update
+
+<span class="c">## list packages related to docker</span>
+dpkg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="nt">-i</span> docker
+
+<span class="c">## based on the packages found, remove them </span>
+<span class="c">## and the configuration files related to them, using apt purge</span>
+<span class="nb">sudo </span>apt purge  docker <span class="se">\</span>
+                docker-ce <span class="se">\</span>
+                docker-ce-cli <span class="se">\</span>
+                docker-clean <span class="se">\</span>
+                docker-compose <span class="se">\</span>
+                docker-doc <span class="se">\</span>
+                docker-registry <span class="se">\</span>
+                docker.io <span class="se">\</span>
+                docker2aci 
+<span class="c">## and then removes docker engine and related packages and their dependencies from</span>
+<span class="nb">sudo </span>apt-get autoremove <span class="nt">-y</span> <span class="nt">--purge</span>  docker-engine <span class="se">\</span>
+                                    docker <span class="se">\</span>
+                                    docker.io <span class="se">\</span>
+                                    docker-ce <span class="se">\</span>
+                                    docker-compose-plugin
+
+<span class="c">## after that, remove images, containers, and volume:</span>
+<span class="nb">sudo rm</span> <span class="nt">-rf</span> /var/lib/docker /etc/docker
+<span class="nb">sudo rm</span> /etc/apparmor.d/docker
+<span class="nb">sudo </span>groupdel docker
+<span class="nb">sudo rm</span> <span class="nt">-rf</span> /var/run/docker.sock
+</code></pre></div></div> <p><strong>Second step</strong>, let’s start installation from packages to allow apt to use a repository over HTTPS</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## curl provides a CLI tool for perform HTTP-related tasks and others protocols</span>
+<span class="c">## ca-certificates contains a set of common root certificates that are used to stablish </span>
+<span class="c">## trust when connecting to SSL/TLS-protected websites.</span>
+<span class="c">## gnupg provides an OpenPGP standard for encrypting and signing data. It allows you to </span>
+<span class="c">## securely exchange data with other users, and to verify the authenticity of signed data.</span>
+<span class="c">## lsb-release provides lsb_release command, which is used to display information about</span>
+<span class="c">## the Linux Standard Base (LSB) release and distribution of the current system.</span>
+<span class="nb">sudo </span>apt <span class="nb">install </span>ca-certificates curl gnupg lsb-release
+
+<span class="c">## docker.gpg is the file used to verify the authenticity of a docker package.</span>
+<span class="nb">sudo mkdir</span> <span class="nt">-p</span> /etc/apt/keyrings
+curl <span class="nt">-fsSL</span> https://download.docker.com/linux/ubuntu/gpg | <span class="se">\</span>
+<span class="nb">sudo </span>gpg <span class="nt">--dearmor</span> <span class="nt">-o</span> /etc/apt/keyrings/docker.gpg
+
+<span class="c">## configure the APT package manager to use the Docker package repository for installing </span>
+<span class="c">## Docker-related software on Ubuntu.</span>
+<span class="nb">echo</span> <span class="se">\</span>
+  <span class="s2">"deb [arch=</span><span class="si">$(</span>dpkg <span class="nt">--print-architecture</span><span class="si">)</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+  signed-by=/etc/apt/keyrings/docker.gpg] </span><span class="se">\</span><span class="s2">
+  https://download.docker.com/linux/ubuntu </span><span class="se">\</span><span class="s2">
+  </span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> stable"</span> | <span class="se">\</span>
+  <span class="nb">sudo tee</span> /etc/apt/sources.list.d/docker.list <span class="o">&gt;</span> /dev/null
+
+
+<span class="c">## then update package lists and install docker packages.</span>
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>docker-ce docker-ce-cli containerd.io docker-compose-plugin <span class="nt">-y</span>
+</code></pre></div></div> <p>After that, you can run docker using the next command: <code class="language-plaintext highlighter-rouge">docker run hello-word</code>. But probably you’ll get a permission denied error. Let’s understand it more closely.</p> <p>The steps above install docker in a default way, and by default means that docker requires root privileges because it needs access to resources that are normally restricted to root-level processes. Those resources are critical to functioning of the OS, and for that allowing non-root processes to access them could potentially compromise the system’s security and stability. Docker bypasses that running a process called Docker Engine daemon in background, and usually it starts at boot time, with root privileges for managing containers. By default, It listens for API requests on a Unix socket located at <code class="language-plaintext highlighter-rouge">/var/run/docker.sock</code>.</p> <p>Reading something here and there, I think running Docker as root is generally less secure than running it as a non-root user. This is because the root user has full privileges on the system, which means that any Docker vulnerabilities could potentially be exploited by an attacker to gain full access to the host machine.</p> <p>If you don’t worry, you can use docker cli as root privileges, always that you need to interact with docker daemon, as next: <code class="language-plaintext highlighter-rouge">sudo docker run hello-world</code>.</p> <p>In docs.docker.com, there’re two ways for that situation, one is a really solution, other is a work-around, which means the daemon still run in privilege mode, but the docker command does not need be prefaced by sudo anymore. The work-around is to add an user into docker group, granting to it privilege to access <code class="language-plaintext highlighter-rouge">/var/run/docker.sock</code>.</p> <p>It’s important to understand that it does not change the fact that daemon docker is running as root privileges. It just means that you do not need preface docker command with sudo.</p> <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## create a new group called docker, sometimes package installer already created it.</span>
+<span class="nb">sudo </span>groupadd docker
+
+<span class="c">## modify user account, appending $USER into a group.</span>
+<span class="c">## replace $USER for a real user.</span>
+<span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+
+<span class="c">## reboot the OS, I always needed do that.</span>
+
+<span class="c">## update the user to the new group in the current shell session. </span>
+newgrp docker
+<span class="c">## then,</span>
+docker run hello-world
+</code></pre></div></div> <h3 id="configure-a-dockerfile">Configure a Dockerfile</h3> <p>A dockerfile is a text file that contains a script for building a docker image. The main purpose of using a dockerfile is to automate the process of building a docker image because in it there are all of the steps required to create it. Thus, the result image can be consistently reproduced.</p> <p>The dockerfile starts with a reference to a base image, in which our image will be built. In our case it is kalilinux/kali-rolling, which is a suggestion from kali.org/docs. That image tracks the continuously-updated kali-rolling package repository.</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> kalilinux/kali-rolling</span>
+</code></pre></div></div> <p>Next, <code class="language-plaintext highlighter-rouge">LABEL</code> directives are added into the dockerfile, which allow to add metadata to a docker image. For instance:</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">LABEL</span><span class="s"> docker.version=</span>
+<span class="k">LABEL</span><span class="s"> docker.release-date=</span>
+<span class="k">LABEL</span><span class="s"> maintainer=</span>
+</code></pre></div></div> <p>Labels are optional in a dockerfile, but they can be useful for providing information about the image to users and for tracking changes to the image over time. Labels can be viewed using the docker <code class="language-plaintext highlighter-rouge">inspect</code> command, and they can also be used to filter and search for images in a registry. For view information about a container, use the next command: <code class="language-plaintext highlighter-rouge">docker inspect container-name</code>.</p> <p>Return to dockerfile, some commands are executed into the base image, for that <code class="language-plaintext highlighter-rouge">RUN</code> directive is used. It’s important to take care if the command has any interaction with the user, if so, the build will be interrupted.</p> <blockquote> <p>It’s important a non interactive mode for guarantee automation.</p> </blockquote> <p>For a non-interactive mode in a debian environment it is recommended to use the <code class="language-plaintext highlighter-rouge">DEBIAN_FRONTEND=noninteractive</code> environment variable. This variable is commonly used when running command-line tools or scripts that perform automated tasks, such as installing software or configuring system settings. By setting <code class="language-plaintext highlighter-rouge">DEBIAN_FRONTEND=noninteractive</code>, the user can specify that the script should run without prompting for user input or confirmation, allowing the script to run automatically without intervention.</p> <p>With <code class="language-plaintext highlighter-rouge">DEBIAN_FRONTEND=noninteractive</code> and <code class="language-plaintext highlighter-rouge">apt install -y</code> any instruction that requires information will use the default value.</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt update <span class="o">&amp;&amp;</span> <span class="se">\
+</span>    apt <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>    kali-linux-default <span class="se">\
+</span>    kali-tools-wireless <span class="se">\
+</span>    kali-tools-web <span class="se">\
+</span>    kali-tools-forensics <span class="se">\
+</span>    kali-tools-exploitation <span class="se">\
+</span>    kali-tools-database <span class="se">\
+</span>    kali-tools-crypto-stego <span class="se">\
+</span>    kali-tools-passwords
+</code></pre></div></div> <p>Thus, the <code class="language-plaintext highlighter-rouge">RUN</code> directive above update the list of the package manager and then it installs some packages from kali. This is a task that takes a substantial amount of time on its first run.</p> <p>It’s important understand that docker builds dockerfile using a layered approach. When building an image, docker creates a layer for each command in the Dockerfile and assigns a unique hash to each layer. The hash is based on the contents of the layer and the dependencies of the layer, and is used to identify the layer and track changes to it.</p> <p>The next steps are focused on configure the environment at the user level. First it creates a directory <code class="language-plaintext highlighter-rouge">/mnt/shared</code> that will be shared with host environment. <code class="language-plaintext highlighter-rouge">VOLUME</code> directive specifies a mount point for external storage in a container.</p> <p>A volume is a directory that is stored outside the container’s filesystem and can be shared among multiple containers. Volumes are useful for storing persistent data that needs to be retained across container restarts, or for sharing data among containers.</p> <blockquote> <p>It’s important to note that the <code class="language-plaintext highlighter-rouge">VOLUME</code> directive does not create the actual volume or allocate any storage for it. Instead, it simply creates a mount point in the container that can be used to mount a volume from the host or from another container.</p> </blockquote> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span><span class="nb">mkdir</span> /mnt/shared
+<span class="k">VOLUME</span><span class="s"> /shared</span>
+</code></pre></div></div> <p>Then, a configuration zsh script is executed, which is downloaded from zsh default repository. And it is set as default shell for the current environment using <code class="language-plaintext highlighter-rouge">ENV</code> directive and <code class="language-plaintext highlighter-rouge">SHELL /usr/bin/zsh</code>.</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>wget <span class="nt">-O-</span> https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh<span class="si">)</span><span class="s2">"</span> <span class="nt">--</span> <span class="se">\
+</span>    <span class="nt">-t</span> https://github.com/denysdovhan/spaceship-prompt <span class="se">\
+</span>    <span class="nt">-a</span> <span class="s1">'SPACESHIP_PROMPT_ADD_NEWLINE="false"'</span> <span class="se">\
+</span>    <span class="nt">-a</span> <span class="s1">'SPACESHIP_PROMPT_SEPARATE_LINE="false"'</span> <span class="se">\
+</span>    <span class="nt">-p</span> git <span class="se">\
+</span>    <span class="nt">-p</span> ssh-agent <span class="se">\
+</span>    <span class="nt">-p</span> https://github.com/zsh-users/zsh-autosuggestions <span class="se">\
+</span>    <span class="nt">-p</span> https://github.com/zsh-users/zsh-completions
+
+<span class="k">ENV</span><span class="s"> SHELL /usr/bin/zsh</span>
+</code></pre></div></div> <p><code class="language-plaintext highlighter-rouge">ENV</code> is a directive used to send environment variable in the current shell and <code class="language-plaintext highlighter-rouge">SHELL</code> is a unix env variable that is used to determine which shell to use. By default, the bash shell is often used, but you can change the default shell by setting the <code class="language-plaintext highlighter-rouge">SHELL</code> environment variable to the path of the desired shell.</p> <p>Then, the next <code class="language-plaintext highlighter-rouge">RUN</code> directive executes three commands: <code class="language-plaintext highlighter-rouge">useradd</code> command adds a new user into the OS, then the password is changed using <code class="language-plaintext highlighter-rouge">echo "USER:PASS" | chpasswd</code>, and the user is added to the group <code class="language-plaintext highlighter-rouge">SUDO</code>, which allows that the user can require privileges.</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">RUN </span>useradd <span class="nt">-m</span> USER <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"USER:PASS"</span> | chpasswd <span class="o">&amp;&amp;</span> adduser USER <span class="nb">sudo</span>
+</code></pre></div></div> <p>In last three lines of dockerfile, the <code class="language-plaintext highlighter-rouge">WORKDIR</code> directive sets the working directory for any command that follow it in the Dockerfile, and it also sets the default working directory for the container when it starts. <code class="language-plaintext highlighter-rouge">USER</code> directive sets the default user when container starts and <code class="language-plaintext highlighter-rouge">CMD</code> directive executes <code class="language-plaintext highlighter-rouge">zsh</code>.</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">USER</span><span class="s"> kali</span>
+<span class="k">WORKDIR</span><span class="s"> /home/kali</span>
+<span class="k">CMD</span><span class="s"> ["zsh"]</span>
+</code></pre></div></div> <h2 id="conclusion">Conclusion</h2> <p>The entire script follows:</p> <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> kalilinux/kali-rolling</span>
+
+<span class="k">LABEL</span><span class="s"> docker.version=</span>
+<span class="k">LABEL</span><span class="s"> docker.release-date=</span>
+<span class="k">LABEL</span><span class="s"> maintainer=</span>
+
+<span class="c"># Update the package manager and install the command line tools</span>
+<span class="k">RUN </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt-get update 
+<span class="k">RUN </span><span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive apt-get <span class="nb">install</span> <span class="nt">-y</span> <span class="se">\
+</span>    kali-linux-default <span class="se">\
+</span>    kali-tools-wireless <span class="se">\
+</span>    kali-tools-web <span class="se">\
+</span>    kali-tools-forensics <span class="se">\
+</span>    kali-tools-exploitation <span class="se">\
+</span>    kali-tools-database <span class="se">\
+</span>    kali-tools-crypto-stego <span class="se">\
+</span>    kali-tools-passwords
+
+<span class="c"># Set up shared directory with host machine</span>
+<span class="k">RUN </span><span class="nb">mkdir</span> /mnt/shared
+<span class="k">VOLUME</span><span class="s"> /shared</span>
+
+<span class="c"># zsh configuration https://morioh.com/p/c3a94a037600</span>
+<span class="c"># https://github.com/ohmyzsh/ohmyzsh/wiki/Themes?ref=morioh.com&amp;utm_source=morioh.com</span>
+<span class="k">RUN </span>sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>wget <span class="nt">-O-</span> https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh<span class="si">)</span><span class="s2">"</span> <span class="nt">--</span> <span class="se">\
+</span>    <span class="nt">-t</span> https://github.com/denysdovhan/spaceship-prompt <span class="se">\
+</span>    <span class="nt">-a</span> <span class="s1">'SPACESHIP_PROMPT_ADD_NEWLINE="false"'</span> <span class="se">\
+</span>    <span class="nt">-a</span> <span class="s1">'SPACESHIP_PROMPT_SEPARATE_LINE="false"'</span> <span class="se">\
+</span>    <span class="nt">-p</span> git <span class="se">\
+</span>    <span class="nt">-p</span> ssh-agent <span class="se">\
+</span>    <span class="nt">-p</span> https://github.com/zsh-users/zsh-autosuggestions <span class="se">\
+</span>    <span class="nt">-p</span> https://github.com/zsh-users/zsh-completions
+
+<span class="k">ENV</span><span class="s"> SHELL /usr/bin/zsh</span>
+
+<span class="c"># Create a non-root user with sudo privileges</span>
+<span class="k">RUN </span>useradd <span class="nt">-m</span> <span class="o">[</span>USER] <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">"[USER]:[PASS]"</span> | chpasswd <span class="o">&amp;&amp;</span> adduser <span class="o">[</span>USER] <span class="nb">sudo</span>
+
+<span class="k">USER</span><span class="s"> [USER]</span>
+<span class="k">WORKDIR</span><span class="s"> /home/[USER]</span>
+<span class="k">CMD</span><span class="s"> ["zsh"]</span>
+</code></pre></div></div> <p>To build that dockerfile, use a command such as: <code class="language-plaintext highlighter-rouge">docker build --pull --rm -f "Dockerfile" -t kali-docker-1 "."</code> To run that image, use a command such as: <code class="language-plaintext highlighter-rouge">docker run --tty --interactive -v /host/dir:/shared kali-docker-1:latest</code></p> <h2 id="references">References</h2> <p><a href="https://docs.docker.com/engine/install/" target="_blank" rel="external nofollow noopener">Docker Engine installation overview</a>.</p> <p><a href="https://docs.docker.com/engine/security/rootless/" target="_blank" rel="external nofollow noopener">Run the Docker daemon as a non-root user (Rootless mode)</a>.</p> <p><a href="https://docs.docker.com/engine/security/#docker-daemon-attack-surface" target="_blank" rel="external nofollow noopener">Docker security</a>.</p> <p><a href="https://askubuntu.com/questions/935569/how-to-completely-uninstall-docker" target="_blank" rel="external nofollow noopener">How to completely uninstall docker</a>.</p> <p><a href="https://www.kali.org/docs/containers/official-kalilinux-docker-images/" target="_blank" rel="external nofollow noopener">Kalilinux docker images</a>.</p> <p><a href="https://www.kali.org/docs/containers/using-kali-docker-images/" target="_blank" rel="external nofollow noopener">Using Kalilinux docker images</a>.</p> </article> </div> </div> <footer class="fixed-bottom"> <div class="container mt-0"> © Copyright 2023 Philipe Fransozi. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. Last updated: June 25, 2023. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js"></script> <script defer src="/assets/js/common.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script> <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> </body> </html>
